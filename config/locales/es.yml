@@ -1,0 +1,25 @@
+es:
+  messages_label: "Mensajes:"
+  visits_label: "Visitas:"
+  last_update_label: "Última actualización:"
+  home_label: "Home"
+  about_me_label: "Acerca de mí"
+  interests_label: "Intereses"
+  contact_me_label: "Contáctame"
+  see_more_label: "See more..."
+  view_profile_label: "Ver perfil"
+  go_label: "Ir"
+
+  # comments
+  comments_title: "Comentarios"
+  leave_a_comment_label: "Deja un comentario"
+  name_label: "Nombre:"
+  email_label: "Correo:"
+  website_label: "Web:"
+  comments_label: "Comentarios:"
+  submit_buttom: "Enviar"
+
+  enter_your_name_placeholder: "Ingresa tu nombre"
+  enter_your_email_placeholder: "Ingresa tu email"
+  enter_your_website_placeholder: "Ingresa tu página web"
+  enter_your_comments_placeholder: "Ingresa tus comentarios"

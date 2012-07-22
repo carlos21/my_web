@@ -1,0 +1,235 @@
+Qué tal? Sientes que vas aprendiendo más a medida que vas leyendo los tutoriales?. Si es así siéntete libre de dejar tu comentario o quizá algunos consejos para ayudarme a mejorar y que sean mas entendibles para todos. Vale?
+
+Pues ahora veremos lo que es la serialización. Seguramente has escuchado de ella o quizá ya la has usado. Para los que todavía no, la **serialización**  es un proceso por el cual se codifica un objeto (por ejemplo nuestra clase Perro) en un medio de almacenamiento (memoria o archivo) para poder transmitirlo a través de la red. Generalmente es usada para intercambiar datos entre sistemas
+
+Vamos a ver 3 tipos de serialización con nuestro querido lenguaje Ruby.
+
+  * YAML
+  * JSON
+  * BINARY
+
+<br />
+**YAML**
+
+    require "yaml"
+ 
+    class A
+      def initialize(string, number)
+        @string = string
+        @number = number
+      end
+     
+      def to_s
+        "In A:\n   #{@string}, #{@number}\n"
+      end
+    end
+     
+    class B
+      def initialize(number, a_object)
+        @number = number
+        @a_object = a_object
+      end
+     
+      def to_s
+        "In B: #{@number} \n  #{@a_object.to_s}\n"
+      end
+    end
+     
+    class C
+      def initialize(b_object, a_object)
+        @b_object = b_object
+        @a_object = a_object
+      end
+     
+      def to_s
+        "In C:\n #{@a_object} #{@b_object}\n"
+      end
+    end
+     
+    a = A.new("hello world", 5)
+    b = B.new(7, a)
+    c = C.new(b, a)
+     
+    
+
+
+Con la ayuda de nuestro método to_s podemos ver la representacion de nuestro objeto
+
+Para serializar un objeto
+
+    serialized_object = YAML::dump(c)
+    puts YAML::load(serialized_object)
+
+Para deserializarlo
+
+    puts YAML::load(serialized_object)
+
+
+Verás que produce el mismo resultado que antes
+
+    In C:
+     In A:
+       hello world, 5
+     In B: 7
+      In A:
+       hello world, 5
+
+Seguro te estarás preguntando, y qué pasa si quiero serializar un array de objetos?
+
+Vamos a crear un archivo como demostración
+
+    File.open("/home/carlos/tmp/serializacion.yaml", "w") do |file|
+      (1..10).each do |index|
+        file.puts YAML::dump(A.new("hello world", index))
+        file.puts ""
+      end
+    end
+
+Si queremos leer el archivo que hemos creado
+
+    array = []
+    $/="\n\n"
+    File.open("/home/alan/tmp/blah.yaml", "r").each do |object|
+      array << YAML::load(object)
+    end
+     
+    puts array
+
+El resultado sería:
+
+    In A:
+       hello world, 1
+    In A:
+       hello world, 2
+    In A:
+       hello world, 3
+
+**JSON**
+
+JSON es otra manera de serializar nuestros objetos y es mucho más entendible para nosotros. De igual manera es usado para transportar datos. Estos datos se guardan en una sola línea, es decir no hay que estar haciendo trucos para volverlos a leer. La conversión al formato JSON es más rápida que la de YAML, aunque es un poco más trabajosa de implementar.
+
+Primero debemos instalar la gema json
+
+    sudo gem install json
+
+Estas tres maneras de serializar son equivalentes:
+
+    require json
+
+    JSON.dump(object)
+    JSON.generate(object)
+    object.to_json
+
+Momento!. Si deseamos hacer esto
+
+    class A 
+      def initialize(string, number)
+        @string = string
+        @number = number
+      end
+     
+      def to_s
+        "In A:\n   #{@string}, #{@number}\n"
+      end
+    end
+
+    a = A.new('carlos', 21)
+
+    puts JSON.dump(a)
+
+Obtendremos este error:
+
+    /home/carlos/.rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/json/common.rb:216:in `generate': only generation of JSON objects or arrays allowed (JSON::GeneratorError)
+    from /home/carlos/.rvm/rubies/ruby-1.9.3-p194/lib/ruby/1.9.1/json/common.rb:216:in `generate'
+    from test2.rb:31:in `<main>
+
+Lo que pasa es que el método dump solo admite arrays o hashes. Te acuerdas que te dije que sería un poquito más trabajoso?. Bueno aquí la solución para serializar tus propios objetos.
+
+Crearemos la clase JSONable
+
+    class JSONable
+      def to_json
+          hash = {}
+          self.instance_variables.each do |var|
+              hash[var] = self.instance_variable_get var
+          end
+          hash.to_json
+      end
+      def from_json! string
+          JSON.load(string).each do |var, val|
+              self.instance_variable_set var, val
+          end
+      end
+    end
+
+Te explico mejor lo que hace. El método **to_json** va a iterar los atributos que tu tengas, los pondrá en un hash y lo convertirá a JSON sin problemas. El método **from_json!** va a recorrer el JSON y te dará de vuelta el objeto que habías serializado. No es tan difícil verdad?. Entonces, adelante!
+
+    class A < JSONable
+      def initialize(string, number)
+        @string = string
+        @number = number
+      end
+     
+      def to_s
+        "In A:\n   #{@string}, #{@number}\n"
+      end
+    end
+
+    a = A.new('carlos', 21)
+
+    puts a.to_json 
+
+Nos dará como resultado
+
+    {"@string":"carlos","@number":21}
+
+Justo lo que queríamos. Ahora nos toca obtener nuestro objeto original, así que probemos!.
+  
+    # instanciamos la clase A con cualquier valor
+    a = A.new('anything', 100)
+
+    # obtenemos el JSON, lo parseamos y lo convertimos al objeto del tipo A
+    # y lo ponemos en la variable a_object
+    a.from_json!(a.to_json)
+
+    puts a.to_s
+
+Como te puedes dar cuenta, aunque los valores iniciales son *anything* y *100*, el método **from_json!** está chancando esos valores y le está poniendo los antiguos, que eran **carlos** y 21. Genial!
+
+
+<br />
+**BINARY**
+
+Jeje, ya falta poco, no desesperes!. Seguramente ya has visto la serialización a un formato binario y como sabrás no es humanamente posible de leerlo. Vamos a usar la clase Marshal para nuestro cometido.
+
+    a = A.new("carlos", 21)
+    puts a
+
+    # serializando el objeto
+    serialized_object = Marshal::dump(a)
+
+    # deserializando el objeto
+    puts Marshal::load(serialized_object)
+
+Como puedes ver, el resultado antes y después de la serializando es la misma. Cabe resaltar que no debes de importar nada. Lo máximo.
+
+Qué pasa si queremos serializar un conjunto de objetos a binario?. Simple, separar cada objeto con un delimitador. Si estás grabando tu objeto en un archivo, por ningún motivo vayas a usar un salto de línea como delimitador, porque a la hora de querer deserializar el objeto podrías obtener mal la data. Aquí las dos reglas que no debes olvidar:
+
+  * No uses **puts** para escribir en tu archivo, ya que **puts** pone un salto de línea cada vez que escribe.
+
+  * Use un delimitador en vez de un salto de línea por ejemplo '---_---'
+
+Por qué usar Marshal si no es humanamente posible de leer?, pues porque a comparación con YAML y JSON, Marshal es mucho más rápido. 
+
+Conclusiones:
+
+  * Usa YAML, cuando tengas poca data. Es fácil y rápido de implementar.
+
+  * Usa JSON, cuando tengas data considerable y necesites leerlo tu mismo.
+
+  * Usa Marshal, cuando no tengas que leerlo y necesites meterle turbo a tu programa :D
+
+Así que para que vayas practicando, tienes como tarea verificar cuanto demora cada tipo de serialización y decidir cuál se adopta más a tus necesidades ;).
+
+
+

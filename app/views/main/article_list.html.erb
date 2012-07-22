@@ -1,0 +1,26 @@
+<div class="articles-header">
+  <div class="image">
+    <%= image_tag session[:selected_category].image_url, :size => '50x50' %>
+  </div>
+  <div class="description">
+    <div class="description-title"><%= session[:selected_category].name %></div>
+    <div class="description-intro"><%= session[:selected_category].small_description %></div>
+  </div>
+</div>
+<% @articles.each do |a| %>
+  <div class="article">
+    <div class="icon">
+      <i class="icon-leaf"></i>
+    </div>
+    <%= link_to guides_path(session[:selected_category].path, a.path), :style =>'text-decoration: none;' do %>
+      <div class="name"><%= a.name %></div>
+      <div class="extra-info">
+        <span>
+          <%= t(:messages_label)%> <%= a.messages %> &nbsp;&nbsp;&nbsp;
+          <%= t(:visits_label)%> <%= a.visits %> &nbsp;&nbsp;&nbsp;
+          <%= t(:last_update_label)%> <%= a.updated_at.to_s(:long) %> &nbsp;&nbsp;&nbsp;
+        </span>
+      </div>
+    <%  end %>
+  </div>
+<% end %>

@@ -1,0 +1,23 @@
+<!-- First row -->
+  <div class="block">
+    <% class_name = '' %>
+
+    <% for c in (0..session[:categories].size-1) do %>
+      <% if c%3 == 0 %>
+        <% class_name = 'dashboard-first-item' %>
+      <% else %>
+        <% class_name = 'dashboard-item' %> 
+      <% end %>
+ 
+      <div class="<%=class_name%>">
+        <div class="item-name">  
+          <%= image_tag(session[:categories][c].image_url) %>
+        </div>
+        <div class="item-description">
+          
+        </div>
+      </div>
+    <% end %>
+    
+  </div> 
+  

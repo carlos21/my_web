@@ -1,0 +1,90 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>MyWeb</title>
+  <%# stylesheet_link_tag "application", :media => "all" %>
+  <%=csrf_meta_tags %>
+  <%#javascript_include_tag "application" %>
+
+  <%= stylesheet_link_tag "highlight/styles/default", :title => 'Default' %>
+  <%= stylesheet_link_tag "styles-main" %>
+  <%= stylesheet_link_tag "bootstrap/css/bootstrap.css" %>
+  <%# stylesheet_link_tag "application" %>
+
+  <%# stylesheet_link_tag "highlight/styles/dark", :title => 'Dark' %>
+  <%# stylesheet_link_tag "highlight/styles/far", :title => 'FAR'  %>
+  <%# stylesheet_link_tag "highlight/styles/idea", :title => 'IDEA' %>
+  <%# stylesheet_link_tag "highlight/styles/sunburst", :title => 'Sunburst' %>
+  <%# stylesheet_link_tag "highlight/styles/zenburn", :title => 'Zenburn' %>
+  <%# stylesheet_link_tag "highlight/styles/vs", :title => 'Visual' %>
+  <%# stylesheet_link_tag "highlight/styles/ascetic", :title => 'Ascetic' %>
+  <%# stylesheet_link_tag "highlight/styles/magula", :title => 'Magula' %>
+  <%# stylesheet_link_tag "highlight/styles/github", :title => 'GitHub' %>
+  <%# stylesheet_link_tag "highlight/styles/googlecode", :title => 'Google Code' %>
+  <%# stylesheet_link_tag "highlight/styles/brown_paper", :title => 'Brown Paper' %>
+  <%# stylesheet_link_tag "highlight/styles/school_book", :title => 'School Book' %>
+  <%# stylesheet_link_tag "highlight/styles/ir_black", :title => 'IR Black' %>
+  <%# stylesheet_link_tag "highlight/styles/solarized_dark", :title => 'Solarized - Dark' %>
+  <%# stylesheet_link_tag "highlight/styles/solarized_light", :title => 'SOlarized - Light' %>
+  <%# stylesheet_link_tag "highlight/styles/arta", :title => 'Arta' %>
+  <%# stylesheet_link_tag "highlight/styles/monokai", :title => 'Monokai' %>
+  <%# stylesheet_link_tag "highlight/styles/xcode", :title => 'XCode' %>
+  <%# stylesheet_link_tag "highlight/styles/pojoaque", :title => 'Pojoaque' %>
+
+  
+  <%= javascript_include_tag "highlight/highlight.pack" %>
+
+  <script>
+    hljs.tabReplace = ' ';
+    hljs.initHighlightingOnLoad();
+  </script>
+
+</head>
+<body>
+  <!-- Header -->
+  <%= render 'header' %>
+
+  <div class="maincontent">
+    <!-- Navigation -->
+    <%= render 'navigation' %>
+    
+    <!-- Content -->
+    <div class="content">
+      <div class="section-content">
+        <% if !session[:pages_path].nil? %>
+          <% if session[:pages_path].size > 1 %>
+            <div class="pages-path">
+              <% count = 0 %>
+              <% session[:pages_path].each do |page| %>
+                <div class="pages-path-item">
+                  <% if count == 0 %>
+                    &nbsp;&nbsp;<%= link_to page[0], root_path  %> 
+                  <% elsif count == session[:pages_path].size - 1 %>
+                    <%= page[0] %>
+                  <% else %>
+                    <%= link_to page[0], root_path + "guides/#{page[1]}" %>
+                  <% end %>
+                </div>
+
+                <% if count != session[:pages_path].size - 1 %>
+                  <div class="pages-path-item" style="padding-top: 6px; height: 16px">
+                    <i class="icon-chevron-right"></i>
+                  </div>
+                <% end %>
+                
+              <% count += 1 %>
+              <% end %>
+              <div class="separator"></div>
+            </div>
+          <% end %>  
+        <% end %>
+        <%= yield %>
+      </div>
+    </div>  
+  </div>
+
+  <!-- Footer -->
+  <%= render 'footer' %>
+
+</body>
+</html>

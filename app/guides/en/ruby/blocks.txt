@@ -1,0 +1,68 @@
+Un bloque es una porción de código o una forma de agrupar instrucciones. Un bloque va de la mano con un método
+
+Si tenemos dos métodos: **method1** y **method2**
+  
+    # no tiene argumentos
+    method1 {puts 'Hello'}
+
+    # tiene un argumento
+    method2 (arg1) {puts 'Hello'}
+
+Lo usual es usar los paréntesis para bloques de una línea y el do…end para más de una línea.
+
+Pero cómo sabe Ruby en qué momento ejecutar un bloque?
+
+    def method1
+      puts 'Start'
+      yield
+      puts 'End'
+    end
+
+    # llamando al método
+    method1 {puts 'Dentro del bloque'}
+
+El resultado sería:
+
+    Start
+    Dentro del bloque
+    End
+
+Ahora que hemos visto como llamar a un bloque, veamos como pasarle argumentos
+
+    def method1
+      yield('Hi', 'Carlos')
+    end
+
+    # llamando al método
+    method1 {|saludo, nombre| puts saludo + nombre}
+
+<br />
+
+**Los Procs**
+
+Aunque los bloques no son objetos, pueden convertirse en ellos gracias a la clase **Proc**
+
+    proc = lambda {'Hello'}
+
+Un bloque creado con lambda es como si fuera un método y es posible llamarlo con *.call*
+
+    proc = lambda {puts 'Hello'}
+    proc.call
+
+El resultado sería
+
+    Hello
+
+De igual manera se pueden usar argumentos con lambda
+
+    bloque = lambda {|name| puts name}
+
+    bloque.call 'Carlos'
+
+El resultado sería
+
+    Carlos
+
+* No puedes pasar métodos dentro de otros métodos (usarlos como argumentos); pero si puedes usar procs como argumentos.
+
+* Los métodos no pueden devolver otros métodos; pero sí pueden devolver un procs.

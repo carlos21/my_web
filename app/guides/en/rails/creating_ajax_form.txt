@@ -1,0 +1,68 @@
+Ahora nos toca ver un poco de AJAX usando un form. Nuestro reto será crear un formulario que agregue un usuario a nuestra lista de usuarios y cada vez que uno sea agregado, se pintará por un segundo en la lista, ya lo verás. Empecemos
+
+    class UserController < ApplicationController
+
+      def create
+        @user = User.new(params[:user])
+
+        respond_to do |format|
+          if @user.save
+            format.html { ... }
+            format.json { ... }
+          else
+            format.html { ... }
+            format.json { ... }
+          end
+        end
+
+        format.js # create.js.erb
+
+      end
+
+    end
+
+Agregamos nuestro view
+
+    <div id="users">
+    <% @users.each do |user| %>
+      <%= link_to "User #{user.name}, user" %>
+      <div class="actions">
+        <%= link_to 'edit', edit_user_path(user) %>
+
+        <%= link_to 'delete', user, method: :delete, remote: true %>
+      </div>
+
+    < end %>
+
+    <!-- Creamos el form -->
+    <%= form_for(User.new, remote: true) do |f| %>
+      <div class="field">
+        <%= f.label :name %><br />
+        <%= f.text_field :name %>
+      </div>
+      <div class="actions">
+        <%= f.submit %>
+      </div>
+
+    <% end %>
+
+Creamos el javascript
+
+    # app/views/create.js.erb
+    $('div#users').append("<%= escape_javascript(render @user) %>");
+    $('div#<%= dom_id(@user) %>').effect('highlight');
+
+Pero qué pasa si el nombre está vacío?
+
+    <% if @user.new_record? %>
+      $('input#zombie_name').effect('highlight', {color: 'red'});
+    <% else %>
+      $('div#users').append("<%= escape_javascript(render @user) %>");
+      $('div#<%= dom_id(@user) %>').effect('highlight');
+    <% end %>
+
+Hay que tener en cuenta que para usar el método **effect** debe usar jquery-ui, así que en */app/assets/javascripts/application.js* agrega lo siguiente:
+
+    //= require jquery_ui
+
+Listo!. Solo te queda probarlo ;)

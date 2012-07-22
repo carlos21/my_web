@@ -1,0 +1,103 @@
+En Ruby existen 5 tipos de variables
+  
+* Variables Locales
+* Variables Globales
+* Variables de Instancia
+* Variables de Clase
+* Constantes
+
+<br />
+**Variables Locales**
+  
+Son aquellas que solo se pueden utilizar en el scope que fueron declaradas
+
+    a = 1
+    def method1
+      b = 2
+    end
+
+    puts defined?(a) # true
+    puts defined?(b) # false, ya que b esta dentro de *method1*
+
+<br />
+**Variables de Instancia**
+
+Pertenecen a un objeto en sí y solo puede ser accesada por medio de èste
+
+    class Mario
+      @a = 4
+
+      def say
+        puts defined?(@a) # true
+      end
+
+    end
+
+    puts defined?(@a) # false
+
+<br />
+**Variables de Globales**
+
+Pueden ser usadas desde cualquier parte de tu proyecto, como su mismo nombre lo refleja
+
+    class Mario
+      $global = 'Mario'
+    end
+
+    class Luigi
+
+      def set_name
+        $global = 'Luigi'
+      end
+
+    end
+
+    puts $global # Luigi
+
+<br />
+**Variables de Clase**
+
+Es compartida con todas las instacias de una clase, esto significa que solo un valor de la variable existe para todos los objetos instanciados de esta clase. Si un objeto cambia el valor de una varailbe de clase éste valor cambia para todos los demás que intenten accesar a ésta
+
+    class A
+
+      def self.print
+        @@variable = 'some thing'
+      end
+      
+    end
+
+    puts A.print    # some thing
+
+    class B < A
+
+      def self.method
+        @@variable = 'other thing'
+      end
+
+    end
+
+    # Ejecutamos el método
+    B.method
+
+    # Imprimimos de nuevo
+    puts A.print    # other thing
+
+<br />
+**Constantes**
+
+Son aquellas que una vez asignado su valor, no se debería modificar su valor, y digo *debería* porque Ruby permite hacerlo lanzando un warning.
+
+    class A
+      CONST1 = 'Hi'
+      CONST2 = 'Bye'
+    end
+
+    puts CONST # Hi
+    puts CONST # Bye
+
+
+
+
+
+

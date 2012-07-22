@@ -1,0 +1,34 @@
+Veamos ahora algo interesante, hagamos llamadas AJAX mediante links
+
+    <% @users.each do |user| %>
+      <%= label_tag "User #{user.name}" %>
+      <div class="actions">
+        <%= link_to 'edit', edit_user_path(user) %>
+        <%= link_to 'delete', user, method: :delete, remote: true %>
+      </div>
+    <% end %>
+
+Rails generará lo siguiente:
+
+    <a href="/zombies/5" data-method="delete" data-remote="true" rel="nofollow">
+      delete
+    </a>
+
+El próximo paso es hacer que nuestro controlador permita llamadas javascript
+
+    class UserController < ApplicationController
+      def detroy
+        @user = User.find(params[:id])
+
+        respond_to do |format|
+          format.html {redirect_to users_url}
+          format.json {head :ok}
+          format.js
+        end
+      end
+    end
+
+Luego escribiremos un código Javascript que envíe de vuelta al cliente
+
+    # dentro de app/views/users/destroy.js.erb
+    $('#<%= dom_id(@user) %>').faceOut();

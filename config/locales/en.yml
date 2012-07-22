@@ -1,0 +1,29 @@
+# Sample localization file for English. Add more files in this directory for other locales.
+# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
+
+en:
+  messages_label: "Messages:"
+  visits_label: "Visits:"
+  last_update_label: "Last update:"
+  home_label: "Home"
+  about_me_label: "About me"
+  interests_label: "Interests"
+  contact_me_label: "Contact me"
+  see_more_label: "Ver más..."
+  view_profile_label: "View profile"
+  go_label: "Go"
+
+  # comments
+  comments_title: "Comments"
+  leave_a_comment_label: "Leave a comment"
+  name_label: "Name:"
+  email_label: "Email:"
+  website_label: "Website:"
+  comments_label: "Comments:"
+  submit_button: "Submit"
+
+  enter_your_name_placeholder: "Enter your name"
+  enter_your_email_placeholder: "Enter your email"
+  enter_your_website_placeholder: "Enter your website"
+  enter_your_comments_placeholder: "Enter your comments"
+

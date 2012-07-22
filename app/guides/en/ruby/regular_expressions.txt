@@ -1,0 +1,58 @@
+Alguna vez has tenido que validar el formato de una cadena?, quizá una dirección, un celular, un correo electrócio o un teléfono?. Ruby nos ofrece la posibilidad de poder hacer esto mediante expresiones regulares.
+
+Las expresiones regulares se crean entre // y son objetos del tipo Regexp
+
+    //.class # Regexp
+
+Para validar si una expresion está dentro de un spring, es usar el método **match** o **=~**
+
+    expr1 = /Pinky/ =~ "Pinky, Elvire y Cerebro"
+    puts expr1        # Pinky, ya que encontró la palabra
+    puts "#{expr1.class}"  # si lo encuentra devuelve la posición donde empieza la palabra, sino nil
+
+    expr2 = /Pinky/.match("Pinky, Elvira y Cerebro")
+    puts expr2        # Pinky, ya que encontró la palabra
+    puts "#{expr2.class}"  # si lo encuentra devuelve MatchData, sino nil
+
+Los caracteres que van entre barras se buscan exactamente
+
+    /pinky/
+
+Algunos caracteres tienen un significado espcial en las expresiones regulares. Para evitar que se procesen, y poder buscarlos, se usa la secuencia de escape \.
+
+    /\?/
+
+La \ significa "no trates el siguiente carácter como especial". Los caracteres espciales incluyen: ^, $, ? , ., /, \, [, ], {, }, (, ), + y *.
+
+Veamos el comodín . (punto), Éste funciona como  un 'like' en base de datos, busca cualquier caracter, excepto el de retorno de carro
+
+    /.cion/ # Busca 'programacion', 'actuacion', 'demolicion'
+
+Qué hacen los corchetes?. Vamos al ejemplo
+
+    /[pa]cion/ # Solo encuentra programacion y actuacion
+
+Lo que hace es buscar las palabras que terminen el *cion*, precedidas de una *p* o una *a*
+
+SI queremos poner un rango de caracteres hacemos lo siguiente:
+  
+    /[a-z]/ # busca cualquier minuscula
+    /[A-Z]/ # busca mayosculas
+
+Veamos algunas abreviacion comunes
+
+    /[0-9]/  
+    /\d/
+
+Validando un formato de teléfono
+
+    string = "Mi numero es: (123) 555-1234"
+    expr = /\((\d{3})\)\s+(\d{3})-(\d{4})/
+
+    valid = expr.match(string)
+
+    puts valid    #true, el formato es correcto
+
+Te recomiendo entrar a la página de [Ruby](http://www.ruby-doc.org/core-1.9.3/Regexp.html) para ahondar más en el tema.
+
+

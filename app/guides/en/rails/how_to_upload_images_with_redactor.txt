@@ -1,0 +1,55 @@
+Ya vimos cómo tener nuestro editor RedactorJS funcionando básicamente con puro html, pero tal si queremos subir imágenes a través de él?. En la misma página de RedactorJS se muestra un pequeño ejemplo, pero solo con php, así que después de algunos intentos pude integrarlo con rails, ahí te va. (Si no has seguido el tutorial anterior, te recomiendo que primero lo leas y luego vuelvas para que no te pierdas).
+
+Empecemos:
+
+  Nosotros teníamos un javascript inicializador, lo que haremos es modificarlo de esta manera:
+
+    <script type="text/javascript">
+      $(document).ready(
+        function() {
+          $('#option_content').redactor(
+            { imageUpload: "/options/upload/"}
+           );
+        }
+      );
+    </script>
+  **"/options/upload/"** vendría a ser el path que yo le he puesto en el archivo routes.rb
+
+    match 'options/upload/' => 'options#upload_image'
+
+  Bien, como te has podido dar cuenta, estoy apuntando al método **upload_image** que se encuentra dentro de mi controlador **options**. Lo siguiente que haré es codificar ese método para que me permita subir la imagen.
+
+    # Redireccionando al html que mostrará mi imagen
+    def upload_image  
+      # Llamamos al método que sube la imagen y obtenemos la ruta
+      @imageurl = upload_file(params[:file])
+
+      respond_to do |format|
+        format.html # upload_image.html.erb
+      end
+    end
+
+
+  Ahora crearemos nuestro view **upload_image.html.erb**. Ésta página servirá para mostrar la imagen que hemos subido y lo que hará RedactorJS es coger ese html e incrustarlo dentro del editor, así que adelante:
+
+    #upload_image.html.erb
+    <%= image_tag @imageurl %>
+
+  Así de fácil, RedactorJS se encargará del resto. Algo interesante de este editor que también podemos arrastrar nuestra imagen local hacia la web (con el mouse) y automáticamente lo sube con nuestro código!.
+
+  <br />
+  **Notas:**
+    
+  * Si en caso te saliera algún mensaje de error por la autenticidad del token, coloca esto en tu controlador, justo después de declarar la clase:
+
+        class OptionsController < ApplicationController
+          skip_before_filter :verify_authenticity_token
+
+          ... 
+          ...
+        end  
+
+  * No olvides poner la siguiente linea en tu model: 
+  
+        mount_uploader :image, ImageUploader
+

@@ -1,0 +1,5 @@
+Quizá en algún momento quisiste usar un editor de texto para tu página web, hacer un administrador de contenido, etc. Yo escogí usar RedactorJS porque me parece que es un editor simple y sencillo, sin tantas opciones que muchas veces marean al usuario. Ésta vez te explicaré cómo integrarlo con rails en unos cuantos minutos. Aquí va ;)
+
+1. Primero lo primero, descargamos el Redactor desde esta web [http://www.redactorjs.com/](http://www.redactorjs.com/)
+2. Una vez descargado, descomprímelo. Dentro de la carpeta descomprimida, verás un folder llamado *redactor*
+3. Ahora haremos lo siguiente, cogeremos las carpetas css, img y js; y las pondremos en tu_proyecto/app/assets/stylesheets, u_proyecto/app/assets/images y u_proyecto/app/assets/javascripts respectivamente.
