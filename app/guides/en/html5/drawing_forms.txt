@@ -1,0 +1,105 @@
+Vamos a dibujar algunas formas con el API que nos ofrece HTML5
+
+Primero definiremos nuestro lienzo en nuestro html y le estableceremos un ancho y un alto
+    
+    <canvas id="lienzo" width="200" height="200"></canvas>
+
+Crearemos una porción de código javascript para capturar el lienzo y usar los métodos que nos brinda
+
+    <script type="text/javascript">
+      var ctx = document.getElementById('lienzo');
+    </script>
+
+Ya estamos listo, Ahora sí a dibujar!
+
+**Dibujando rectángulos**
+
+    <script type="text/javascript">
+      var ctx = document.getElementById('lienzo');
+      ctx.fillRect(10,10,50,40);
+      ctx.strokeRect(5,5,70,80);
+    </script>
+
+Aquí algunas especificaciones:
+
+    fillRect (x,y,width,height) : dibuja un rectángulo relleno
+    strokeRect (x,y,width,height) : dibuja un contorno rectangular
+    clearRect (x,y,width,height) : borra el área especificada y hace que sea totalmente transparente
+
+**Dibujando rutas**
+
+Lo primero que debemos hacer para crear una ruta es llamar al método **beginPath()**. Para cerrar llamamos a **closePath()**. Por último ponemos **fill()** para rellenar nuestra figura o **stroke()** para contornearla.
+
+    ctx.beginPath();
+    ctx.moveTo(75,50);
+    ctx.lineTo(100,75);
+    ctx.lineTo(100,25);
+    ctx.closePath();
+    ctx.fill();
+
+Te estarás preguntando, qué hace el método **moveTo** y **lineTo**?. **moveTo()** equivaldría a levantar el lápiz cuando escribimos para ubicarnos en otra posición y **lineTo()** es movernos a otra posición sin levantar el lápiz, creando así una línea recta.
+    
+    moveTo(x, y)
+    lineTo(x, y)
+
+**Creando arcos**
+
+Para hacer este tipo de dibujos se usa el método **arc()**. 
+
+    arc(x, y, radius, startAngle, endAngle, anticlockwise)
+
+Aquí un ejemplo:
+
+    for(var i=0;i<4;i++){
+      for(var j=0;j<3;j++){
+        ctx.beginPath();
+        var x              = 25+j*50;               // coordenada x 
+        var y              = 25+i*50;               // coordenada y 
+        var radius         = 20;                    // radio del arco
+        var startAngle     = 0;                     // punto inicial del círculo
+        var endAngle       = Math.PI+(Math.PI*j)/2; // punto final del círculo
+        var anticlockwise  = i%2==0 ? false : true; // dextrógiro o levógiro
+
+        ctx.arc(x,y,radius,startAngle,endAngle, anticlockwise);
+
+        if (i>1){
+          ctx.fill();
+        } else {
+          ctx.stroke();
+        }
+      }
+    }
+        
+**Curvas cuadráticas**
+
+SOn aquellas en las cuales se definen dos puntos de inicio y fin. Solo se maneja un punto de control
+
+    quadraticCurveTo(cp1x, cp1y, x, y)
+
+Ejemplo:
+
+    // Ejemplo de curvas cuadráticas
+    ctx.beginPath ();
+    ctx.moveTo (75,25);
+    ctx.quadraticCurveTo (25,25,25,62.5);
+    ctx.quadraticCurveTo (25,100,50,100);
+    ctx.quadraticCurveTo (50,120,30,125);
+    ctx.quadraticCurveTo (60,120,65,100);
+    ctx.quadraticCurveTo (125,100,125,62.5);
+    ctx.quadraticCurveTo (125,25,75,25);
+    ctx.stroke ();
+
+**Curvas Bezier**
+
+Parecidas a las curvas cuadráticas pero con dos puntos de control (se especifican dos ángulos en vez de uno). Permite mayor flexibilidad para manejar curvas.
+  
+    // Ejemplo de curvas de Bézier
+    ctx.beginPath ();
+    ctx.moveTo (75,40);
+    ctx.bezierCurveTo (75,37,70,25,50,25);
+    ctx.bezierCurveTo (20,25,20,62.5,20,62.5);
+    ctx.bezierCurveTo (20,80,40,102,75,120);
+    ctx.bezierCurveTo (110,102,130,80,130,62.5);
+    ctx.bezierCurveTo (130,62.5,130,25,100,25);
+    ctx.bezierCurveTo (85,25,75,37,75,40);
+    ctx.fill ();
