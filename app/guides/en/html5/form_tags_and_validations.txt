@@ -1,0 +1,111 @@
+Sigamos aprendiendo las nuevas funcionalidades que nos ofrece HTML5. Vayamos directo a los ejemplos:
+
+**input email:** una caja de texto que valida que el formato de la cadena ingresada sea el de un email. También, estamos poniendo el atributo **required** para que sea obligatorio
+
+    <input type="email" id="email_addr" name="email_addr" required />
+
+**input number:** una especie de caja de texto con flechitas para incrementar o disminuir un valor numérico.
+
+    <input type="number" id="number" name="number" required />
+
+**input range:** es un slider. Se lo relaciona con un datalist mediante un id
+
+    <input type="range" min="-100" max="100" value="0" step="10" name="power" list="powers"/>
+      <datalist id="powers">
+        <option value="0">
+        <option value="-30">
+        <option value="30">
+        <option value="+50">  
+      </datalist
+
+Estos son algunos nuevos inputs que nos ofrece HTML5 para que empieces. A continuación te muestro un formulario con más nuevas cosas ;)
+
+    <!DOCTYPE html>
+    <html>
+      <head>
+      <meta http-equiv="Content-Type" content="text/html; charset=utf-8">
+      <title>
+        Ejemplo de Formulario Web
+      </title>
+      </head>
+      <body>
+        <h1>Ejemplo de Formulario Web</h1>
+        <form method="post" action="webforms.php">
+
+          <table border="1" cellpadding="5">
+            <tr>
+              <td>Defecto</td>
+              <td><input name="nombre" placeholder="Escribe tu nombre" autofocus></td>
+            </tr>
+            <tr>
+              <td>URL</td>
+              <td><input name="url" type="url"></td>
+            </tr>
+            <tr>
+              <td>Email</td>
+              <td><input name="email" type="email"></td>
+            </tr>
+            <tr>
+              <td>Rango</td>
+              <td><input name="rango" type="range" min="0" max="100" step="5" value="40"></td>
+            </tr>
+              <td>Numero</td>
+              <td><input name="numero" type="number" min="0" max="100" step="5" value="40"></td>
+            </tr>
+            <tr>
+              <td>Fecha</td><td><input name="fecha" type="date"></td>
+            </tr>
+            <tr>
+              <td>Semana</td>
+              <td><input name="semana" type="week"></td>
+            </tr>
+            <tr>
+              <td>Mes</td><td><input name="mes" type="month"></td>
+            </tr>
+            <tr>
+              <td>Hora</td><td><input name="hora" type="time"></td>
+            </tr>
+            <tr>
+              <td>Datetime</td><td><input name="datetime" type="datetime"></td>
+            </tr>
+            <tr>
+              <td>Local Datetime</td><td><input name="datetimelocal" type="datetime-local"></td>
+            </tr>
+              <tr>
+              <td>Color</td><td><input name="color" type="color"></td>
+            </tr>
+            <tr>
+              <td>Consulta Busqueda</td><td><input name="consulta" type="search"></td>
+            </tr>
+          </table>
+        
+          <input type="submit" value="Enviar">
+        </form>
+      </body>
+    </html>
+
+Como puedes darte cuenta no es nada del otro mundo. Pero quisiera que veamos algo más con un poco de javascript. Vamos a crear un formulario con dos campos:
+
+    <form method="post" action="">
+      <label>Email address:</label><br>
+      <input type="email" id="email_addr" name="email_addr" required><br>
+
+      <label>Repeat email address:</label><br>
+      <input type="email" id="email_addr_repeat" name="email_addr_repeat" oninput="check(this)" required><br>
+    </form>
+
+En el segundo campo estamos utilizando el atributo **oninput** que llamará a la funcion javascript **check**. 
+
+    <script type="text/javascript">
+      function check(input) {
+        if (input.value != document.getElementById('email_addr').value) {
+          input.setCustomValidity('The two email addresses must match.');
+        } else {
+          input.setCustomValidity('');
+        }
+      }
+    </script>
+
+Lo que estamos haciendo aquí es validar que tanto el email como el email de confirmación sean iguales. Con el método **setCustomValidity()** definimos un mensaje personalizado en caso de error. 
+
+Espero tus comentarios!
