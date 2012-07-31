@@ -12,7 +12,7 @@
     <div class="icon">
       <i class="icon-leaf"></i>
     </div>
-    <%= link_to guides_path(session[:selected_category].path, a.path), :style =>'text-decoration: none;' do %>
+    <%= link_to guides_category_and_article_path(session[:selected_category].path, a.path), :style =>'text-decoration: none;' do %>
       <div class="name"><%= a.name %></div>
       <div class="extra-info">
         <span>

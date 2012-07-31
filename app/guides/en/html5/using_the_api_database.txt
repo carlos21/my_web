@@ -1,0 +1,273 @@
+Este quizá es uno de los tutoriales más largos pero a la vez es uno en los que aprenderás muchas cosas tanto de html5 como de javascript. Básicamente, haremos una aplicación que nos permita crear, editar, eliminar y mostrar *post-it* que son pequeños cuadros en donde pondremos nuestras notas, apuntes, etc; y todo con el API de html5.
+
+Primero un poco de teoría. HTML5 permite crear ahora una base de datos en nuestro disco duro. Podemos hacer queries normales como en **MySQL**, **ORACLE**, entre otros. Queremos que esta aplicación trabaje también offline y para ello vamos a tener que proveerle todos los recursos necesarios para que la aplicación funcione cuando no esté conectada a la red. Por ejemplo, tenemos que decirle al navegador dónde encontrar todo el html, el css, javascript, imágenes, etc, para ejecutarse. Por lo tanto, vamos a utilizar el API Application Cache de HTML5. Para ello, vamos a crear un archivo **.manifest** y le diremos los archivos que vamos a necesitar mientras estemos offline
+
+    CACHE MANIFEST
+    #version=1
+    botonBorrar.png
+    botonBorrarPulsado.png
+
+
+
+
+
+Crearemos la base para nuestro proyecto con los estilos que usaremos.
+    
+    <!DOCTYPE html>
+    <html manifest="notas.manifest">
+      <head>
+        <meta http-equiv="Content-Type" content="text/html; charset=ISO-8859-1">
+        <title>Crear y almacenar notas</title>
+        <style>
+          body {
+            font-family: 'Lucida Grande', 'Helvetica', sans-serif;
+          }
+
+          .nota {
+            background-color: rgb(255, 240, 70);
+            height: 250px;
+            padding: 10px;
+            position: absolute;
+            width: 200px;
+            -webkit-box-shadow: 0px 5px 10px rgba(0, 0, 0, 0.5);
+          }
+
+          .nota:hover .botoncerrar {
+            display: block;
+          }
+
+          .botoncerrar {
+            display: none;
+            background-image: url(botonBorrar.png);
+            height: 30px;
+            position: absolute;
+            left: -15px;
+            top: -15px;
+            width: 30px;
+          }
+
+          .botoncerrar:active {
+            background-image: url(botonBorrarPulsado.png);
+          }
+
+          .edit {
+            outline: none;
+          }
+
+          .timestamp {
+            position: absolute;
+            left: 0px;
+            right: 0px;
+            bottom: 0px;
+            font-size: 9px;
+            background-color: #db0;
+            color: white;
+            border-top: 1px solid #a80;
+            padding: 2px 4px;
+            text-align: right;
+          }
+        </style>
+
+      </head>
+      <body>
+        <p>Muestra del uso del API Database Storage de HTML5</p>
+        <button id="nuevoBotonNota" onclick="nuevaNota()">Nueva Nota</button>
+        <script>
+          document.getElementById("nuevoBotonNota").disabled = !db;
+        </script>
+        <sfmsg id="sfMsgId" data="{&quot;imageCount&quot;:0,&quot;ip&quot;:&quot;83.35.209.37&quot;}">
+        </sfmsg>      
+      </body>
+    </html>
+
+Hasta aquí nada fuera de lo normal, estamos creando un botón que servirá para crear las notas que llama a la función **nuevaNota()** (luego la crearemos)
+
+Empezaremos ahora sí a abrir nuestra base de datos. Esto se realiza con la función openDatabase(name, version, description, size). openDatabase() necesita 4 argumentos:
+
+* name: Es el nombre de la base de datos.
+
+* version: La versión de la base de datos.
+
+* description: Es una descripción dada a la base de datos que puede servir para informar del propósito de la base de datos.
+
+* size: Es un tamaño aproximado del tamaño de la base de datos. Especialmente útil para que el navegador prepare el espacio necesario para almacenar los datos.
+
+    var db = null;
+
+    try {
+      if (window.openDatabase) {
+        db = openDatabase("NotaTest", "1.0", "Ejemplo uso de la Database API de HTML5", 200000);
+
+        if (!db)
+          alert("No se ha podido abrir la base de datos en el disco. Esto es probablemente porque la versión no era la correcta o no queda suficiente espacio en la cuota asignada al dominio");
+      } else
+        alert("No se ha podido abrir la base de datos. Por favor prueba con un WebKit nightly con esta característica habilitada");
+    } catch(err) {
+        db = null;
+        alert("No se ha podido abrir la base de datos.  Por favor prueba con un WebKit nightly con esta característica habilitada");
+    }
+  
+Como sabrás en Javascript no existen las classes, por lo tanto, crearemos una función Nota que actuará como una clase
+
+    function Nota() {
+      var self = this;
+
+      // Crea el div nota
+      var nota = document.createElement('div');
+      nota.className = 'nota';
+      nota.addEventListener('mousedown', function(e) { return self.onMouseDown(e) }, false);
+      nota.addEventListener('click', function() { return self.onNoteClick() }, false);
+      this.nota = nota;
+
+      // Creamos el botón close
+      var close = document.createElement('div');
+      close.className = 'botoncerrar';
+      close.addEventListener('click', function(event) { return self.close(event) }, false);
+      nota.appendChild(close);
+
+      // Creamos el div que será editable
+      var edit = document.createElement('div');
+      edit.className = 'edit';
+      edit.setAttribute('contenteditable', true);
+      edit.addEventListener('keyup', function() { return self.onKeyUp() }, false);
+      nota.appendChild(edit);
+      this.editField = edit;
+
+      // Creamos el div que contendrá la última fecha de modificación
+      var ts = document.createElement('div');
+      ts.className = 'timestamp';
+      ts.addEventListener('mousedown', function(e) { return self.onMouseDown(e) }, false);
+      nota.appendChild(ts);
+      this.lastModified = ts;
+
+      document.body.appendChild(nota);
+      return this;
+    }
+
+Recuerda que en Javascript puedes asignar un valor a una propiedad que no exista. Ésta propiedad se creará automáticamente para la instancia del objeto a la que le estás asignando el valor. Por ejemplo:
+
+    var c = new Contenedor();
+    c.msg = 'Hola';
+
+    var n = new Contenedor();
+
+    alert(n.msg); // msg no tiene valor
+
+Pero en nuestro caso, estamos creando propiedades dentro de la creación de la función **Nota**, por lo que no tendremos problemas.
+
+Ahora vamos a usar el objeto **Prototype**. Éste nos permite crear propiedades para todas las instancias de un objeto. Lo usaremos para crear getters y setters
+
+    Nota.prototype = {
+      get id()
+      {
+          if (!("_id" in this))
+              this._id = 0;
+          return this._id;
+      },
+
+      set id(x)
+      {
+          this._id = x;
+      },
+
+      get text()
+      {
+          return this.editField.innerHTML;
+      },
+
+      set text(x)
+      {
+          this.editField.innerHTML = x;
+      },
+
+      get timestamp()
+      {
+          if (!("_timestamp" in this))
+              this._timestamp = 0;
+          return this._timestamp;
+      },
+
+      set timestamp(x)
+      {
+          if (this._timestamp == x)
+              return;
+
+          this._timestamp = x;
+          var date = new Date();
+          date.setTime(parseFloat(x));
+          this.lastModified.textContent = modifiedString(date);
+      },
+
+      get left()
+      {
+          return this.nota.style.left;
+      },
+
+      set left(x)
+      {
+          this.nota.style.left = x;
+      },
+
+      get top()
+      {
+          return this.nota.style.top;
+      },
+
+      set top(x)
+      {
+          this.nota.style.top = x;
+      },
+
+      get zIndex()
+      {
+          return this.nota.style.zIndex;
+      },
+
+      set zIndex(x)
+      {
+          this.nota.style.zIndex = x;
+      },
+    }
+
+Nada complejo eh?. Vamos a agregarle ahora algunas funciones a nuestro objeto **Nota**. Empezaremos con **cancelPenndingSave()**
+
+    cancelPendingSave: function(){
+      if (!("_saveTimer" in this))
+          return;
+      clearTimeout(this._saveTimer);
+      delete this._saveTimer;
+    }
+
+Con esto queremos decir: *Si no existe la propiedad *_saveTimer* dentro de Nota, no hagas nada, sino limpia el tiempo muerto *_saveTimer* y luego elimínalo*. Esto lo hacemos porque en otra función que crearemos estamos usando un **setTimeout**, el cual esperará un momento antes de grabar la Nota.
+
+Ahora creamos la función **close()**
+
+    close: function(event){
+      this.cancelPendingSave();
+
+      var nota = this;
+      db.transaction(function(tx){
+          tx.executeSql("DELETE FROM NotasPostit WHERE id = ?", [nota.id]);
+      });
+      
+      var duration = event.shiftKey ? 2 : .25;
+      this.nota.style.webkitTransition = '-webkit-transform ' + duration + 's ease-in, opacity ' + duration + 's ease-in';
+      this.nota.offsetTop; // Force style recalc
+      this.nota.style.webkitTransformOrigin = "0 0";
+      this.nota.style.webkitTransform = 'skew(30deg, 0deg) scale(0)';
+      this.nota.style.opacity = '0';
+
+      var self = this;
+      setTimeout(function() { document.body.removeChild(self.nota) }, duration * 1000);
+    }
+
+Ok. Llegó la hora de ver algunas consultas. Para ello primero debemos crear una *transacción*. La función **transaction** recibe 3 parámetros:
+
+* transaction_function(tx) Se trata de una función anónima que se encarga de realizar la transacción.
+
+* error_callback(tx) Se trata de una función anónima que se ejecuta en caso de que ocurra un error en la transacción y la función de la transacción no tiene ningún callback para el manejo de errores.
+
+* success_callback(tx) Se trata de una función anónima que se ejecuta si la transacción termina correctamente y la función de transacción no tiene ningún callback para el manejo de éxitos.
+
+Gracias al parámetro que nos pasa la función **transaction** podemos hacer uso de la función **executeSql**, que a su vez recibe 4 parametros
+

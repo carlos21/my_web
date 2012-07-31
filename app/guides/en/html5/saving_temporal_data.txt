@@ -1,0 +1,76 @@
+Vamos a ver cómo HTML5 nos ofrece guardar datos que sigan disponibles en caso de que el usuario navegue a otras páginas y luego regrese a la página original, Esto es lo que muchas veces ha llevado a tener que trabajar con lenguajes del lado del servidor como php, java, etc. Con HTML5 podemos ahora realizar dicho comportamiento sin la necesidad de usar estos lenguajes.
+
+Podemos hacerlo de dos maneras:
+
+1. En sesión: cuando se utiliza un lenguaje del aldo de servidor y se desean guardan datos se inicia una sesión. Es ahí donde HTML5 guardará los datos.
+2. En el mismo navegador
+
+El almacenamiento de hace por medio de **keys** y **values**. Para guardar un valor, se le pasa una clave, la cual servirá para recuperar el valor en un futuro.
+
+**Guardando en sesión**
+
+Vamos a ver un ejemplo bastante simple como demostración:
+
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title></title>
+        <script type="text/javascript">
+          function almacenarEnSesion() {
+            var texto = document.getElementById('datos').value;
+            sessionStorage.setItem('datos', texto);
+          }
+
+          function obtenerEnSesion(){
+            document.getElementById('datos').value = sessionStorage.getItem('datos');
+          }
+
+          function borrarSesion(){
+            sessionStorage.removeItem('datos');
+            document.getElementById('datos').value = "";
+          }
+        </script>
+      </head>
+      <body>
+        <h1>ALmacenamiento en Sesión</h1>
+        Datos <input id="datos" type="text">
+        <input type="button" value="Guardar" onclick="almacenarEnSesion();">
+        <input type="button" value="Obtener" onclick="obtenerEnSesion();">
+        <input type="button" value="Limpiar"
+        onclick="borrarSesion();">
+      </body>
+    </html>
+
+**Guardando en el navegador**
+
+Es básicamente lo mismo, solo que en vez de usar **sessionStorage** usaremos **localStorage**
+
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title></title>
+        <script type="text/javascript">
+          function almacenarEnSesion() {
+            var texto = document.getElementById('datos').value;
+            localStorage.setItem('datos', texto);
+          }
+
+          function obtenerEnSesion(){
+            document.getElementById('datos').value = localStorage.getItem('datos');
+          }
+
+          function borrarSesion(){
+            localStorage.removeItem('datos');
+            document.getElementById('datos').value = "";
+          }
+        </script>
+      </head>
+      <body>
+        <h1>Almacenamiento en Sesión</h1>
+        Datos <input id="datos" type="text">
+        <input type="button" value="Guardar" onclick="almacenarEnSesion();">
+        <input type="button" value="Obtener" onclick="obtenerEnSesion();">
+        <input type="button" value="Limpiar"
+        onclick="borrarSesion();">
+      </body>
+    </html>

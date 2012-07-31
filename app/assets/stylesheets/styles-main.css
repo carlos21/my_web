@@ -234,7 +234,7 @@ a {
 .article .extra-info {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 12px;
-  color: black;
+  color: #888;
   margin-left: 5px;
   
 }
@@ -414,7 +414,7 @@ a {
 
 .comments .item .description {
   float: left;
-  margin-top: 15px;
+  margin-top: 8px;
   margin-left: 10px;
   margin-bottom: 10px;
   min-width: 540px;

@@ -1,0 +1,184 @@
+Veamos ahora algo un poco más interesante. Seguramente alguna vez has querido poner videos en tu blog, página web, etc. Qúizá tuviste que usar algún reproductor externo e incrustarlo en tu página. Con HTML5 ya no necesitarás utilizar aplicaciones de terceros, podrás tener tus videos totalmente personalizados
+
+Creemos entonces nuestra etiqueta **video** 
+
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <title>
+          HTML 5 Video
+        </title>
+      </head>
+      <body>
+        <h1>HTML 5 Video</h1>
+        <div class="video-container">
+          <p>.mp4</p>
+          <video poster="http://www.html5rocks.com/en/tutorials/video/basics/star.png"" controls>
+            <source src="CSS3_&_HTML5_Level_1.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+          </video>
+        </div>
+      </body>
+    </html>
+
+Te explicaré un poco lo que estamos haciendo aquí.
+
+1. **poster:** imagen que será mostrada antes de empezar el video
+2. **controls:** coloca los controles por defecto al video
+3. **src:** especifica cuál es la ruta de tu video
+4. **type:** especifica la extensión del video a reproducir así como los codecs que serán utilizados
+
+Adicionalmente hay algunos otros atributos que podrías usar:
+
+1. **preload:** carga el video *en un segundo plano* sin que le des al botón *play*
+2. **loop:** reproduce de manera automática una y otra vez tu video.
+3. **autoload:** comienza el video automáticamente sin necesidad de darle al botón *pĺay*
+
+Es recomendable validar los posibles errores que puedan suceder a la hora que el usuario trate de ver el video. Utilizaremos el evento **onerror** para dicho comportamiento.
+
+    <!DOCTYPE html>
+    <html>
+      <head>
+        <style>
+          video {
+            width: 200px;
+            height: 112px;
+            border: 1px solid black;
+          }
+          
+          .video-container {
+            display: inline-block;
+            text-align: center;
+          }
+          
+          p {
+            font: 14px Arial;
+          }
+        </style>
+        <script type="text/javascript">
+          function showError(e) {
+            switch(e.target.error.code) {
+              case e.target.error.MEDIA_ERR_ABORTED: alert('Has abortado el playback');
+                break;
+              case e.target.error.MEDIA_ERR_NETWORK: alert('Error en la red.');
+                break;
+              case e.target.error.MEDIA_ERR_DECODE: alert('Problema de codificacion');
+                break;
+              case e.target.error.MEDIA_ERR_SRC_NOT_SUPPORTED: alert('Formato no soportado o archivo no encontrado');
+                break;
+              default: alert('He ocurrido un error desconocido');
+                break;
+            }
+          }
+        </script>
+      </head>
+      <body>
+        <div class="video-container">
+          <p>.mp4</p>
+          <video poster="http://www.html5rocks.com/en/tutorials/video/basics/star.png" onerror="showError(event)" controls>
+            <source src="CSS3_&_HTML5_Level_1.mp4" type='video/mp4; codecs="avc1.42E01E, mp4a.40.2"' />
+          </video>
+        </div>
+        </div>
+      </body>
+    </html>​
+
+Como puedes ver, nada difícil. Simplemente mostramos mensajes de acuerdo al tipo de error que pueda ocurrir.
+
+Vamos a hacer ahora algo más interesante. Vamos a crear nuestros propios botones con los cuales llamaremos a funciones javascript para poder controlar el video.
+
+    <!DOCTYPE html>
+    <html lang="en">
+    <head>
+      <meta charset='utf-8'>
+      <title>HTML5 Video</title>
+      <script type="text/javascript">
+        document._video = document.getElementById("video");
+      </script>
+      <style>
+        body {  
+          color: black; 
+          background-color: white; 
+          font-family: Arial, sans-serif; 
+          padding-top: 100px;
+          width: 100%;
+          height: 100%;
+        }
+        video { 
+          border: 1px solid black;
+          padding: 0; margin: 0;
+          width: 427px;
+          height: 240px;
+          background-color: black;
+          margin: auto; display: block;
+          margin-left: 10px;
+        }
+
+        .content {
+          width: 610px;
+          height: 420px;
+          margin: auto;
+          border: 1px solid #dddddd;
+          background-color: ghostWhite;
+        }
+
+        .main {
+          padding-top: 80px;
+
+        }
+
+        .menu {
+          width: 160px;
+          float:left;
+          background-color: #F1F1F7;
+          border-right: 1px solid #dddddd;
+        }
+
+        .menu-item {
+          width: 150px;
+          height: 30px;
+          text-align: center;
+          margin: 2px;
+          margin-left: 10px;
+
+        }
+
+        .menu-item button {
+          margin: auto;
+          float: left;
+        }
+      </style>
+      <link href="bootstrap/css/bootstrap.css" rel="stylesheet" type="text/css">
+    </head>
+    <body style="background-color: ghostWhite;">
+      <div class="content">
+        <div class="menu">
+          <div class="menu-item"><button class="btn" onclick="document._video.load()">Load</button></div>
+          <div class="menu-item"><button class="btn" onclick="document._video.play()">Play</button></div>
+          <div class="menu-item"><button class="btn" onclick="document._video.pause()">Pause</button></div>
+          <div class="menu-item"><button class="btn" onclick="document._video.currentTime+=10">Current Time +10</button></div>
+          <div class="menu-item"><button class="btn" onclick="document._video.currentTime-=10">Current Time -10</button></div>
+          <div class="menu-item"><button class="btn" onclick="document._video.playbackRate+=1">Playback Rate +1</button></div>
+          <div class="menu-item"><button class="btn" onclick="document._video.playbackRate-=1">Playback Rate -1</button></div>
+          <div class="menu-item"><button class="btn" onclick="document._video.playbackRate+=0.1">Playback Rate +0.1</button></div>
+          <div class="menu-item"><button class="btn" onclick="document._video.playbackRate-=0.1">Playback Rate -0.1</button></div>
+          <div class="menu-item"><button class="btn" onclick="document._video.volume+=0.1">Volume +0.1</button></div>
+          <div class="menu-item"><button class="btn" onclick="document._video.volume-=0.1">Volume -0.1</button></div>
+          <div class="menu-item"><button class="btn" onclick="document._video.muted=true">Muted = true</button></div>
+          <div class="menu-item"><button class="btn" onclick="document._video.muted=false">Muted = false</button></div>
+        </div>
+        <div class="main">
+          <video id='video'
+            controls preload='none' 
+            poster="tu_imagen.png">
+            <source id='mp4'
+              src="tu_video.mp4"
+              type='video/mp4'>
+            <p>Your user agent does not support the HTML5 Video element.</p>
+          </video>
+        </div>
+      </div>
+      
+    </body>
+    </html>
+
+Creo que no hay necesidad de explicar la funcionalidad de cada uno. Sólo debes apretar cada botón para ver lo que hace. Con esto te podrás dar cuenta que puedes crear diversos diseños de reproductores y crear tus propios controles :D

@@ -2,7 +2,7 @@ MyWeb::Application.routes.draw do
   root :to => "Main#index", :as => 'root'
 
   match 'guides/:category_path' => 'main#article_list', :as => 'guides'
-  match 'guides/:category_path/:article_path' => 'main#article_content', :as => 'guides'
+  match 'guides/:category_path/:article_path' => 'main#article_content', :as => 'guides_category_and_article'
   match 'comment/create' => 'main#create_comment', :as => 'create_comment'
 
 

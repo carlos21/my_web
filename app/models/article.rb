@@ -11,7 +11,7 @@ class Article < ActiveRecord::Base
   end
 
   def self.get_articles_by_category_id(category_id, lang_filter)
-    articles = where(category_id: category_id, language: lang_filter)
+    articles = where(category_id: category_id, language: lang_filter).order('name asc')
     return articles
   end
 end
