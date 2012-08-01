@@ -23,3 +23,6 @@ es:
   enter_your_email_placeholder: "Ingresa tu email"
   enter_your_website_placeholder: "Ingresa tu página web"
   enter_your_comments_placeholder: "Ingresa tus comentarios"
+
+  # Menu
+  topics_label: "Temas"

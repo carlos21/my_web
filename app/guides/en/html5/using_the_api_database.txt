@@ -103,8 +103,8 @@ Empezaremos ahora sí a abrir nuestra base de datos. Esto se realiza con la func
       } else
         alert("No se ha podido abrir la base de datos. Por favor prueba con un WebKit nightly con esta característica habilitada");
     } catch(err) {
-        db = null;
-        alert("No se ha podido abrir la base de datos.  Por favor prueba con un WebKit nightly con esta característica habilitada");
+      db = null;
+      alert("No se ha podido abrir la base de datos.  Por favor prueba con un WebKit nightly con esta característica habilitada");
     }
   
 Como sabrás en Javascript no existen las classes, por lo tanto, crearemos una función Nota que actuará como una clase
@@ -158,74 +158,62 @@ Pero en nuestro caso, estamos creando propiedades dentro de la creación de la f
 Ahora vamos a usar el objeto **Prototype**. Éste nos permite crear propiedades para todas las instancias de un objeto. Lo usaremos para crear getters y setters
 
     Nota.prototype = {
-      get id()
-      {
-          if (!("_id" in this))
-              this._id = 0;
-          return this._id;
+      get id(){
+        if (!("_id" in this))
+            this._id = 0;
+        return this._id;
       },
 
-      set id(x)
-      {
-          this._id = x;
+      set id(x){
+        this._id = x;
       },
 
-      get text()
-      {
-          return this.editField.innerHTML;
+      get text(){
+        return this.editField.innerHTML;
       },
 
-      set text(x)
-      {
-          this.editField.innerHTML = x;
+      set text(x){
+        this.editField.innerHTML = x;
       },
 
-      get timestamp()
-      {
-          if (!("_timestamp" in this))
-              this._timestamp = 0;
-          return this._timestamp;
+      get timestamp(){
+        if (!("_timestamp" in this))
+            this._timestamp = 0;
+        return this._timestamp;
       },
 
-      set timestamp(x)
-      {
-          if (this._timestamp == x)
-              return;
+      set timestamp(x) {
+        if (this._timestamp == x)
+            return;
 
-          this._timestamp = x;
-          var date = new Date();
-          date.setTime(parseFloat(x));
-          this.lastModified.textContent = modifiedString(date);
+        this._timestamp = x;
+        var date = new Date();
+        date.setTime(parseFloat(x));
+        this.lastModified.textContent = modifiedString(date);
       },
 
-      get left()
-      {
-          return this.nota.style.left;
+      get left(){
+        return this.nota.style.left;
       },
 
-      set left(x)
-      {
-          this.nota.style.left = x;
+      set left(x){
+        this.nota.style.left = x;
       },
 
-      get top()
-      {
-          return this.nota.style.top;
+      get top(){
+        return this.nota.style.top;
       },
 
-      set top(x)
-      {
-          this.nota.style.top = x;
+      set top(x){
+        this.nota.style.top = x;
       },
 
-      get zIndex()
-      {
-          return this.nota.style.zIndex;
+      get zIndex(){
+        return this.nota.style.zIndex;
       },
 
-      set zIndex(x)
-      {
-          this.nota.style.zIndex = x;
+      set zIndex(x){
+        this.nota.style.zIndex = x;
       },
     }
 
@@ -240,27 +228,6 @@ Nada complejo eh?. Vamos a agregarle ahora algunas funciones a nuestro objeto **
 
 Con esto queremos decir: *Si no existe la propiedad *_saveTimer* dentro de Nota, no hagas nada, sino limpia el tiempo muerto *_saveTimer* y luego elimínalo*. Esto lo hacemos porque en otra función que crearemos estamos usando un **setTimeout**, el cual esperará un momento antes de grabar la Nota.
 
-Ahora creamos la función **close()**
-
-    close: function(event){
-      this.cancelPendingSave();
-
-      var nota = this;
-      db.transaction(function(tx){
-          tx.executeSql("DELETE FROM NotasPostit WHERE id = ?", [nota.id]);
-      });
-      
-      var duration = event.shiftKey ? 2 : .25;
-      this.nota.style.webkitTransition = '-webkit-transform ' + duration + 's ease-in, opacity ' + duration + 's ease-in';
-      this.nota.offsetTop; // Force style recalc
-      this.nota.style.webkitTransformOrigin = "0 0";
-      this.nota.style.webkitTransform = 'skew(30deg, 0deg) scale(0)';
-      this.nota.style.opacity = '0';
-
-      var self = this;
-      setTimeout(function() { document.body.removeChild(self.nota) }, duration * 1000);
-    }
-
 Ok. Llegó la hora de ver algunas consultas. Para ello primero debemos crear una *transacción*. La función **transaction** recibe 3 parámetros:
 
 * transaction_function(tx) Se trata de una función anónima que se encarga de realizar la transacción.
@@ -271,3 +238,211 @@ Ok. Llegó la hora de ver algunas consultas. Para ello primero debemos crear una
 
 Gracias al parámetro que nos pasa la función **transaction** podemos hacer uso de la función **executeSql**, que a su vez recibe 4 parametros
 
+* sql Es una consulta SQL.
+* args Permite sustituir variables en las consultas SQL sin riesgos de vulnerabilidades de inyección SQL
+* success_callback(tx, result) Función que se ejecuta cuando la consulta se ejecuta correctamente. Recibe como argumentos la transacción y el objeto del resultado
+* error_callback(tx, error) Función que se ejecuta cuando la consulta se ejecuta correctamente. Recibe como argumentos la transacción y el objeto del error
+
+Ahora creamos la función **close()** en base a lo que hemos aprendido. Recuerda que las funciones que vayamos creando van dentro del objeto *Nota*
+
+    close: function(event){
+      this.cancelPendingSave();
+
+      // Creamos una transaccion para realizar la consulta
+      var nota = this;
+      db.transaction(function(tx){
+          tx.executeSql("DELETE FROM NotasPostit WHERE id = ?", [nota.id]);
+      });
+      
+      // Aplicamos algunos estilos
+      var duration = event.shiftKey ? 2 : .25;
+      this.nota.style.webkitTransition = '-webkit-transform ' + duration + 's ease-in, opacity ' + duration + 's ease-in';
+      this.nota.offsetTop; // Force style recalc
+      this.nota.style.webkitTransformOrigin = "0 0";
+      this.nota.style.webkitTransform = 'skew(30deg, 0deg) scale(0)';
+      this.nota.style.opacity = '0';
+
+      // Seteamos un tiempo para que el cerrado no sea de golpe
+      var self = this;
+      setTimeout(function() { document.body.removeChild(self.nota) }, duration * 1000);
+    }
+
+La función **saveSoon** la usaremos para nuestra aplicación grabe automáticamente cada vez el usuario teclee una letra y no tenga que pulsar en ningún botón
+
+    saveSoon: function(){
+      this.cancelPendingSave();
+      var self = this;
+      this._saveTimer = setTimeout(function() { self.save() }, 200);
+    }
+
+La función **save** como su nombre lo indica servirá para *actualizar* físicamente en la base datos. A diferencia del método anterior, éste sí interactuará con la base de datos
+
+    save: function(){
+      this.cancelPendingSave();
+
+      // Si contiene la propiedad 'dirty' significa que la nota ha sido modificada y por lo tanto le seteamos una fecha de modificación
+      if ("dirty" in this) {
+          this.timestamp = new Date().getTime();
+          delete this.dirty;
+      }
+
+      // Usamos una transacción para actualizar nuestra nota
+      var nota = this;
+      db.transaction(function (tx){
+          tx.executeSql("UPDATE NotasPostit SET nota = ?, timestamp = ?, left = ?, top = ?, zindex = ? WHERE id = ?", [nota.text, nota.timestamp, nota.left, nota.top, nota.zIndex, nota.id]);
+      });
+    }
+
+La función **saveAsNew** la usaremos para *insertar* una nueva nota, cada vez que pulsemos el botón *Nueva Nota*
+
+    saveAsNew: function(){
+
+      // Obtenemos la fecha y hora actual
+      this.timestamp = new Date().getTime();
+      
+      // 
+      var nota = this;
+      db.transaction(function (tx) {
+          tx.executeSql("INSERT INTO NotasPostit (id, nota, timestamp, left, top, zindex) VALUES (?, ?, ?, ?, ?, ?)", [nota.id, nota.text, nota.timestamp, nota.left, nota.top, nota.zIndex]);
+      }); 
+    }
+
+La función **onMouseDown** se ejecutará cada vez que se haga click con el mouse
+
+    onMouseDown: function(e){
+      captured = this;
+      this.startX = e.clientX - this.nota.offsetLeft;
+      this.startY = e.clientY - this.nota.offsetTop;
+      this.zIndex = ++highestZ;
+
+      // Referenciamos a los métodos que se ejecutarán cuando el mouse esté en movimiento y cuando se termine de presionar
+      var self = this;
+      if (!("mouseMoveHandler" in this)) {
+          this.mouseMoveHandler = function(e) { return self.onMouseMove(e) }
+          this.mouseUpHandler = function(e) { return self.onMouseUp(e) }
+      }
+
+      document.addEventListener('mousemove', this.mouseMoveHandler, true);
+      document.addEventListener('mouseup', this.mouseUpHandler, true);
+
+      return false;
+    }
+
+La función **onMouseMove* se ejecutará mientras el mouse esté en movimiento a la vez que captura las coordenadas de su ubicación
+
+    onMouseMove: function(e){
+      if (this != captured)
+          return true;
+
+      // Capturamos la coordenadas
+      this.left = e.clientX - this.startX + 'px';
+      this.top = e.clientY - this.startY + 'px';
+      return false;
+    }
+
+La función **onMouseUp** se ejecuta cuando se deje de presionar el mouse. Removerá los listeners que le creamos en el método **onMouseDown**. En esta evento llamaremos a la función **save** para actualizar la nota con la nueva data
+
+    onMouseUp: function(e){
+      document.removeEventListener('mousemove', this.mouseMoveHandler, true);
+      document.removeEventListener('mouseup', this.mouseUpHandler, true);
+
+      this.save();
+      return false;
+    }
+
+La función **onNoteClick** seteará el foco al div editable en donde pondremos nuestro texto
+
+    onNoteClick: function(e){
+      this.editField.focus();
+      getSelection().collapseToEnd();
+    }
+
+La función **onKeyUp** llamará a la función **saveSoon**, por lo tanto cada vez que se termine de digitar una letra, automáticamente se grabará nuestra nota. A la vez seteamos un indicador de que el texto ha sido modificado
+
+    onKeyUp: function(){
+      this.dirty = true;
+      this.saveSoon();
+    }
+
+Hasta aquí hemos terminado de definir las funciones que utilizará nuestro objeto Nota. Adicionalmente vamos a crear unas cuantas funciones más que nos ayudarán en cargar las notas que tengamos apenas abramos el navegador
+
+La función **loaded** se ejecutará apenas se cargue nuestra página. Contará cuántas notas tenemos.
+
+    function loaded(){
+
+      // Creamos la transaccion
+      db.transaction(function(tx) {
+        // Ejecutamos la consulta
+        tx.executeSql("SELECT COUNT(*) FROM NotasPostit", [], function(result) {
+            loadNotas();
+        }, function(tx, error) {
+          // Si falla significa que no existe la tabla, entonces la creamos 
+          tx.executeSql("CREATE TABLE NotasPostit (id REAL UNIQUE, nota TEXT, timestamp REAL, left TEXT, top TEXT, zindex REAL)", [], function(result){ 
+            // intentamos de nuevo
+            loadNotas(); 
+          });
+        });
+      });
+   }
+
+La función **loadNotas** será llamado por la función **loaded** para mostrar las notas que tengamos guardadas
+
+    function loadNotas(){
+
+      // Creamos la transaccion
+      db.transaction(function(tx) {
+
+        // Ejecutamos al consulta
+        tx.executeSql("SELECT id, nota, timestamp, left, top, zindex FROM NotasPostit", [], function(tx, result) {
+
+          // Iteramos para ir creando las notas en pantalla
+          for (var i = 0; i < result.rows.length; ++i) {
+              var row = result.rows.item(i);
+              var nota = new Nota();
+              nota.id = row['id'];
+              nota.text = row['nota'];
+              nota.timestamp = row['timestamp'];
+              nota.left = row['left'];
+              nota.top = row['top'];
+              nota.zIndex = row['zindex'];
+
+              if (row['id'] > highestId)
+                  highestId = row['id'];
+              if (row['zindex'] > highestZ)
+                  highestZ = row['zindex'];
+          }
+
+          // Si no hay ninguna, creamos una por defecto
+          if (!result.rows.length)
+              nuevaNota();
+        }, function(tx, error) {
+            alert('Failed to retrieve notas from database - ' + error.message);
+            return;
+        });
+      });
+    }
+
+La función **modifiedString** recibe como parámetro al fecha actual y la formatea para que sea mostrada en la parte de abajo de cada nota.
+
+    function modifiedString(date){
+      return 'Última Modificación: ' + date.getDate() + '-' + (date.getMonth() + 1) + '-' + date.getFullYear() + ' ' + date.getHours() + ':' + date.getMinutes() + ':' + date.getSeconds();
+    }
+
+La función **nuevaNota** será llamada por el botón *Nueva Nota* para crear una nota y mostrarla en pantalla (en blanco)
+
+    function nuevaNota() {
+      var nota = new Nota();
+      nota.id = ++highestId;
+      nota.timestamp = new Date().getTime();
+      nota.left = Math.round(Math.random() * 400) + 'px';
+      nota.top = Math.round(Math.random() * 500) + 'px';
+      nota.zIndex = ++highestZ;
+      nota.saveAsNew();
+    }
+
+Por último, agregaremos afuera una pequeña porción de código agregará un listener al evento **load**, como te lo expliqué anteriormente, siempre y cuando no hayan problemas con la base de datos
+
+    if (db != null)
+      addEventListener('load', loaded, false);
+
+Me alegra informarte que ya estamos listos, ha sido un camino largo pero interesante. Ya te habrás dado cuenta que puedes hacer esto y más. Te dejo

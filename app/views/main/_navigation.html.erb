@@ -1,5 +1,5 @@
 <div class="navigation">
-  <h1>Things that I know</h1>
+  <h1><%= t(:topics_label) %></h1>
   <ul>
     <% session[:categories].each do |c| %>
       <%= link_to (root_path + 'guides/' + c.path) do %>

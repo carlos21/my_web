@@ -26,7 +26,7 @@ a {
   width: 100%;
   height: 125px;
   background-color: #F1F1F7;
-  margin-bottom: 5px;
+  margin-bottom: 6px;
   
 }
 
@@ -132,14 +132,16 @@ a {
 
 .navigation ul li:hover {
   background-color: #F1F1F7; 
-
+  border: 1px solid #dddddd;
+  border-top: none;
 }
 
 .navigation h1 {
   font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
   font-size: 15px;
   padding-left: 10px;
-  border-left: 4px solid #dddddd;
+  border: 1px solid #dddddd;
+  background-color: #F1F1F7; 
   margin-left: 5px;
   line-height: 20px;
 }

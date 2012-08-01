@@ -27,3 +27,6 @@ en:
   enter_your_website_placeholder: "Enter your website"
   enter_your_comments_placeholder: "Enter your comments"
 
+  # Menu
+  topics_label: "Topics"
+
