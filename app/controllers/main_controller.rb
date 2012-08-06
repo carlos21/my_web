@@ -21,6 +21,7 @@ class MainController < ApplicationController
   def index  
     @categories = Category.get_categories
 
+    session[:categories] = @categories
     session[:pages_path] = []
     session[:pages_path] << [ DASHBOARD_MENU, DASHBOARD_MENU_PATH ]
     

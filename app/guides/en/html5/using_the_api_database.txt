@@ -7,11 +7,9 @@ Primero un poco de teoría. HTML5 permite crear ahora una base de datos en nuest
     botonBorrar.png
     botonBorrarPulsado.png
 
+Este archivo lo guardaremos en la misma carpeta que nuestro html
 
-
-
-
-Crearemos la base para nuestro proyecto con los estilos que usaremos.
+Creamos la base para nuestro proyecto con los estilos que usaremos.
     
     <!DOCTYPE html>
     <html manifest="notas.manifest">
@@ -155,7 +153,7 @@ Recuerda que en Javascript puedes asignar un valor a una propiedad que no exista
 
 Pero en nuestro caso, estamos creando propiedades dentro de la creación de la función **Nota**, por lo que no tendremos problemas.
 
-Ahora vamos a usar el objeto **Prototype**. Éste nos permite crear propiedades para todas las instancias de un objeto. Lo usaremos para crear getters y setters
+Ahora vamos a usar el objeto **Prototype**. Éste nos permite crear propiedades para todas las instancias de un objeto. Lo usaremos para crear getters y setters.
 
     Nota.prototype = {
       get id(){
@@ -300,7 +298,7 @@ La función **saveAsNew** la usaremos para *insertar* una nueva nota, cada vez q
       // Obtenemos la fecha y hora actual
       this.timestamp = new Date().getTime();
       
-      // 
+      // Creamos una transaccion para insertar la nota
       var nota = this;
       db.transaction(function (tx) {
           tx.executeSql("INSERT INTO NotasPostit (id, nota, timestamp, left, top, zindex) VALUES (?, ?, ?, ?, ?, ?)", [nota.id, nota.text, nota.timestamp, nota.left, nota.top, nota.zIndex]);
@@ -340,7 +338,7 @@ La función **onMouseMove* se ejecutará mientras el mouse esté en movimiento a
       return false;
     }
 
-La función **onMouseUp** se ejecuta cuando se deje de presionar el mouse. Removerá los listeners que le creamos en el método **onMouseDown**. En esta evento llamaremos a la función **save** para actualizar la nota con la nueva data
+La función **onMouseUp** se ejecuta cuando se deje de presionar el mouse. Removerá los listeners que le creamos en el método **onMouseDown**. En este evento llamaremos a la función **save()** para actualizar la nota con la nueva data
 
     onMouseUp: function(e){
       document.removeEventListener('mousemove', this.mouseMoveHandler, true);
@@ -383,7 +381,7 @@ La función **loaded** se ejecutará apenas se cargue nuestra página. Contará 
           });
         });
       });
-   }
+    }
 
 La función **loadNotas** será llamado por la función **loaded** para mostrar las notas que tengamos guardadas
 
@@ -445,4 +443,6 @@ Por último, agregaremos afuera una pequeña porción de código agregará un li
     if (db != null)
       addEventListener('load', loaded, false);
 
-Me alegra informarte que ya estamos listos, ha sido un camino largo pero interesante. Ya te habrás dado cuenta que puedes hacer esto y más. Te dejo
+Aquí te dejo todo el código para copies y pegues y veas su funcionamiento. Te recomiendo que digites cada línea tú mismo para que lo entiendas al detalle y puedas hacer tus propias modificaciones.
+
+Me alegra informarte que ya estamos listos, ha sido un camino largo pero interesante. Ya te habrás dado cuenta que puedes hacer esto y más. Nos vemos en el próximo tutorial.

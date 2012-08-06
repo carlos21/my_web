@@ -10,7 +10,7 @@ Veamos ahora algo interesante, hagamos llamadas AJAX mediante links
 
 Rails generará lo siguiente:
 
-    <a href="/zombies/5" data-method="delete" data-remote="true" rel="nofollow">
+    <a href="/users/5" data-method="delete" data-remote="true" rel="nofollow">
       delete
     </a>
 

@@ -12,7 +12,7 @@
 Category.create(:name => 'CSS3', :tooltip => 'About CSS3', :image_url => 'css3.jpg', :status => 'A', :path => 'css3', :small_description => 'CSS3')
 Category.create(:name => 'Ember.js', :tooltip => 'About Ember.js', :image_url => 'emberjs.png', :status => 'A', :path => 'emberjs', :small_description => 'EmberJS')
 Category.create(:name => 'HTML5', :tooltip => 'About HTML5',:image_url => 'html5.png',  :status => 'A', :path => 'html5', :small_description => 'HTML 5')
-Category.create(:name => 'JQuery', :tooltip => 'About JQuery',:image_url => 'jquery.gif',  :status => 'A', :path => 'jquery', :small_description => 'JQuery')
+Category.create(:name => 'Javascript', :tooltip => 'About Javascript',:image_url => 'jquery.gif',  :status => 'A', :path => 'javascript', :small_description => 'Javascript')
 Category.create(:name => 'Node.js', :tooltip => 'About Node.js',:image_url => 'nodejs.png',  :status => 'A', :path => 'nodejs', :small_description => 'Node JS')
 Category.create(:name => 'Rails', :tooltip => 'About Rails', :image_url => 'rails.png',  :status => 'A', :path => 'rails', :small_description => 'Rails')
 Category.create(:name => 'Ruby', :tooltip => 'About Ruby', :image_url => 'ruby.jpg', :status => 'A', :path => 'ruby', :small_description => 'Ruby')
@@ -43,7 +43,11 @@ Article.create(:name => 'Editing elements', :small_description => 'jeje', :categ
 Article.create(:name => 'New attributes and validations', :small_description => 'jeje', :category_id => 3, :path => 'new-attributes-and-validations', :route => '/app/guides/en/html5/new_attributes_and_validations.txt', :language => 'en', :visits => 0)
 Article.create(:name => 'Some new tags', :small_description => 'jeje', :category_id => 3, :path => 'some-new-tags', :route => '/app/guides/en/html5/some_new_tags.txt', :language => 'en', :visits => 0)
 Article.create(:name => 'Saving temporal data', :small_description => 'jeje', :category_id => 3, :path => 'saving-temporal-data', :route => '/app/guides/en/html5/saving_temporal_data.txt', :language => 'en', :visits => 0)
+Article.create(:name => 'Using the API Database', :small_description => 'jeje', :category_id => 3, :path => 'using-the-api-database', :route => '/app/guides/en/html5/using_the_api_database.txt', :language => 'en', :visits => 0)
 Article.create(:name => 'Video', :small_description => 'jeje', :category_id => 3, :path => 'video', :route => '/app/guides/en/html5/video.txt', :language => 'en', :visits => 0)
+
+# Javascript
+Article.create(:name => 'How to create a custom tooltip', :small_description => 'jeje', :category_id => 4, :path => 'how-to-create-a-custom-tooltip', :route => '/app/guides/en/javascript/how_to_create_a_custom_tooltip.txt', :language => 'en', :visits => 0)
 
 # Comments
 Comment.create(:article_id => 1, :name => 'Carlos', :email => 'darkzeratul64@hotmail.com', :description => 'Muy buena pagina sigue adelante!')

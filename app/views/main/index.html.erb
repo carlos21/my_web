@@ -1,11 +1,24 @@
 <script type="text/javascript">
-  
-  function switchImage(e){
-    var element = e.target;
-    alert(element.id);
-    var childs = element.getElementsByTagName('div');
-    childs[0].style.display = 'none';
-  }
+
+  $(document).ready(function(){
+    $('div[id^="div_"]').mouseover(function(){
+      var childs = this.getElementsByTagName('div');
+      var item_image = childs[0];
+      var item_code = childs[1];
+      
+      item_image.style.display = 'none';
+      item_code.style.display = 'block';
+    });
+
+    $('div[id^="div_"]').mouseout(function(){
+      var childs = this.getElementsByTagName('div');
+      var item_image = childs[0];
+      var item_code = childs[1];
+      
+      item_image.style.display = 'block';
+      item_code.style.display = 'none';
+    });
+  });
 
 </script>
 
@@ -13,21 +26,32 @@
 <div class="block">
   <% class_name = '' %>
 
-  <% for c in (0..session[:categories].size-1) do %>
-    <% if c%3 == 0 %>
+  <% count = 0 %>
+  <% session[:categories].each do |c| %>
+    <% if count%3 == 0 %>
       <% class_name = 'dashboard-first-item' %>
     <% else %>
       <% class_name = 'dashboard-item' %> 
     <% end %>
 
-    <div class="<%=class_name%>" onmouseover="switchImage(this);">
-      <div id="item-content" class="item-name">  
-        <%= image_tag(session[:categories][c].image_url) %>
-      </div>
-      <div class="item-description">
-        
-      </div>
+    <div id="<%= 'div_' + count.to_s %>" class="<%=class_name%>" >
+      <%= link_to (root_path + 'guides/' + c.path) do %>
+        <div class="item-image">  
+          <%= image_tag(c.image_url, size: '120x100') %>
+        </div>
+        <div class="item-code">
+          <%= markdown '   <html>
+                  <head>
+                  <title></title>
+                  </head>
+                  <body>
+              
+                  </body>
+                  </html>' %>
+        </div>
+      <% end %>
     </div>
+    <% count += 1 %>
   <% end %>
   
 </div> 
