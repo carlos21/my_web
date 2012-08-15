@@ -116,12 +116,23 @@
 
 <div class="navigation">
   <h1><%= t(:topics_label) %></h1>
+  <% class_name = '' %>
   <% session[:categories].each do |c| %>
-    <%= link_to (root_path + 'guides/' + c.path) do %>
-    <div class="name" onmouseover="tooltip.show(this, 'Testing 123 <strong>Testing 123</strong>');" onmouseout="tooltip.hide();">
-      <%= c.name %>
-    </div>
-    
+
+    <% if session[:selected_category].nil? %>
+      <%= link_to (root_path + 'guides/' + c.path) do %>
+        <div class="name" onmouseover="tooltip.show(this, 'Testing 123 <strong>Testing 123</strong>');" onmouseout="tooltip.hide();">
+          <%= c.name %>
+        </div>
+      <% end %>
+    <% else %>
+      <% if session[:selected_category].id == c.id then class_name = 'selected-name' else class_name = 'name' end %>
+      <%= link_to (root_path + 'guides/' + c.path) do %>
+        <div class="<%= class_name %>" onmouseover="tooltip.show(this, 'Testing 123 <strong>Testing 123</strong>');" onmouseout="tooltip.hide();">
+          <%= c.name %>
+        </div>
+      <% end %>
     <% end %>
+
   <% end %>
 </div>

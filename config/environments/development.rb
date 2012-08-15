@@ -1,13 +1,13 @@
   MyWeb::Application.configure do
 
-  config.middleware.insert_before(
-    Rack::Lock, Rack::LiveReload,
-    :min_delay => 500,
-    :max_delay => 10000,
-    :port => 3001,
-    :host => 'localhost',
-    :ignore => ['']
-  )
+  #config.middleware.insert_before(
+  #  Rack::Lock, Rack::LiveReload,
+  #  :min_delay => 500,
+  #  :max_delay => 10000,
+  #  :port => 3001,
+  #  :host => 'localhost',
+  #  :ignore => ['']
+  #)
 
   # Settings specified here will take precedence over those in config/application.rb
 

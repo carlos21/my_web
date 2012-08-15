@@ -1,5 +1,5 @@
 class Article < ActiveRecord::Base
-  attr_accessible :category_id, :name, :small_description, :content, :path, :route, :language, :visits, :messages
+  attr_accessible :category_id, :name, :small_description, :content, :path, :route, :language, :visits, :messages, :image_url
   attr_accessor :content, :messages
 
   belongs_to :category

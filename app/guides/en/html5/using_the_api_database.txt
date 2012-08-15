@@ -90,6 +90,9 @@ Empezaremos ahora sí a abrir nuestra base de datos. Esto se realiza con la func
 
 * size: Es un tamaño aproximado del tamaño de la base de datos. Especialmente útil para que el navegador prepare el espacio necesario para almacenar los datos.
 
+<br />
+Vamos a empezar por abrir nuestra base de datos y validar algunos posibles errores
+
     var db = null;
 
     try {

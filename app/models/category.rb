@@ -5,10 +5,10 @@ class Category < ActiveRecord::Base
 
   # bd methods
   def self.get_categories()
-    categories = all(:select => 'c.name, c.tooltip, c.image_url, c.path, count(a.id) as cant_articles',
+    categories = all(:select => 'c.id, c.name, c.tooltip, c.image_url, c.path, count(a.id) as cant_articles',
                      :from   => 'categories c',
                      :joins  => 'left join articles a on c.id = a.id',
-                     :group  => 'c.name, c.tooltip, c.image_url, c.path',
+                     :group  => 'c.id, c.name, c.tooltip, c.image_url, c.path',
                      :order  => 'c.name asc') 
 
     return categories

@@ -27,8 +27,8 @@ group :assets do
 end
 
 group :development do
-  gem 'guard-livereload'
-  gem 'rack-livereload'
+  #gem 'guard-livereload'
+  # gem 'rack-livereload'
   gem 'hpricot'
   gem 'ruby_parser'
 
