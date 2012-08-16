@@ -1,3 +1,5 @@
+# encoding: utf-8
+
 # This file should contain all the record creation needed to seed the database with its default values.
 # The data can then be loaded with the rake db:seed (or created alongside the db with db:setup).
 #
@@ -7,6 +9,8 @@
 #   Mayor.create(:name => 'Emanuel', :city => cities.first)
 #Article.delete_all
 #Category.delete_all
+
+
 
 # Categories
 Category.create(:name => 'CSS3', :tooltip => 'About CSS3', :image_url => 'css3.jpg', :status => 'A', :path => 'css3', :small_description => 'CSS3')
@@ -35,7 +39,7 @@ Article.create(:name => 'Named scopes and callbacks', :small_description => 'jej
 Article.create(:name => 'Creating ajax form', :small_description => 'jeje', :category_id => 6, :path => 'creating-ajax-form', :route => '/app/guides/en/rails/creating_ajax_form.txt', :language => 'en', :visits => 0, :image_url => 'rails.png')
 Article.create(:name => 'Creating ajax links', :small_description => 'jeje', :category_id => 6, :path => 'creating-ajax-links', :route => '/app/guides/en/rails/creating_ajax_links.txt', :language => 'en', :visits => 0, :image_url => 'rails.png')
 Article.create(:name => 'Creating mailers and sending emails', :small_description => 'jeje', :category_id => 6, :path => 'creating-mailers-and-sending-emails', :route => '/app/guides/en/rails/creating_mailers_and_sending_emails.txt', :language => 'en', :visits => 0, :image_url => 'rails.png')
-Article.create(:name => 'Rendering options and RESTful routes', :small_description => 'jeje', :category_id => 6, :path => 'rendering-options-and-RESTful-routes', :route => '/app/guides/en/rails/rendering_options_and_restful_routes.txt', :language => 'en', :visits => , :image_url => 'rails.png')
+Article.create(:name => 'Rendering options and RESTful routes', :small_description => 'jeje', :category_id => 6, :path => 'rendering-options-and-RESTful-routes', :route => '/app/guides/en/rails/rendering_options_and_restful_routes.txt', :language => 'en', :visits => 0, :image_url => 'rails.png')
 
 # HTML 5
 Article.create(:name => 'Drag and drop', :small_description => 'jeje', :category_id => 3, :path => 'drag-and-drop', :route => '/app/guides/en/html5/drag_and_drop.txt', :language => 'en', :visits => 0, :image_url => 'html5.png')
@@ -72,7 +76,7 @@ Article.create(:name => 'Named scopes and callbacks', :small_description => 'jej
 Article.create(:name => 'Creando un formulario con AJAX', :small_description => 'Veamos cómo enviar datos desde un formulario sin que nuestra página se resfresque', :category_id => 6, :path => 'creating-ajax-form', :route => '/app/guides/en/rails/creating_ajax_form.txt', :language => 'es', :visits => 0, :image_url => 'rails.png')
 Article.create(:name => 'Creando links con AJAX', :small_description => 'Veamos cómo enviar datos mediante links, sin que se refresque nuestra página', :category_id => 6, :path => 'creating-ajax-links', :route => '/app/guides/en/rails/creating_ajax_links.txt', :language => 'es', :visits => 0, :image_url => 'rails.png')
 Article.create(:name => 'Creando y enviando emails', :small_description => 'Vamos a ver cómo crear plantillas para emails que desees enviar a tus clientes por ejemplo', :category_id => 6, :path => 'creating-mailers-and-sending-emails', :route => '/app/guides/en/rails/creating_mailers_and_sending_emails.txt', :language => 'es', :visits => 0, :image_url => 'rails.png')
-Article.create(:name => 'Renderizando opciones con RESTFUL', :small_description => 'jeje', :category_id => 6, :path => 'rendering-options-and-RESTful-routes', :route => '/app/guides/en/rails/rendering_options_and_restful_routes.txt', :language => 'es', :visits => , :image_url => 'rails.png')
+Article.create(:name => 'Renderizando opciones con RESTFUL', :small_description => 'jeje', :category_id => 6, :path => 'rendering-options-and-RESTful-routes', :route => '/app/guides/en/rails/rendering_options_and_restful_routes.txt', :language => 'es', :visits => 0, :image_url => 'rails.png')
 
 # HTML 5
 Article.create(:name => 'Arrastrar y soltar', :small_description => 'Atractivo comportamiento de arrastrar y soltar usando un poco de javascript', :category_id => 3, :path => 'drag-and-drop', :route => '/app/guides/en/html5/drag_and_drop.txt', :language => 'es', :visits => 0, :image_url => 'html5.png')
@@ -86,7 +90,6 @@ Article.create(:name => 'Video', :small_description => 'Maneja, crea o personali
 
 # Javascript
 Article.create(:name => 'Cómo crear un tooltip personalizado', :small_description => 'Dale la forma que quieras, ponle un tiempo antes de que aparezca o muestra lo que desees cuando tengas que dar algún detalle de las opciones que tenga tu página web.', :category_id => 4, :path => 'how-to-create-a-custom-tooltip', :route => '/app/guides/en/javascript/how_to_create_a_custom_tooltip.txt', :language => 'es', :visits => 0)
-
 ###########################
 
 

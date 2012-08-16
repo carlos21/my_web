@@ -23,7 +23,7 @@ class MainController < ApplicationController
 
     session[:categories] = @categories
     session[:pages_path] = []
-    session[:pages_path] << [ DASHBOARD_MENU, DASHBOARD_MENU_PATH ]
+    session[:pages_path] << [ Constants::DASHBOARD_MENU, Constants::DASHBOARD_MENU_PATH ]
     
     respond_to do |format|
       format.html # index.html.erb
@@ -34,16 +34,11 @@ class MainController < ApplicationController
     category = Category.find(session[:selected_category].id) 
 
     session[:pages_path] = []
-    session[:pages_path] << [ DASHBOARD_MENU, DASHBOARD_MENU_PATH ]
+    session[:pages_path] << [ Constants::DASHBOARD_MENU, Constants::DASHBOARD_MENU_PATH ]
     session[:pages_path] << [ category.name, category.path ]
     
     # Getting a list of articles
     @articles = Article.get_articles_by_category_id(category.id, session[:lang])
-
-    @articles.each do |a|
-      logger.debug 'CACA DE MIERDA'
-      logger.debug a.category_id
-    end
 
     respond_to do |format|
       format.html # article_list.html.erb
@@ -64,7 +59,7 @@ class MainController < ApplicationController
     @article.save
 
     session[:pages_path] = []
-    session[:pages_path] << [ DASHBOARD_MENU, DASHBOARD_MENU_PATH ]
+    session[:pages_path] << [ Constants::DASHBOARD_MENU, Constants::DASHBOARD_MENU_PATH ]
     session[:pages_path] << [ @category.name, @category.path ]
     session[:pages_path] << [ @article.name, @article.path ]
 
@@ -104,7 +99,7 @@ class MainController < ApplicationController
 
   private
     def validate_lang
-      session[:lang] = LANG_ENGLISH if session[:lang].nil?
+      session[:lang] = Constants::LANG_SPANISH #if session[:lang].nil?
     end
 
     def set_locale

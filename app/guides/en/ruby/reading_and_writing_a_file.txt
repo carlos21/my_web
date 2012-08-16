@@ -14,17 +14,17 @@ Usaremos el método File.open, el cual puede manejar un achivo de las siguiente 
 
 6. **a++** significa lectura y escritura, comienza al final de archivo, crea un nuevo archivo si no existe
   
-    # lee un archivo línea por línea
-    File.open('myfile.txt', 'r') do |f|
-      while line = f.gets
-        puts line
-      end
-    end
+        # lee un archivo línea por línea
+        File.open('myfile.txt', 'r') do |f|
+          while line = f.gets
+            puts line
+          end
+        end
 
-    # crea un nuevo archivo y escribe
-    File.open('text.txt', 'w') do |f|
-      f.puts "it's me, Mario!"
-    end
+        # crea un nuevo archivo y escribe
+        File.open('text.txt', 'w') do |f|
+          f.puts "it's me, Mario!"
+        end
 
 Veamos ahora como leer un archivo apartir de un lugar determinado
     

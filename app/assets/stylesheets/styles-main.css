@@ -32,7 +32,7 @@ a {
 
 .header .lang {
   float: right;
-  margin-top: 3px;
+  margin-top: 4px;
   margin-right: 20px;
   color: #E9F1F4;
 }
@@ -137,7 +137,7 @@ a {
 
 .navigation a{
   font-style: italic;
-  font-size: 11px;
+  font-size: 12px;
   cursor: pointer;
   color: #08C;
   text-decoration: none;
@@ -222,7 +222,8 @@ a {
 
 .articles-header .description .description-intro {
   float: left;
-  font-size: 13px;
+  font-size: 11px;
+  color: #757575;
 }
 
 .article {

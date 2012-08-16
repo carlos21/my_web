@@ -1,44 +1,70 @@
+<!-- ARTICLES HEADER -->
 <div class="articles-header">
+
+  <!-- IMAGE -->
   <div class="image">
     <%= image_tag @article.image_url, :size => '50x50' %>
   </div>
+
   <div class="description">
+
+    <!-- TITLE -->
     <div class="description-title"><%= @article.name %></div>
+
+    <!-- INTRO -->
     <div class="description-intro"><%= @article.small_description %></div>
+
   </div>
 </div>
+
+<!-- CONTENT -->
 <div style="font-family: Helvetica; font-size: 11.5px;">
   <%= markdown @article.content %>
 </div>
 
 <div class="comments">
 
+  <!-- COMMENTS LIST -->
   <div class="comments-list">
     <% if @article.comments.any? %>
       <h4><%= t(:comments_title) %></h4>
       <% @article.comments.each do |c| %>
+
+        <!-- COMMENT -->
         <div class="item">
+
+          <!-- IMAGE -->
           <div class="image">
             <%= image_tag 'user-image.png', :class => 'userimage' %>
           </div>
+
           <div class="description">
+
+            <!-- TITLE -->
             <div class="description-title">
               <b><%= c.name %></b> 
               says:
             </div>
+
+            <!-- CONTENT -->
             <div class="description-content">
               <%= c.description %>
             </div>
+
           </div>
         </div>
+
       <% end %>
     <% end %>
   </div>  
   
+  <!-- COMMENT FORM -->
   <div class="comments-form">
     <%= form_tag '/comment/create' do %>
       <h3><%= t(:leave_a_comment_label) %></h3>
       <fieldset>
+
+        <!-- NAME -->
         <div class="control-group">
           <label class="control-label" for="name"><%= t(:name_label) %></label>
           <div class="input-prepend">
@@ -48,6 +74,8 @@
             <%= text_field_tag :name, '', :class => 'input-xlarge', :placeholder => t(:enter_your_name_placeholder) %>
           </div>
         </div>
+
+        <!-- EMAIL -->
         <div class="control-group">
           <label class="control-label" for="email"><%= t(:email_label) %></label>
           <div class="input-prepend">
@@ -55,6 +83,8 @@
             <%= text_field_tag :email, '', :class => 'input-xlarge', :placeholder => t(:enter_your_email_placeholder) %>
           </div>
         </div>
+
+        <!-- WEBSITE -->
         <div class="control-group">
           <label class="control-label" for="website"><%= t(:website_label) %></label>
           <div class="input-prepend">
@@ -64,6 +94,8 @@
             <%= text_field_tag :website, '', :class => 'input-xlarge', :placeholder => t(:enter_your_website_placeholder) %>
           </div>
         </div>
+
+        <!-- COMMENTS -->
         <div class="control-group">
           <label class="control-label" for="comments"><%= t(:comments_label) %></label>
           <div class="controls">

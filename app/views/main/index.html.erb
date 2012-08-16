@@ -1,5 +1,5 @@
 <script type="text/javascript">
-
+  /*
   $(document).ready(function(){
     $('div[id^="div_"]').mouseover(function(){
       var childs = this.getElementsByTagName('div');
@@ -19,7 +19,7 @@
       item_code.style.display = 'none';
     });
   });
-
+  */
 </script>
 
 <!-- First row -->
@@ -40,14 +40,6 @@
           <%= image_tag(c.image_url, size: '120x100') %>
         </div>
         <div class="item-code">
-          <%= markdown '   <html>
-                  <head>
-                  <title></title>
-                  </head>
-                  <body>
-              
-                  </body>
-                  </html>' %>
         </div>
       <% end %>
     </div>
