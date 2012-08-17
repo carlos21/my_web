@@ -10,13 +10,13 @@ gem 'rails', '3.2.3'
 gem 'pg'
 gem 'foreigner'
 gem 'json'
-gem 'tinymce-rails'
 gem 'redcarpet'
 gem 'haml'
 gem "haml-rails"
 gem 'jquery-rails'
 gem 'rb-readline'
 gem 'i18n'
+gem 'thin'
 
 # Gems used only for assets and not required
 # in production environments by default.
