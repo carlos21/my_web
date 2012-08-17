@@ -23,9 +23,10 @@ test:
   password: 123456
 
 production:
+  host: ec2-107-21-216-180.compute-1.amazonaws.com
   adapter: postgresql
   encoding: unicode
-  database: myweb
+  database: dc223aoqpqn7dp
   pool: 5
-  username: postgres
-  password: 123456
+  username: pqoitmkiyflves
+  password: u5GZ9fmZ_DqTMt-LFKo-OGGknp

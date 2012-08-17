@@ -1,3 +1,4 @@
+
 class MainController < ApplicationController
   before_filter :init_variables, :validate_lang, :set_locale
 
