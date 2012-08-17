@@ -4,11 +4,12 @@ class MainController < ApplicationController
 
   def init_variables
 
-    logger.debug params[:category_path]
+    @categories = Category.get_categories
+
     unless params[:category_path].nil?
       category = Category.get_category_by_path(params[:category_path])
-      session[:selected_category] = category
-      
+      session[:selected_category_id] = category.id
+      session[:selected_category_path] = category.path
     end
 
     # get the article
@@ -20,11 +21,9 @@ class MainController < ApplicationController
   end
 
   def index  
-    @categories = Category.get_categories
 
-    session[:categories] = @categories
-    session[:pages_path] = []
-    session[:pages_path] << [ 'Dashboard', '/' ]
+    @pages_path = []
+    @pages_path << [ 'Dashboard', '/' ]
     
     respond_to do |format|
       format.html # index.html.erb
@@ -32,11 +31,11 @@ class MainController < ApplicationController
   end
 
   def article_list  
-    category = Category.find(session[:selected_category].id) 
+    category = Category.find(session[:selected_category_id]) 
 
-    session[:pages_path] = []
-    session[:pages_path] << [ 'Dashboard', '/' ]
-    session[:pages_path] << [ category.name, category.path ]
+    @pages_path = []
+    @pages_path << [ 'Dashboard', '/' ]
+    @pages_path << [ category.name, category.path ]
     
     # Getting a list of articles
     @articles = Article.get_articles_by_category_id(category.id, session[:lang])
@@ -49,7 +48,7 @@ class MainController < ApplicationController
   def article_content
     
     @article  = Article.find(session[:selected_article_id]) 
-    @category = Category.find(session[:selected_category].id) 
+    @category = Category.find(session[:selected_category_id]) 
 
     @article.content = get_file_as_string(Rails.root.to_s + @article.route)
 
@@ -59,10 +58,10 @@ class MainController < ApplicationController
     # save the article
     @article.save
 
-    session[:pages_path] = []
-    session[:pages_path] << [ 'Dashboard', '/' ]
-    session[:pages_path] << [ @category.name, @category.path ]
-    session[:pages_path] << [ @article.name, @article.path ]
+    @pages_path = []
+    @pages_path << [ 'Dashboard', '/' ]
+    @pages_path << [ @category.name, @category.path ]
+    @pages_path << [ @article.name, @article.path ]
 
     respond_to do |format|
       format.html # index.html.erb
@@ -82,7 +81,7 @@ class MainController < ApplicationController
     comment.save
 
     @article  = Article.find(session[:selected_article_id]) 
-    @category = Category.find(session[:selected_category].id) 
+    @category = Category.find(session[:selected_category_id]) 
     @article.content = get_file_as_string(Rails.root.to_s + @article.route)
     
     respond_to do |format|

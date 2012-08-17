@@ -52,22 +52,22 @@
     <!-- Content -->
     <div class="content">
       <div class="section-content">
-        <% if !session[:pages_path].nil? %>
-          <% if session[:pages_path].size > 1 %>
+        <% if !@pages_path.nil? %>
+          <% if @pages_path.size > 1 %>
             <div class="pages-path">
               <% count = 0 %>
-              <% session[:pages_path].each do |page| %>
+              <% @pages_path.each do |page| %>
                 <div class="pages-path-item">
                   <% if count == 0 %>
                     &nbsp;&nbsp;<%= link_to page[0], root_path  %> 
-                  <% elsif count == session[:pages_path].size - 1 %>
+                  <% elsif count == @pages_path.size - 1 %>
                     <%= page[0] %>
                   <% else %>
                     <%= link_to page[0], root_path + "guides/#{page[1]}" %>
                   <% end %>
                 </div>
 
-                <% if count != session[:pages_path].size - 1 %>
+                <% if count != @pages_path.size - 1 %>
                   <div class="pages-path-item" style="padding-top: 6px; height: 16px">
                     <i class="icon-chevron-right"></i>
                   </div>
