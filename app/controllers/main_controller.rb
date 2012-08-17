@@ -7,9 +7,12 @@ class MainController < ApplicationController
     @categories = Category.get_categories
 
     unless params[:category_path].nil?
-      category = Category.get_category_by_path(params[:category_path])
-      session[:selected_category_id] = category.id
-      session[:selected_category_path] = category.path
+      @category = Category.get_category_by_path(params[:category_path])
+      session[:selected_category_id] = @category.id
+      #session[:selected_category_path] = category.path
+      #session[:selected_category_image_url] = category.image_url
+      #session[:selected_category_name] = category.name
+      #session[:selected_category_small_description] = category.small_description
     end
 
     # get the article

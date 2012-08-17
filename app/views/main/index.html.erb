@@ -27,7 +27,7 @@
   <% class_name = '' %>
 
   <% count = 0 %>
-  <% session[:categories].each do |c| %>
+  <% @categories.each do |c| %>
     <% if count%3 == 0 %>
       <% class_name = 'dashboard-first-item' %>
     <% else %>

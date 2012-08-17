@@ -1,10 +1,10 @@
 <div class="articles-header">
   <div class="image">
-    <%= image_tag session[:selected_category].image_url, :size => '50x50' %>
+    <%= image_tag @category.image_url, :size => '50x50' %>
   </div>
   <div class="description">
-    <div class="description-title"><%= session[:selected_category].name %></div>
-    <div class="description-intro"><%= session[:selected_category].small_description %></div>
+    <div class="description-title"><%= @category.name %></div>
+    <div class="description-intro"><%= @category.small_description %></div>
   </div>
 </div>
 <% @articles.each do |a| %>
@@ -12,7 +12,7 @@
     <div class="icon">
       <i class="icon-leaf"></i>
     </div>
-    <%= link_to guides_category_and_article_path(session[:selected_category].path, a.path), :style =>'text-decoration: none;' do %>
+    <%= link_to guides_category_and_article_path(@category.path, a.path), :style =>'text-decoration: none;' do %>
       <div class="name"><%= a.name %></div>
       <div class="extra-info">
         <span>

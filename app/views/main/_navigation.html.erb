@@ -118,7 +118,7 @@
   <h1><%= t(:topics_label) %></h1>
   <% class_name = '' %>
   <% @categories.each do |c| %>
-
+  
     <% if session[:selected_category_id].nil? %>
       <%= link_to (root_path + 'guides/' + c.path) do %>
         <div class="name" onmouseover="tooltip.show(this, 'Testing 123 <strong>Testing 123</strong>');" onmouseout="tooltip.hide();">
