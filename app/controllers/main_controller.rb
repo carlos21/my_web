@@ -100,7 +100,7 @@ class MainController < ApplicationController
 
   private
     def validate_lang
-      session[:lang] = Constants::LANG_SPANISH #if session[:lang].nil?
+      session[:lang] = 'es' #Constants::LANG_SPANISH #if session[:lang].nil?
     end
 
     def set_locale
