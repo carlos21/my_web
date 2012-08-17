@@ -24,7 +24,7 @@ class MainController < ApplicationController
 
     session[:categories] = @categories
     session[:pages_path] = []
-    session[:pages_path] << [ Constants::DASHBOARD_MENU, Constants::DASHBOARD_MENU_PATH ]
+    session[:pages_path] << [ 'Dashboard', '/' ]
     
     respond_to do |format|
       format.html # index.html.erb
@@ -35,7 +35,7 @@ class MainController < ApplicationController
     category = Category.find(session[:selected_category].id) 
 
     session[:pages_path] = []
-    session[:pages_path] << [ Constants::DASHBOARD_MENU, Constants::DASHBOARD_MENU_PATH ]
+    session[:pages_path] << [ 'Dashboard', '/' ]
     session[:pages_path] << [ category.name, category.path ]
     
     # Getting a list of articles
@@ -60,7 +60,7 @@ class MainController < ApplicationController
     @article.save
 
     session[:pages_path] = []
-    session[:pages_path] << [ Constants::DASHBOARD_MENU, Constants::DASHBOARD_MENU_PATH ]
+    session[:pages_path] << [ 'Dashboard', '/' ]
     session[:pages_path] << [ @category.name, @category.path ]
     session[:pages_path] << [ @article.name, @article.path ]
 
