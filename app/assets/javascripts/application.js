@@ -12,7 +12,7 @@
 //
 //= require jquery
 //= require jquery_ujs
-//= require highlight.pack
+//= require 'highlight/highlight.pack'
 
 
 
