@@ -30,10 +30,10 @@ production:
   #username: postgres
   #password: 123456
 
-  host: ec2-107-21-216-180.compute-1.amazonaws.com
+  host: ec2-107-22-182-174.compute-1.amazonaws.com
   adapter: postgresql
   encoding: unicode
-  database: d3es3upi7a3vo1
+  database: d7do12f87tl79
   pool: 5
-  username: ijcvrtpwitrqyx
-  password: eC_sg8FfX8tDX-Qg6lRcfWhUJV
+  username: dcoikullmlsaxb
+  password: J-QpWD0BmSOyUWDi-Z0oVR0loU
