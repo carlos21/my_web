@@ -4,12 +4,12 @@
   <title>MyWeb</title>
   <%# stylesheet_link_tag "application", :media => "all" %>
   <%=csrf_meta_tags %>
-  <%= javascript_include_tag "application" %>
+  <%# javascript_include_tag "application" %>
 
-  <% #stylesheet_link_tag "highlight/styles/default", :title => 'Default' %>
-  <% #stylesheet_link_tag "styles-main" %>
-  <% #stylesheet_link_tag "bootstrap/css/bootstrap.css" %>
-  <%= stylesheet_link_tag "application" %>
+  <%= stylesheet_link_tag "highlight/styles/default", :title => 'Default' %>
+  <%=stylesheet_link_tag "styles-main" %>
+  <%= stylesheet_link_tag "bootstrap/css/bootstrap" %>
+  <%# stylesheet_link_tag "application" %>
 
   <%# stylesheet_link_tag "highlight/styles/dark", :title => 'Dark' %>
   <%# stylesheet_link_tag "highlight/styles/far", :title => 'FAR'  %>
@@ -32,7 +32,7 @@
   <%# stylesheet_link_tag "highlight/styles/pojoaque", :title => 'Pojoaque' %>
 
   
-  <%# javascript_include_tag "highlight/highlight.pack" %>
+  <%= javascript_include_tag "highlight/highlight.pack" %>
 
   <script>
     hljs.tabReplace = ' ';
