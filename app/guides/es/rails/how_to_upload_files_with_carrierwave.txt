@@ -1,0 +1,62 @@
+Ahora veremos cómo subir archivos a nuestro servidor de una manera muy sencilla. Aquí vamos:
+
+ Agregarmos esto a nuestro Gemfile
+  
+    gem 'carrierwave'
+
+ y a continuación
+
+    bundle install
+
+ Con esta gema instalada ya podemos generar nuestro uploader:
+    
+    rails g uploader File
+
+ Lo que hará este comando es crear una carpeta llamada **uploaders** con nuestra clase **FileUploader**
+
+ Si te habrás dado cuenta, hay un método llamado **store_dir**
+
+    def store_dir
+      "uploads/#{model.class.to_s.underscore}/#{mounted_as}/#{model.id}"
+    end
+
+  Aquí tú puedes especificarle la ruta en la que quieres que se guarden tus archivos. Por ahora lo guardará en *public/uploads/options/file/1/tu_archivo* ("1" es un supuesto ID de un option en mi caso)
+
+ Luego, agregaremos esta línea en el model, en mi caso en la clase Option
+
+    mount_uploader :file, FileUploader
+
+ Creamos nuestro view:
+
+    <%= form_for @option, :html => {:multipart => true} do |f| %>
+      <%= f.file_field :file %>
+      <%= f.submit 'Submit!' %>
+    <% end %>
+
+ Es hora de codificar nuestro controller:
+
+    def upload_file(file)
+      # Declaring
+      uploader = FileUploader.new
+      # Upload it
+      uploader.store!(file)
+
+      return uploader.url
+    end
+
+  Este método nos retornará la ruta con la que se guardó el archivo, la cual podríamos usar para guardarla en nuestra base de datos y luego recuperarla (para mostrar por ejemplo una imagen).
+
+ Listo!, ya tenemos nuestro uploader funcionando
+  <br />
+  <br />
+
+  **Notas:**
+
+  * Si en caso te saliera algún mensaje de error por la autenticidad del token, coloca esto en tu controlador, justo después de declarar la clase:
+
+        class OptionsController < ApplicationController
+          skip_before_filter :verify_authenticity_token
+
+          ... 
+          ...
+        end

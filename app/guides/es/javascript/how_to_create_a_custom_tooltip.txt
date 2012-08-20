@@ -1,0 +1,92 @@
+Hola de nuevo!. Vamos a ver ahora cómo crear un tooltip para que lo personzalices totalmente a tu estilo.
+
+Vamos a asignar a un variable una función que contendrá la lógica de nuestro tooltip:
+
+    var tooltip = function () {
+      var id = 'tooltip';
+      var top = 3;
+      var left = 3;
+      var maxw = 300;
+      var speed = 10;
+      var timer = 20;
+      var endalpha = 95;
+      var alpha = 0;
+      var tt, height, colita;
+      var ie = document.all ? true : false;
+
+
+    }
+
+Vamos a crear ahora una función la cual se encargará de mostrar el *div* que será nuestro *tooltip*
+  
+    # Le pasamos el elemento sobre el cual aparecerá el tooltip, el texto del tooltip y el ancho que deseemos
+    showTooltip: function (element, value, width) {
+
+        if (tt == null) {
+
+          // Creamos el div
+          tt = document.createElement('div');
+          tt.className = 'custom-tooltip';
+          document.body.appendChild(tt);
+          
+          // Este solo es una flechita que irá junto al div principal
+          colita = document.createElement('div');
+          colita.className = 'colita';
+          
+        }
+        
+        // Hacemos visible nuestro div y le asignamos el valor que queremos que muestre
+        tt.style.display = 'block';
+        tt.innerHTML = value;
+        tt.appendChild(colita);
+        tt.style.width = width ? width + 'px' : 'auto';
+
+        if (!width && ie) {
+          tt.style.width = tt.offsetWidth;
+        }
+
+        // Si el ancho pasa del máximo que le hemos configurado, coloca el máximo e ignora el otro
+        if (tt.offsetWidth > maxw) {
+          tt.style.width = maxw + 'px'
+        }
+        
+        // Definimos exactamente las coordenadas en la que aparecerá nuestro tooltip, dependiendo de dónde se encuentre el objeto sobre el cual aparecerá
+        var new_x = element.offsetLeft + parseInt(element.offsetWidth) - 30;
+        var new_y = element.offsetTop + 5;
+        tt.style.top = new_y + 'px';
+        tt.style.left = new_x + 'px';
+
+        
+
+        height = parseInt(tt.offsetHeight) + top;
+
+        // Limpiar el intervalo si tuviera uno definido antes
+        clearInterval(tooltip.timer);
+
+        // Asignamos un intervalo en el cual se ocultárá el tooltip
+        tooltip.timer = setInterval(function(){tooltip.fade(1)}, timer);
+
+      }
+
+Hasta este punto hemos casi ya definido la parte principal de nuestra lógica. Vamos a crear ahora dos funciones más, **hide()** y **fade()**
+
+    fade: function (d) {
+      var a = alpha;
+      if((a != endalpha && d == 1) || (a != 0 && d == -1)){
+        var i = speed;
+        if(endalpha - a < speed && d == 1){
+          i = endalpha - a;
+        }else if(alpha < speed && d == -1){
+          i = a;
+        }
+        alpha = a + (i * d);
+      }else{
+        clearInterval(tooltip.timer);
+        if(d == -1){
+          if(tt != null){
+            tt.style.display = 'none';
+          }
+          
+        }
+      }
+    }

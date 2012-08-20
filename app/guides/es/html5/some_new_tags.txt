@@ -1,0 +1,155 @@
+Hola! Como te considero un experto en HTML iremos directo a ver alguna comparaciones contra el nuevo HTML5
+
+En HTML4 y anteriores:
+    
+    <!DOCTYPE html
+              PUBLIC "-//W3C//DTD XHTML 1.0 Strict//EN"
+              "http://www.w3.org/TR/xhtml1/DTD/xhtml1-strict.dtd">
+
+En HTML5:
+
+    <!DOCTYPE html>
+
+-----------------------
+
+En HTML4 y anteriores:
+
+    <html xmlns="http://ww.w3.org/1999/xhtml"
+          lang="en"
+          xml:lang="en">
+
+En HTML5:
+
+    <html lang="en">
+
+-----------------------
+
+En HTML4 y anteriores:
+
+    <meta http-equiv="Content-Type" content="text/html;charset=UTF-8">
+
+En HTML5:
+
+    <meta charset="UTF-8">
+
+-----------------------
+
+En HTML4 y anteriores:
+
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+En HTML5:
+
+    <link rel="stylesheet" href="style.css">
+
+-----------------------
+
+En HTML4 y anteriores:
+
+    <link rel="stylesheet" href="style.css" type="text/css">
+
+En HTML5:
+
+    <link rel="stylesheet" href="style.css">
+
+-----------------------
+
+Veamos ahora los nuevos tags que nos ofrece:
+
+    <header>
+      The header of my webpage!
+    </header>
+
+Que vendría a ser algo como:
+
+    <div id="header">
+      The header of my webpage!
+    <div>
+
+HTML5 también nos permite definir secciones en nuestra web, si tienes por ejemplo una parte en donde muestras tus intereses, pondrías algo como:
+
+    <section id="interests"
+      <header>
+        Estos son mis intereses!
+      </header>
+    </section>
+
+Nota que también tus secciones pueden tener la etiqueta **<header>**
+
+Que hay de nuestro menu de navegación? Hay algo para eso?. Claro!
+
+    <nav>
+      <ul>
+        <li>Home</li>
+        <li>About me</li>
+        <li>Products</li>
+        <li>Contact</li>
+      </ul>
+    </nav>
+
+Sigamos rápidamente con la etiqueta **<article>**. Seguramente hay publicado posts en alguna sitio. Esta nueva etiqueta caería a pelo para eso:
+
+    <section id="posts">
+      <header>
+        Aquí están todos los posts!
+      </header>
+      <article>
+        <header>
+          <h1>Y ahora quién podrá enseñarme HTML5?</h1>
+        </header>
+        <p>
+          Quiero aprender html5 :(, algun tutorial?
+        </p>
+      </article>
+    </section>
+
+Le toca el turno a la etiqueta **<aside>**. Podría definirse como una *información adicional, opcional pero no necesaria*
+
+    <section id="posts">
+      <header>
+        Aquí están todos los posts!
+      </header>
+      <article>
+        <header>
+          <h1>Y ahora quién podrá enseñarme HTML5?</h1>
+        </header>
+        <p>
+          Quiero aprender html5 :(, algun tutorial?
+        </p>
+        <aside> 
+          <p>Me pueden enviar un correo si desean</p>
+        </aside>
+      </article>
+    </section>
+
+Por último veamos la etiqueta **<footer>**. 
+Es la misma idea que el <header>
+
+    <section id="posts">
+      <header>
+        Aquí están todos los posts!
+      </header>
+      <article>
+        <header>
+          <h1>Y ahora quién podrá enseñarme HTML5?</h1>
+        </header>
+        <p>
+          Quiero aprender html5 :(, algun tutorial?
+        </p>
+        <aside> 
+          <p>Me pueden enviar un correo si desean</p>
+        </aside>
+        <footer>
+          Estudiante de sistemas
+          Contactame al 555-5555
+        </footer>
+      </article>
+    </section>
+
+Sé que te estarás preguntando. Y a mí para qué me sirve todos estos tags, si facilmente puedo usar divs?. Es mucho más entendible tener etiquetas con las cuales sepas rápidamente qué significan, que puros divs, los cuales tendrás que acordarte a qué se referían. En pocas palabras HTML5 te quiere hacer la vida más fácil!.
+
+Una última cosilla a tener en cuenta, HTML5 no es soportado por todos los navegadores, y ahora qué hacemos? quién podrá defendernos? Yo! Javascript!
+
+    <script src="http://html5shim.googlecode.com/svn/trunk/html5.js"></script>
+
+Importando este archivo js no tendrás problemas de compatibilida, ahora no hay pretexto para no aprender HTML5!

@@ -1,0 +1,164 @@
+Hola de nuevo JE! En esta ocasión veremos cómo editar elementos
+
+**contenteditable:** Hace que elementos html sean editables
+  
+  1. *true:* hace que sea editable
+  2. *false:* hace que no sea editable
+  3. *inherit:* hace que el elemento se comporte de la misma manera que el elemento padre.
+
+**designmode:** Hace un documento completo editable
+  
+  1. *on:* lo hace editable
+  2. *off:* lo hace no editable
+
+**spellcheck:** Nos permite llevar a cabo la correción ortográfica
+
+  1. *true:* corrige la ortografía del texto
+  2. *false:* no corrige la ortografía del texto
+
+Vamos entonces a crear un div editable. El truco de esto es que le pondremos el atributo **contenteditable**:
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Elemento div Editable</title>
+      <script type="text/javascript">
+
+      </script>
+    </head>
+    <body onload="cargador()">
+      <h1>Elemento div Editable</h1>
+
+      <div id="div" style="border: solid black; height: 300px; width: 400px"
+      contenteditable="true"></div>
+
+    </body>
+    </html>
+
+Vamos a colocar ahora algunos botones que nos ayudarán a modificar el estilo de la letra de neustro div editable:
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Elemento div Editable</title>
+      <script type="text/javascript">
+
+      </script>
+    </head>
+    <body onload="cargador()">
+      <h1>Elemento div Editable</h1>
+
+      <div>
+        <input type="button" value="Negrita" onclick="document.execCommand('bold', false, null);">
+
+        <input type="button" value="Italica" onclick="document.execCommand('italic', false, null);">
+
+        <input type="button" value="Subrayado" onclick="document.execCommand('underline', false, null);">
+
+        <input type="button" value="Crear enlace" onclick="crearEnlace();">
+
+        <input type="button" value="Mostrar HTML" onclick="mostrarFuente();">
+      </div>
+
+      <div id="div" style="border: solid black; height: 300px; width: 400px"
+      contenteditable="true"></div>
+
+    </body>
+    </html>
+
+Por último creamos las funciones javascript para *crear un enlace* y para *mostrar la fuente*
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Elemento div Editable</title>
+      <script type="text/javascript">
+        function crearEnlace() {
+          var url = prompt("Escribe URL:", "http://");
+          if (url) {
+            document.execCommand('createLink', false, url);
+          }
+        }
+
+        function mostrarFuente(){
+          var content = document.getElementById('div').innerHTML;
+          content.replace(/</g, '&lt;');
+          content.replace(/>/g, '&gt;');
+          alert(content);
+        }
+      </script>
+    </head>
+    <body onload="cargador()">
+      <h1>Elemento div Editable</h1>
+
+      <div>
+        <input type="button" value="Negrita" onclick="document.execCommand('bold', false, null);">
+
+        <input type="button" value="Italica" onclick="document.execCommand('italic', false, null);">
+
+        <input type="button" value="Subrayado" onclick="document.execCommand('underline', false, null);">
+
+        <input type="button" value="Crear enlace" onclick="crearEnlace();">
+
+        <input type="button" value="Mostrar HTML" onclick="mostrarFuente();">
+      </div>
+
+      <div id="div" style="border: solid black; height: 300px; width: 400px"
+      contenteditable="true"></div>
+
+    </body>
+    </html>
+
+Te acuerdas del **designMode**?. Creemos un **iframe** para ponerlo en práctica. Recuerda que será verá igual que el ejemplo anterior.
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title>Elemento div Editable</title>
+      <script type="text/javascript">
+
+        var iframe;
+        function cargador() {
+          iframe = document.getElementById('contenido');
+          iframe.contentDocument.designMode = 'on';
+        }
+
+        function crearEnlace() {
+          var url = prompt("Escribe URL:", "http://");
+          if (url) {
+            document.execCommand('createLink', false, url);
+          }
+        }
+
+        function mostrarFuente(){
+          var content = document.getElementById('div').innerHTML;
+          content.replace(/</g, '&lt;');
+          content.replace(/>/g, '&gt;');
+          alert(content);
+        }
+
+        window.addEventListener('cargador', onload, false);
+      </script>
+    </head>
+    <body onload="cargador()">
+      <h1>Elemento div Editable</h1>
+
+      <div>
+        <input type="button" value="Negrita" onclick="document.execCommand('bold', false, null);">
+
+        <input type="button" value="Italica" onclick="document.execCommand('italic', false, null);">
+
+        <input type="button" value="Subrayado" onclick="document.execCommand('underline', false, null);">
+
+        <input type="button" value="Crear enlace" onclick="crearEnlace();">
+
+        <input type="button" value="Mostrar HTML" onclick="mostrarFuente();">
+      </div>
+
+      <div id="div" style="border: solid black; height: 300px; width: 400px"
+      contenteditable="true"></div>
+
+    </body>
+    </html>
+
+Bien hecho! Te dejo que averigues más acerca de las funciones javascript para cambiar el estilo al texto, con esto podrías hacer un editor de texto totalmente desde cero ;)

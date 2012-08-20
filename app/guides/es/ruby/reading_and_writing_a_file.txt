@@ -1,0 +1,68 @@
+Ahora veremos como leer y escribir en un archivo con muy pocas líneas de código
+
+Usaremos el método File.open, el cual puede manejar un achivo de las siguiente maneras:
+
+1. **r** significa sólo lectura, comienza al principio del archivo
+
+2. **r+** significa lectura y escritura, comienza al principio del archivo
+
+3. **w** significa solo escritura, crea un nuevo archivo o elimina el contenido del archivo existente antes de escribir.
+
+4. **w+** significa lectura y escritura, crea un nuevo archivo o elimina el contenido del archivo existente antes de escribir.
+
+5. **a** significa solo escritura, comienza al final de archivo, crea un nuevo archivo si no existe
+
+6. **a++** significa lectura y escritura, comienza al final de archivo, crea un nuevo archivo si no existe
+  
+    # lee un archivo línea por línea
+    File.open('myfile.txt', 'r') do |f|
+      while line = f.gets
+        puts line
+      end
+    end
+
+    # crea un nuevo archivo y escribe
+    File.open('text.txt', 'w') do |f|
+      f.puts "it's me, Mario!"
+    end
+
+Veamos ahora como leer un archivo apartir de un lugar determinado
+    
+    # instanciamos la clase File para manejar el archivo
+    f = File.new("myfile.txt")
+ 
+    f.seek(5, IO::SEEK_SET)
+    print f.readline
+    f.close
+
+El método seek de la clase IO, busca una posición dada por el primer parámetro, de la forma indicada por el segundo parámetro. Las posibles formas son:
+
+1. SEEK_CUR - busca (seek) desde el primer parámetro, un número entero, hasta la posición actual.
+2. SEEK_END - busca desde el parámetro dado, hasta el final del fichero.
+3. SEEK_SET - busca la posición absoluta dada por el parámetro
+
+
+Cómo copiar un archivo?
+
+    require 'ftools'
+
+    # almacena la ruta de tu archivo en una variable
+    my_file_path = '/ruta/archivo.txt'
+    # almacena la ruta de tu nuevo archivo en otra variable
+    my_new_file_path = '/rutanueva/archivo.txt'
+
+    File.copy(my_file_path, my_new_file_path)
+
+Cómo mover un archivo?
+
+De la misma forma pero con el método move
+
+    require 'ftools'
+
+    # almacena la ruta de tu archivo en una variable
+    my_file_path = '/ruta/archivo.txt'
+    # almacena la ruta de tu nuevo archivo en otra variable
+    my_new_file_path = '/rutanueva/archivo.txt'
+
+    File.move(my_file_path, my_new_file_path)
+

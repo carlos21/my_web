@@ -1,0 +1,89 @@
+Veamos ahora algunos métodos que ordenar nuestro código y hacer que sea un poco más entendible
+
+<br />
+***Named Scopes***
+
+En este caso vamos a simular obtener de nuestra base de datos todos los usuarios que están activos en el sistema
+    
+    class UsersController < ApplicationController
+
+      def index
+        @users = User.where(:status => 'Active')
+        ...
+        ...
+      end
+
+    end  
+
+Esta no es una buena práctica porque estamos poniendo lógica que pertenece al modelo en sí y me refiero al filtrar por el status del usuario.
+
+Rails nos ofrece una mejor manera de tener nuestro código y es usando una especie de *alias* para una porción de código que queramos tener, así que es hora de acomodar nuestro modelo
+
+    class User < ActiveRecord::Base
+
+      scope :active, where(:status => 'Active')
+      # otros ejemplos
+      scope :young, where(:age < 20)
+      scope :recent, order('created_at desc')
+
+    end
+
+Por lo que nuestro controlador ahora quedaría de una manera más limpia
+
+    class UsersController < ApplicationController
+
+      def active
+        @users = User.active
+        ...
+        ...
+      end
+
+      def other_users
+        @users = User.active.young.recent
+        ...
+        ...
+      end
+
+    end  
+
+Como te puedes dar cuenta Rails nos ofrece la posibilidad de concatenar nuestros **scopes**, una manera más entendible de ver nuestro código.    
+
+<br />
+
+***Callbacks***
+
+Básicamente son métodos que nos permitirán ejecutar una porción de código después o antes de una acción. Vamos con un ejemplo:
+  
+    class User < ActiveRecord::Base
+
+      before_save :set_type
+
+      def set_type
+        self.type = 'Old' if age > 60
+      end
+
+    end
+
+Lo que hará Rails cada vez que grabemos nuestro User, es llamar al método set_type para ponerle un tipo.
+
+Aquí te muestro los demás Callbacks que existen.
+
+    before_validation
+    after_validation
+
+    before_save
+    after_save
+
+    before_create
+    after_create
+
+    before_update
+    after_update
+
+    before_destroy
+    after_destroy
+
+
+Es importante tomar en cuenta estos pequeños tips que te ayudarán a ti y a mí, ya que cuando una aplicación va creciendo se hace más difícil de mantener y es de vital importancia seguir estándares y buenas prácticas de programación.
+
+    

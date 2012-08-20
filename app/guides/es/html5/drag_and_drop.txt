@@ -1,0 +1,204 @@
+Seguramente ya has visto en otras ocasiones, cómo mover elementos de un lugar a otro con el mouse, mejor conocido como **drag and drop**. Quizá has visto el funcionamiento con JQuery. Pero qué tal si hacemos lo mismo sin necesidad de una librería externa?. HTML5 nos provee los elementos necesarios para llevar a cabo dicha funcionalidad, usando claro un poco de javascript. 
+
+Lo que haremos es crear tres contenedores grandes. En el primer contenedor, tendremos 3 cuadrados, los cuales van a ser movibles entre los demás contenedores. Empcemos entonces.
+
+Creamos nuestro html:
+    
+    <html>
+    <head>
+      <title>Canvas tutorial</title>
+      
+      <style type="text/css">
+        #destino1, #destino2, #destino3 {
+          float: left;
+          width: 250px;
+          height: 250px;
+          padding: 10px;
+          margin: 10px;
+          background-color: red;
+        }
+
+        #arrastrable1{
+          background-color: blue;
+        }
+
+        #arrastrable2{
+          background-color: green;
+        }
+
+        #arrastrable3{
+          background-color: black;
+        }
+
+        #arrastrable1, #arrastrable2, #arrastrable3 {
+          width: 75px;
+          height: 70px;
+          padding: 5px;
+          margin: 5px;
+        }
+      </style>
+    </head>
+    <body>
+        <h1>Ejemplo de Arrastrar y solter en HTML 5</h1>
+        <div id="destino1">
+          <div id="arrastrable1">
+            1
+          </div>
+          <div id="arrastrable2">
+            2
+          </div>
+          <div id="arrastrable3">
+            3
+          </div>
+        </div>
+        <div id="destino2"></div>
+        <div id="destino3"></div>
+    </body>
+    </html>
+
+Vamos a agregarle ahora los eventos a los 3 contenedores principales:
+    
+    <div id="destino1"
+      ondragenter="return enter(event)" 
+      ondragover="return over(event)"
+      ondrop="return drop(event)">
+
+      <div id="arrastrable1">
+        1
+      </div>
+      <div id="arrastrable2">
+        2
+      </div>
+      <div id="arrastrable3">
+        3
+      </div>
+
+    </div>
+    <div id="destino2"
+      ondragenter="return enter(event)" 
+      ondragover="return over(event)"
+      ondrop="return drop(event)">
+    </div>
+    <div id="destino3"
+      ondragenter="return enter(event)" 
+      ondragover="return over(event)"
+      ondrop="return drop(event)">
+    </div>
+
+Lo que estamos haciendo aquí es definir los eventos que se van a ejecutar en la acción de arrastrar y soltar, aquí el detalle:
+
+  1. **ondragenter:** *cuando se detecta que un elemento está entrando. (Permite validar si se permite o no soltar un elemento dentro de éste)*
+
+  2. **ondragover:** *cuando hay un elemento encima de otro. (sin soltar el mouse)*
+
+  3. **ondrop:** *cuando se suelta el elemento dentro de otro.*
+
+Ahora definamos los eventos en los elementos que serán movibles:
+
+    <div id="destino1"
+      ondragenter="return enter(event)" 
+      ondragover="return over(event)"
+      ondrop="return drop(event)">
+      
+      <div id="arrastrable1"
+        draggable="true"
+        ondragstart="return empezar(event)"
+        ondragend="return end(event)">
+        1
+      </div>
+      <div id="arrastrable2"
+        draggable="true"
+        ondragstart="return empezar(event)"
+        ondragend="return end(event)">
+        2
+      </div>
+      <div id="arrastrable3"
+        draggable="true"
+        ondragstart="return empezar(event)"
+        ondragend="return end(event)">
+        3
+      </div>
+
+    </div>
+    <div id="destino2"
+      ondragenter="return enter(event)" 
+      ondragover="return over(event)"
+      ondrop="return drop(event)">
+    </div>
+    <div id="destino3"
+      ondragenter="return enter(event)" 
+      ondragover="return over(event)"
+      ondrop="return drop(event)">
+    </div>
+
+1. **draggable:** *permite que el elemento sea movible*
+
+2. **ondragstart:** *cuando se empieza a mover el elemento*
+
+3. **ondragend:** *cuando se termina de mover el elemento*
+
+Ahora nos toca definir en nuestro código javascript los métodos que se ejecutarán en los eventos tales como: *enter, over, drop, empezar, end*
+
+    <script type="text/javascript">
+
+      // coge el id del elemento movible y lo guarda
+      function empezar(e){
+        e.dataTransfer.effectAllowed = 'move';
+        e.dataTransfer.setData("Data", e.target.getAttribute('id'));
+        e.dataTransfer.setDragImage(e.target, 0, 0);
+        return true;
+      }
+
+      // permite que puedan entrar elementos al contenedor
+      function enter(e){
+        return true;
+      }
+
+      // se ejecuta después de empezar()
+      // si se retorna true se impide que un elemento sea soltado en el contenedor
+      // si se retorna false se deja que el elemento sea soltado en el contenedor
+      function over(e){
+
+        // capturo el id guardado del elemento movible
+        var esarrastrable = e.dataTransfer.getData("Data");
+
+        // id del contenedor
+        var id = e.target.getAttribute('id');
+
+        // permite que en el contenedor1 se suelten elementos
+        if (id == 'destino1') {
+          return false;
+        }
+
+        // en el contenedor2 solo se podrá soltar el elemento3
+        if(id == 'destino2' && esarrastrable == 'arrastrable3'){
+          return false;
+        } else {
+          // en el contenedor3 solo se podrá soltar el elemento1 y 2
+          if (id == 'destino3' && (esarrastrable == 'arrastrable1' || esarrastrable == 'arrastrable2')){
+            return false;
+          } else {
+            return true;
+          }
+        }
+      }
+
+      // cuando el elemento se suelta dentro del contenedor
+      function drop(e){
+        // capturo el id del elemento
+        var esarrastrable = e.dataTransfer.getData("Data");
+        // lo agrego al contenedor
+        e.target.appendChild(document.getElementById(esarrastrable));
+        e.stopPropagation();
+        return false;
+      }
+
+      // se ejecuta cuando termina todo el proceso
+      // se limpia el id guardado del elemento
+      function end(e){
+        e.dataTransfer.clearData("Data");
+        return true
+      }
+    </script>
+
+He comentado cada línea de código para que lo entiendas al detalle. No olvides dejar tus comentarios con consejos, mejoras o cualqueir duda que tengas ;)

@@ -1,0 +1,111 @@
+Rails nos hace la vida más fácil con todas las opciones que nos ofrece. Ahora veremos cómo renderizar nuestra data de distintas formas
+
+Por defecto Rails nos genera algo como esto
+
+    class UserController < ApplicationController
+      def show
+        @user = User.find(params[:id])
+      end
+    end
+
+Lo cual nos direccionará a *app/views/users/show.html.erb*
+
+Respondiendo a HTML y JSON a la vez
+
+    class UserController < ApplicationController
+      def show
+        @user = User.find(params[:id])
+        respond_to do |format|
+          format.html # show.html.web
+          format.json { render json: @user}
+        end
+      end
+    end
+    
+Qué tal si queremos responder a otro HTML dependiendo de nuestra data?. Si el usuario está activo renderizará a show_active.html.erb sino a show.html.erb
+
+    class UserController < ApplicationController
+      def show
+        @user = User.find(params[:id])
+        respond_to do |format|
+          format.html do
+            if @user.status == 'active'
+              render :show_active # show_active.html.erb
+            end
+          end
+
+          format.json { render json: @user}
+        end
+      end
+    end
+
+Para nuestro ejemplo, vamos a dejar que solo responda JSON. Si solo se va a responder en un formato específico no es necesario usar **respond_to**
+
+    class UserController < ApplicationController
+      def show
+        @user = User.find(params[:id])
+        render json: @user
+      end
+    end
+
+Nuestro reto será crear una acción en nuestro controlador que retorne el nombre del usuario en JSON y si el status del usuario no es *active* que devuelva el error :unprocessable_entity (que vendría a ser el error HTTP 422, el cual significa que por algún motivo no se pudo procesar el request solicitado)
+
+Haremos algo adicional. Supongamos que queremos llamar a nuestro controlador mediante este link:
+
+    http://localhost:3000/users/1/active
+
+Modificamos entonces nuestro archivo **config/routes.rb**
+
+    match 'users/:id/active' => 'users#active', :as => :active_user
+
+Ahora podríamos crear un link con este helper
+
+    <%= link_to 'Get active status', active_user_path %>
+
+Programamos entonces nuestro reto:
+
+    class UserController < ApplicationController
+      def active
+        @user = User.find(params[:id])
+        if @user.status = 'active'
+          render json: @user, status: :ok
+        else
+          render json: @user, status: :unprocessable_entity
+        end
+        
+      end
+    end
+
+Esto devolverá algo como:
+
+    {
+      "name": "Carlos",
+      "lastname": "Duclos",
+      "age": 21,
+      "created_at": "2012-02-12",
+      "email": "dark_zeratul64@hotmail.com"
+    }
+
+Pero nosotros solamente queremos el nombre!
+
+    class UserController < ApplicationController
+      def active
+        @user = User.find(params[:id])
+        if @user.status = 'active'
+          render json: @user, status: :ok
+        else
+          render json: @user.to_json(only: :name), status: :unprocessable_entity
+        end
+        
+      end
+    end
+
+Aquí te muestro otras cosillas que podrías hacer con el método **to_json**
+
+    @user.to_json(only: [:name, :age])
+
+    @user.to_json(except: [:created_at, :updated_a, :id, :email, :bio])
+
+    @user.to_json(include: :country, except: [:created_at, :updated_at, :id])
+
+    

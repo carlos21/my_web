@@ -1,0 +1,46 @@
+Los métodos de acceso en ruby equivalen a los getters y setters de otros lenguajes como java.
+
+Veamos un ejemplo primero sin accesors
+
+    class Carro
+
+      def initialize(ruedas, puertas)
+        @ruedas = ruedas
+        @puertas = puertas
+      end
+
+      def ruedas
+        @ruedas
+      end
+
+      def puertas
+        @puertas
+      end
+
+    end
+
+Veamos un ejemplo ahora usando accesors
+
+    class Carro
+
+      # equivale a los getters
+      attr_reader :ruedas, :puertas
+
+    end
+
+    class Carro
+
+      # equivale a los setters
+      attr_writer :ruedas, :puertas
+
+    end
+
+    class Carro
+
+      # equivale a los getters y setters
+      attr_accessor :ruedas, :puertas
+
+    end
+
+Como puedes ver, con Ruby te ahorras muchas líneas de código a comparación con otros lenguajes. Brillante!
+

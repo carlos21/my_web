@@ -1,0 +1,69 @@
+Hola de nuevo. Seguramente alguna vez has querido hacer tus plantillas para mandar newsletters a tus clientes, mandar correos de confirmación o cosas por el estilo. Vamos a ver qué es lo que nos ofrece Rails para estos casos.
+
+Empecemos. Vamos a crear un **mailer** que vendría a ser una clase que controlará el envío de nuestros correos.
+
+    rails g mailer UserMailer confirmation_message
+
+Abrimos el archivo user_mailer.rb
+
+    class UserMailer < ActionMailer::Base
+
+      default from: "from@example.from"
+
+      def confirmation_message(user)
+        # llenamos algunas variables que nos servirán para crear nuestro correo
+
+        @user = user
+        @last_action = @user.actions.last
+
+        attachments['thanks.pdf'] = File.read("#{Rails.root}/public/thanks.pdf")
+
+        mail to: @user.email, subject: 'Confirmation message for your last action'
+
+      end
+
+    end
+
+Al método mail podría también mandarle estos valores en un hash:
+
+    from: my@email.com
+    cc: my@email.com
+    bcc: my@email.com
+    reply_to: my@email.com
+
+Crearemos ahora nuestro correo. Al haber corrido el comando para la generación del mailer, Rails también nos creó un view llamado **confirmation_message.text.erb**, vamos a editarlo
+
+    Hola <%= @user.name %>,
+
+    Nos hemos dado cuenta que has <%= @last_action %>. Por lo tanto, para tu mayor seguridad, necesitamos que confirmes la operación haciendo click en el sigueinte link: <= @user.generated_link %>
+
+    Muchas gracias y suerte!.
+
+Hemos creado nuestro correo, pero que pasa si queremos poner un poco de HTML en él?. Debemos reenombrar nuestro archivo a confirmation_message.**html**.erb y luego modificar el contenido
+
+    <h1>Hola <%= @user.name %>,</h1>
+
+    <p>
+      Nos hemos dado cuenta que has <%= @last_action %>. Por lo tanto, para tu mayor seguridad, necesitamos que confirmes la operación haciendo click en el sigueinte link: 
+      <%= link_to 'Click aquí!', <%= @user.generated_link %>
+    <p>
+
+    Muchas gracias y suerte!.
+
+Hasta el momento todavía no enviamos nuestro preciado correo. El siguiente paso es crear el método que enviará el correo en nuestro model
+
+    class User < ActiveRecord::Base
+
+      after_save :send_confirmation_message, if: :last_action_changed?
+
+      private
+
+      def send_confirmation_message
+        UserMailer.confirmation_message(self).deliver
+      end
+
+    end
+
+Listo!. Solo nos queda llamar al método save para que automáticamente se envíe un correo a nuetro usuario, siempre y cuando la última acción de éste haya cambiado ;)
+
+
