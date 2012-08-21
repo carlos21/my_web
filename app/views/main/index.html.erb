@@ -24,27 +24,14 @@
 
 <!-- First row -->
 <div class="block">
-  <% class_name = '' %>
-
-  <% count = 0 %>
-  <% @categories.each do |c| %>
-    <% if count%3 == 0 %>
-      <% class_name = 'dashboard-first-item' %>
-    <% else %>
-      <% class_name = 'dashboard-item' %> 
-    <% end %>
-
-    <div id="<%= 'div_' + count.to_s %>" class="<%=class_name%>" >
-      <%= link_to (root_path + 'guides/' + c.path) do %>
-        <div class="item-image">  
-          <%= image_tag(c.image_url, size: '120x100') %>
-        </div>
-        <div class="item-code">
-        </div>
-      <% end %>
+  <% @random_articles.each do |a|%>
+    <div class="random-item">
+      <div class="random-item-image">
+        <%= image_tag a.image_url, :size => '46x46' %>
+      </div>
+      <div class="random-item-name"><%= a.name %></div>
+      <div class="random-item-description"><%=  %></div>
     </div>
-    <% count += 1 %>
   <% end %>
-  
 </div> 
   

@@ -1,6 +1,16 @@
+require 'set'
 
 class MainController < ApplicationController
   before_filter :init_variables, :validate_lang, :set_locale
+
+  def change_language
+    logger.debug request.original_url
+    session[:lang] = params[:language]
+    I18n.locale = session[:lang] || I18n.default_locale
+    respond_to do |format|
+      format.html {redirect_to request.original_url}
+    end
+  end
 
   def init_variables
 
@@ -9,10 +19,6 @@ class MainController < ApplicationController
     unless params[:category_path].nil?
       @category = Category.get_category_by_path(params[:category_path])
       session[:selected_category_id] = @category.id
-      #session[:selected_category_path] = category.path
-      #session[:selected_category_image_url] = category.image_url
-      #session[:selected_category_name] = category.name
-      #session[:selected_category_small_description] = category.small_description
     end
 
     # get the article
@@ -24,6 +30,14 @@ class MainController < ApplicationController
   end
 
   def index  
+    articles = Article.where(:language => session[:lang])
+    logger.debug articles.size
+    @random_articles = []
+    random_array = get_random_array(20, articles.size)
+
+    random_array.each do |index|
+      @random_articles << articles[index]
+    end
 
     @pages_path = []
     @pages_path << [ 'Dashboard', '/' ]
@@ -100,9 +114,17 @@ class MainController < ApplicationController
     return data
   end
 
+  def get_random_array(n, max)
+    randoms = Set.new
+    loop do
+        randoms << rand(max)
+        return randoms.to_a if randoms.size >= n
+    end
+  end
+
   private
     def validate_lang
-      session[:lang] = 'es' #Constants::LANG_SPANISH #if session[:lang].nil?
+      session[:lang] = 'es' if session[:lang].nil?
     end
 
     def set_locale

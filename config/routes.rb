@@ -4,6 +4,7 @@ MyWeb::Application.routes.draw do
   match 'guides/:category_path' => 'main#article_list', :as => 'guides'
   match 'guides/:category_path/:article_path' => 'main#article_content', :as => 'guides_category_and_article'
   match 'comment/create' => 'main#create_comment', :as => 'create_comment'
+  match 'change_language/:language' => 'main#change_language', :as => 'change_language'
 
 
   # The priority is based upon order of creation:
