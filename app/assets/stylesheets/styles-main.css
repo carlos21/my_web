@@ -304,13 +304,32 @@ a {
   height: 70px;
   float: left;
   border: 1px solid #dddddd;
-  color: #666;
   background-color: #eee;
   margin: 5px;
   font-size: 11px;
   padding: 5px;
   cursor: pointer;
-  
+}
+
+.random-item-highlighted {
+  width: 200px;
+  height: 70px;
+  float: left;
+  border: 1px solid #dddddd;
+  color: #666;
+  background-color: #dddddd;
+  margin: 5px;
+  font-size: 11px;
+  padding: 5px;
+  cursor: pointer;
+
+  -moz-box-shadow: 0px 0px 5px #2D2D2D;
+  -webkit-box-shadow: 0px 0px 5px #2D2D2D;
+  box-shadow: 0px 0px 5px #2D2D2D;
+
+  -webkit-transform: scale(1.01);
+  -moz-transform: scale(1.01);
+  transform: scale(1.2);
 }
 
 .random-item:hover {
@@ -337,27 +356,44 @@ a {
   box-shadow: 2px 2px 1px #888;
 }
 
+.random-go {
+  width: 30px;
+  height: 30px;
+}
+
 .random-item-name {
   width: 120px;
   height: 60px;
   font-weight: bold;
   font-size: 10px;
   float:left;
+  margin-top:10px;
+  color: #666;
+}
+
+.random-item-name a {
+  color: #666;
 }
 
 .random-item-description {
   width: 120px;
   height: 60px;
+
   float:left;
 }
 
-.block {
-  margin-left: auto ;
-  margin-right: auto ;
-  height: 150px;
-  width: 95%;
+.tryluck {
+  width: 98%;
   min-width: 800px;
   margin-top: 20px;
+  overflow: auto;
+  margin-left: 5px;
+}
+
+.block {
+  width: 98%;
+  min-width: 800px;
+  overflow: auto;
 }
 
 .block .item-image {

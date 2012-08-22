@@ -1,37 +1,66 @@
 <script type="text/javascript">
-  /*
-  $(document).ready(function(){
-    $('div[id^="div_"]').mouseover(function(){
-      var childs = this.getElementsByTagName('div');
-      var item_image = childs[0];
-      var item_code = childs[1];
-      
-      item_image.style.display = 'none';
-      item_code.style.display = 'block';
-    });
 
-    $('div[id^="div_"]').mouseout(function(){
-      var childs = this.getElementsByTagName('div');
-      var item_image = childs[0];
-      var item_code = childs[1];
-      
-      item_image.style.display = 'block';
-      item_code.style.display = 'none';
-    });
-  });
-  */
+  var previous_div_id = null;
+  var delay = 0;
+
+  function randomitem(){
+
+    
+
+    if(delay>600){
+      delay = 0;
+      return;
+    }
+
+    var previous_div = document.getElementById(previous_div_id);
+    if(previous_div){
+      previous_div.className = "random-item";
+    }
+
+    var randomnumber = 0;
+    var divs_array = $('div[id^="article"]');
+
+    randomnumber = Math.floor(Math.random()*divs_array.length); 
+
+    for(var i=0; i<divs_array.length; i++){
+      if(i==randomnumber){
+        highlight(divs_array[i]);
+        setTimeout(function(){delay+=30;randomitem()}, delay);
+      }
+    }
+  }
+  
+  function highlight(div){
+    var previous_div = document.getElementById(previous_div_id);
+    if(previous_div){
+      previous_div.className = "random-item";
+    }
+
+    div.className = "random-item-highlighted";
+    previous_div_id = div.id;
+  }
+
 </script>
 
-<!-- First row -->
+<div class="tryluck">
+  <input type="button" class="btn btn-inverse" style="font-size: 11px" value="Let's start" onclick="randomitem()" />
+</div>
 <div class="block">
+  
   <% @random_articles.each do |a|%>
-    <div class="random-item">
-      <div class="random-item-image">
-        <%= image_tag a.image_url, :size => '46x46' %>
+    
+      <div id="article_<%=a.id%>" class="random-item">
+        <%= link_to guides_category_and_article_path(a.category.path, a.path) do %>
+        <div class="random-item-image">
+          <%= image_tag a.image_url, :size => '46x46' %>
+        </div>
+        <div class="random-item-name">
+          <%= a.name %>
+        </div>
+        <!--<div class="random-item-description"></div>-->
+        <% end %>
       </div>
-      <div class="random-item-name"><%= a.name %></div>
-      <div class="random-item-description"><%=  %></div>
-    </div>
+    
   <% end %>
 </div> 
   

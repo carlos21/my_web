@@ -13,7 +13,7 @@ gem 'json'
 gem 'redcarpet'
 gem 'haml'
 gem "haml-rails"
-gem 'jquery-rails'
+#gem 'jquery-rails'
 gem 'rb-readline'
 gem 'i18n'
 gem 'thin'

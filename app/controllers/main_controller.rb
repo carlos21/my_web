@@ -30,8 +30,8 @@ class MainController < ApplicationController
   end
 
   def index  
-    articles = Article.where(:language => session[:lang])
-    logger.debug articles.size
+    articles = Article.includes(:category).where(:language => session[:lang])
+    
     @random_articles = []
     random_array = get_random_array(20, articles.size)
 
