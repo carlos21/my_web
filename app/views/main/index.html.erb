@@ -1,49 +1,45 @@
 <script type="text/javascript">
 
-  var previous_div_id = null;
-  var delay = 0;
+  var delay = 100;
+  var count = 0;
+  var current_div = null;
 
   function randomitem(){
 
-    
+    if(count == 20){
+      var loading_div = document.createElement('div');
+      loading_div.className = 'loading';
+      current_div.appendChild(loading_div);
 
-    if(delay>600){
-      delay = 0;
+      delay = 100;
+      count = 0;
       return;
     }
 
-    var previous_div = document.getElementById(previous_div_id);
-    if(previous_div){
-      previous_div.className = "random-item";
-    }
+    $(".random-item-highlighted").attr("class", "random-item");
 
-    var randomnumber = 0;
     var divs_array = $('div[id^="article"]');
-
-    randomnumber = Math.floor(Math.random()*divs_array.length); 
+    var randomnumber = Math.floor(Math.random()*divs_array.length);
 
     for(var i=0; i<divs_array.length; i++){
       if(i==randomnumber){
+        count += 1;
         highlight(divs_array[i]);
-        setTimeout(function(){delay+=30;randomitem()}, delay);
+        setTimeout(function(){randomitem()}, delay);
       }
     }
   }
   
   function highlight(div){
-    var previous_div = document.getElementById(previous_div_id);
-    if(previous_div){
-      previous_div.className = "random-item";
-    }
-
-    div.className = "random-item-highlighted";
-    previous_div_id = div.id;
+    $(".random-item-highlighted").attr("class", "random-item");
+    $("#"+div.id).attr("class", "random-item-highlighted");
+    current_div = div;
   }
 
 </script>
 
 <div class="tryluck">
-  <input type="button" class="btn btn-inverse" style="font-size: 11px" value="Let's start" onclick="randomitem()" />
+  <input type="button" class="btn btn-inverse" style="font-size: 11px" value="Quick start" onclick="randomitem()" />
 </div>
 <div class="block">
   

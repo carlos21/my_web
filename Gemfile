@@ -17,6 +17,7 @@ gem "haml-rails"
 gem 'rb-readline'
 gem 'i18n'
 gem 'thin'
+gem 'tlsmail'
 
 # Gems used only for assets and not required
 # in production environments by default.

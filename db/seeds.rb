@@ -16,7 +16,7 @@
 Category.create(:name => 'CSS3', :tooltip => 'About CSS3', :image_url => 'css3.jpg', :status => 'A', :path => 'css3', :small_description => 'CSS3')
 Category.create(:name => 'Ember.js', :tooltip => 'About Ember.js', :image_url => 'emberjs.png', :status => 'A', :path => 'emberjs', :small_description => 'EmberJS')
 Category.create(:name => 'HTML5', :tooltip => 'About HTML5',:image_url => 'html5.png',  :status => 'A', :path => 'html5', :small_description => 'HTML 5')
-Category.create(:name => 'Javascript', :tooltip => 'About Javascript',:image_url => 'jquery.gif',  :status => 'A', :path => 'javascript', :small_description => 'Javascript')
+Category.create(:name => 'JQuery', :tooltip => 'About JQuery',:image_url => 'jquery.gif',  :status => 'A', :path => 'javascript', :small_description => 'JQuery')
 Category.create(:name => 'Node.js', :tooltip => 'About Node.js',:image_url => 'nodejs.png',  :status => 'A', :path => 'nodejs', :small_description => 'Node JS')
 Category.create(:name => 'Rails', :tooltip => 'About Rails', :image_url => 'rails.png',  :status => 'A', :path => 'rails', :small_description => 'Rails')
 Category.create(:name => 'Ruby', :tooltip => 'About Ruby', :image_url => 'ruby.jpg', :status => 'A', :path => 'ruby', :small_description => 'Ruby')
@@ -51,8 +51,14 @@ Article.create(:name => 'Saving temporal data', :small_description => 'jeje', :c
 Article.create(:name => 'Using the API Database', :small_description => 'jeje', :category_id => 3, :path => 'using-the-api-database', :route => '/app/guides/en/html5/using_the_api_database.txt', :language => 'en', :visits => 0, :image_url => 'html5.png')
 Article.create(:name => 'Video', :small_description => 'jeje', :category_id => 3, :path => 'video', :route => '/app/guides/en/html5/video.txt', :language => 'en', :visits => 0, :image_url => 'html5.png')
 
-# Javascript
-Article.create(:name => 'How to create a custom tooltip', :small_description => 'jeje', :category_id => 4, :path => 'how-to-create-a-custom-tooltip', :route => '/app/guides/en/javascript/how_to_create_a_custom_tooltip.txt', :language => 'en', :visits => 0)
+# JQuery
+Article.create(:name => 'How to create a custom tooltip', :small_description => 'jeje', :category_id => 4, :path => 'how-to-create-a-custom-tooltip', :route => '/app/guides/en/javascript/how_to_create_a_custom_tooltip.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif')
+Article.create(:name => 'Creando tabs simples con algunos efectos', :small_description => 'Creating tabs never was that easy like now thanks to JQuery.', :category_id => 4, :path => 'creating-simple-tabs-with-jquery', :route => '/app/guides/en/jquery/creating_simple_tabs_with_jquery.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif')
+Article.create(:name => 'Seleccionadores', :small_description => 'Obtaining elements from DOM on an easy way.', :category_id => 4, :path => 'selectors', :route => '/app/guides/en/jquery/selectors.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif')
+
+# CSS3
+Article.create(:name => 'Learning how to use pseudo classes', :small_description => 'jeje', :category_id => 1, :path => 'learning-how-to-use-pseudo-classes', :route => '/app/guides/en/javascript/learning_how_to_use_pseudo_classes.txt', :language => 'en', :visits => 0, :image_url => 'css3.jpg')
+
 ###########################
 
 
@@ -88,8 +94,14 @@ Article.create(:name => 'Grabando datos temporales', :small_description => 'Alma
 Article.create(:name => 'Usando el API para crear y conectarse a una base de datos', :small_description => 'Una de ls cosas más interesantes que nos trae HTML5 es el hecho de poder crear nuestra propia base de datos local con la misma syntaxis SQL que conocemos', :category_id => 3, :path => 'using-the-api-database', :route => '/app/guides/en/html5/using_the_api_database.txt', :language => 'es', :visits => 0, :image_url => 'html5.png')
 Article.create(:name => 'Video', :small_description => 'Maneja, crea o personaliza tu propio reproductor con esta nueva funcionalidad de HTML5', :category_id => 3, :path => 'video', :route => '/app/guides/en/html5/video.txt', :language => 'es', :visits => 0, :image_url => 'html5.png')
 
-# Javascript
-Article.create(:name => 'Cómo crear un tooltip personalizado', :small_description => 'Dale la forma que quieras, ponle un tiempo antes de que aparezca o muestra lo que desees cuando tengas que dar algún detalle de las opciones que tenga tu página web.', :category_id => 4, :path => 'how-to-create-a-custom-tooltip', :route => '/app/guides/en/javascript/how_to_create_a_custom_tooltip.txt', :language => 'es', :visits => 0)
+# JQuery
+Article.create(:name => 'Cómo crear un tooltip personalizado', :small_description => 'Dale la forma que quieras, ponle un tiempo antes de que aparezca o muestra lo que desees cuando tengas que dar algún detalle de las opciones que tenga tu página web.', :category_id => 4, :path => 'how-to-create-a-custom-tooltip', :route => '/app/guides/en/jquery/how_to_create_a_custom_tooltip.txt', :language => 'es', :visits => 0, :image_url => 'jquery.gif')
+Article.create(:name => 'Creando tabs simples con algunos efectos', :small_description => 'Crear tabs nunca fue tan fácil como ahora gracias a JQuery.', :category_id => 4, :path => 'creating-simple-tabs-with-jquery', :route => '/app/guides/en/jquery/creating_simple_tabs_with_jquery.txt', :language => 'es', :visits => 0, :image_url => 'jquery.gif')
+Article.create(:name => 'Seleccionadores', :small_description => 'Obtén elementos del DOM de una manera muy pero muy sencilla.', :category_id => 4, :path => 'selectors', :route => '/app/guides/en/jquery/selectors.txt', :language => 'es', :visits => 0, :image_url => 'jquery.gif')
+
+# CSS3
+Article.create(:name => 'Learning how to use pseudo classes', :small_description => 'Estas pseudo classes nos ayudarán obtener elementos más fácilmente', :category_id => 1, :path => 'learning-how-to-use-pseudo-classes', :route => '/app/guides/en/javascript/learning_how_to_use_pseudo_classes.txt', :language => 'es', :visits => 0, :image_url => 'css3.jpg')
+
 ###########################
 
 

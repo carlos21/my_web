@@ -101,8 +101,10 @@ class MainController < ApplicationController
     @category = Category.find(session[:selected_category_id]) 
     @article.content = get_file_as_string(Rails.root.to_s + @article.route)
     
+    CommentMailer.comment_alert_message(comment, @article, @category).deliver
+
     respond_to do |format|
-      format.html {render :action => 'article_content'}
+      format.html {redirect_to guides_category_and_article_url(@category.path, @article.path)}
     end
    
   end

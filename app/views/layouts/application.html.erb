@@ -81,11 +81,15 @@
         <% end %>
         <%= yield %>
       </div>
+      
     </div>  
   </div>
 
   <!-- Footer -->
   <%= render 'footer' %>
 
+  <script type="text/javascript">
+    $(".navigation").css("height", $(".maincontent").css("height"));
+  </script>
 </body>
 </html>

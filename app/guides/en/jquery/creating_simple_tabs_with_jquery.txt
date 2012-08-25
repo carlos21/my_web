@@ -1,0 +1,156 @@
+Bienvenido. Ésta es una de las cosas que más he disfrutado aprender y es que se pueden hacer muchas cosas interesantes, efectos, etc.
+
+En esta ocasión vamos a ver cómo crear tabs usando jquery y dándoles algunos efectos que enamorarán al usuario
+
+Primero crearemos nuestro html
+
+    <section id="tabs">
+      <ul>
+        <li><a href="#2012-11-10" data-users="10">Nov 10</a></li>
+        <li><a href="#2012-11-11" data-users="11">Nov 11</a></li>
+        <li><a href="#2012-11-12" data-users="12">Nov 12</a></li>
+      </ul>
+    </section>
+
+Estamos usando los data tag de html5 para almacenar la cantidad de usuarios de cada tab.
+
+Ahora vayamos a programar el evento click de cada tab
+
+    $(document).ready(function(){
+      $("#tabs li a").click(function(e){
+        e.preventDefault();
+
+        // Obtenemos aquel tab que esté activo
+        $("#tabs li a.active").removeClass("active");
+
+        // Agregamos el estilo active al tab seleccionado
+        $(this).addClass("active");
+      });
+    });
+
+Ahora hagamos un refactor de la primera versión de nuestro código
+
+    function changeTab(e){
+      // Previene el comportamiento normal
+      e.preventDefault();
+
+      // Obtenemos aquel tab que esté activo
+      $("#tabs li a.active").removeClass("active");
+
+      // Agregamos el estilo active al tab seleccionado
+      $(this).addClass("active");
+    }
+
+    jQuery(function($){
+      $("#tabs ul li a").click(changeTab);
+    });
+
+Pero qué rayos es esto? **jQuery(function($)** nos sirve para asegurarnos que nuestro función **$** pertenezca a jquery y también nos asegura que el código que esté dentro se ejecute una vez que el DOM sea cargado por completo.
+
+Con esto ya podemos ver en nuestro navegador cómo se selecciona y deseleccionan los tabs a medida que hacemos click en ellos. Te dejo a tu disposición ponerle los estilos que mejor creas conveniente ;)
+
+Qué si queremos seleccionar el tercer tab por defecto?. Agregamos este línea:
+
+    $("#tabs li:eq(2) a").click();
+
+*eq(2)* equivale a decir *donde la posición del elemento de la lista sea igual a 2* (Recuerda que es un arreglo y por lo tanto el índice comienza desde 0, 1, 2 y así sucesivamente).
+
+Vamos a agregar ahora tooltips para nuestros tabs que nos indicarán el número de usuarios que tiene cada uno
+
+Para esto utiilizaremos los eventos **mouseenter** y **mouseleave**
+
+Creamos la función que mostrará el tooltip:
+
+    function showNumberOfUsers(e){
+
+      // obtenemos el numero de usuarios almacenado en data-users
+      var num_users = $(this).data('users');
+
+      // agregamos un span al link que será nuestro tooltip
+      $(this).append("<span class='tooltip'>" + num_users + " users</span>");
+    }
+
+Creamos ahora la función que ocultará el tooltip
+
+    function hideNumbersOfUsers(e){
+
+      // removemos todos los tooltips
+      $("tabs span.tooltip").remove();
+    }
+
+Ahora agregamos los eventos que llamarán a estas funciones que hemos creado:
+
+    $("#tabs li a").bind({
+      click: changeTab,
+      mouseenter: showNumberOfUsers,
+      mouseleave: hideNumbersOfUsers
+    });
+
+La función **bind** nos permite agregar eventos más fácilmente, de otra manera hubiera tenido que hacer esto:
+
+    $("tabs li a").click(changeTab);
+    $("tabs li a").mouseenter(changeTab);
+    $("tabs li a").mouseleave(changeTab);
+
+Se nos olvida algo! Imagina que cada vez que hagas click en un tab tengas una llamada via AJAX, si te encuentras en un tab determinado y le vuelves a dar click, el comportamiento será el mismo, es decir harás un *callback* en vano. Lo que nosotros queremos es evitar ese comportamiento en el tab seleccionado, así que modificaremos la función **changeTab**:
+
+    function changeTab(e){
+      // Previene el comportamiento normal
+      e.preventDefault();
+
+      // Obtenemos aquel tab que esté activo
+      $("#tabs li a.active").removeClass("active").click(changeTab);
+
+      // Agregamos el estilo active al tab seleccionado
+      $(this).addClass("active").unbind("click", changeTab);
+    }
+
+Qué estamos haciendo aquí?. Simplemente, agregamos el evento click al tab que dejará de estar seleccionado y removemos el mismo evento del tab que pasará a estar seleccionado con la función **unbind**. Nada difícil.
+
+Hagamos una cosa más. Vamos a pintar cada item que vayamos clickeando. Ejemplo: si tenemos una lista de fechas:
+
+  * 2012-08-12
+  * 2012-05-11
+  * 2012-04-02
+  * 2012-05-03
+
+Si le damos click a 2012-05-11, vamos a pintar el background de ese item.
+
+ESta sería nuestra tabla de datos:
+
+    <table id="users">
+      <tr>
+        <td>Carlos</td>
+        <td>Duclos</td>
+        <td>1991</td>
+        <td><a href="#" class="selected">1991-01-05</a></td>
+      </tr>
+    </table>
+
+Ahora crearemos la función que pintará el background
+
+    function selectFlight(e) {
+      e.preventDefault();
+      $("#users a.selected").removeClass("selected");
+      $(this).addClass("selected");
+    }
+
+    $("#users a").bind("click", selectFlight);
+
+Si no estás usando AJAX no tendremows problemas. Y si lo usamos?.
+
+Si lo usamos, se van a crear nuevos objetos por lo tanto nuestro selector **$("#users a")** solo estará disponible para los primero objetos que se crearon la primera vez que se cargó la página, de ahí en adelante los nuevos elementos que se creen gracias a AJAX no tendrán el evento *click* y por lo tanto no veremos el efecto. Entonces cómo lo solucionamos?. Usaremos la función **live**:
+
+    $("#users a").live("click", selectFlight);
+
+Pero hay una mejor manera de hacer esto
+
+    $("#tabs div").delegate("#users a", "click", selectFlight);
+
+Pero qué diferencia tiene?
+  
+  * Solo agregará el evento click buscando en el elemento que le especifiquemos
+  * Permite encadenarle más métodos
+  * Tiene mejor performance
+
+Hemos terminado por ahora. No olvides de dejar tus preguntas o comentarios sobre el tutorial, a fin de poder mejorarlo y contribuir con los demás ;)

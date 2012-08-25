@@ -1,0 +1,72 @@
+Vamos a ver ahora una de las cosillas más básicas de JQuery y son los **selectors**. Pero para qué nos sirven?. Pues van a ayudarnos a capturar elementos del DOM de una manera más sencilla y flexible, para poder agregarle por ejemplo estilos, eventos, agregar elementos dinámicamente, etc.
+
+Vamos a ver algunas equivalencias de JQuery con javascript puro:
+
+    // Obtenemos el elemento p con id user
+    document.getElementById('user');
+
+    // Ahora con JQUery
+    $('#user');
+
+Más fácil de leer eh?. Vamos con otra
+
+    // Capturamos todos los divs dentro del div con id user
+    var user = document.getElementById('user');
+    user.getElementsByTagName('div');
+
+    // Ahora con JQuery
+    $('#user div');
+
+Más fácil imposible. Si queremos seleccionar con elemento por su id utilizamos **#** y si lo queremos obtener por su clase usamos **.**
+  
+    // Por id
+    $('#ser');
+
+    // Por clase
+    $('.user');
+
+Es recomendable poner el tipo de elemento que tiene ese id o esa clase. De esta manera haces más mantenible tu aplicación, ya que rápidamente te darás cuenta que clase de elementos son los que estás seleccionando. Y lo hacemos de esta manera:
+
+    // Por id
+    $('div#user');
+
+    // Por clase
+    $('div.user');
+
+Vamos a seleccionar ahora todos los párrafos que tengan la clase **negrita** y que estén dentro del div con id **navigation**
+
+    $('div#navigation p.negrita');
+
+Como te darás cuenta usamos un espacio o separador para indicar que busque la sentencia que está a la derecha **dentro** de la que está a la izquierda.
+
+Y qué hay si queremos seleccionar todos los parrafos dentro del div con id **users** y también los párrafos que estén dentro del div con id **admins**?. Usamos una coma **(,)**:
+
+    $('div#users p, div#admins p');
+
+**Uso de pseudo classes**
+Funcionan de una manera muy parecida que en CSS. Nos ayudan a tener acceso rápido a los elementos más comunes que desea obtener
+
+Obtenemos el primer párrafo que encuentre:
+
+    $("p:first");
+
+Es decir, no tenemos que iterar todos los párrafos y luego obtener el primero, sino que en una sola sentencia obtenemos lo que deseamos y muy fácil
+
+
+**Más selectors**
+Creo que nos estamos olvidando de una cosa más, pero para explicarlo primero coloquemos una porción de código html
+
+    <body>
+      <p class="plan">
+        <span>Hi!</span>
+        <div>
+          <span>Bye!</span>
+        </div>
+      </p>
+    </body>
+
+Imagina que queremos obtener todos los *spans* que estén dentro del párrafo con clase *plan*, pero no queremos obtener el span que está dentro del *div*, sino solamente el que sea directamente *hijo* del párrafo. Entonces cómo lo hacemos?
+
+    $("p.plan > span");
+
+Listo!. Ahora ya tienes los conocimientos suficientes para hacer tus propias pruebas. No dudes en preguntar cualquier cosa!.
