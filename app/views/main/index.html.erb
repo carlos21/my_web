@@ -3,21 +3,20 @@
   var delay = 100;
   var count = 0;
   var current_div = null;
-  var stop = false;
+  var loading = false;
 
   function quickStart() {
-    stop = true;
     randomitem();
   }
 
   function randomitem(){
 
-    if(stop){
-      stop = false;
+    if(loading){
       return;
     }
 
     if(count == 20) {
+      loading = true;
 
       var location = 'http://carlos21.com' + $("div.random-item-highlighted a").attr('href');
       
