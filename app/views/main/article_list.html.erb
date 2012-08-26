@@ -15,11 +15,9 @@
     <%= link_to guides_category_and_article_path(@category.path, a.path), :style =>'text-decoration: none;' do %>
       <div class="name"><%= a.name %></div>
       <div class="extra-info">
-        <span>
-          <%= t(:messages_label)%> <%= a.messages %> &nbsp;&nbsp;&nbsp;
-          <%= t(:visits_label)%> <%= a.visits %> &nbsp;&nbsp;&nbsp;
-          <%= t(:last_update_label)%> <%= a.updated_at.to_s(:long) %> &nbsp;&nbsp;&nbsp;
-        </span>
+        <div><%= t(:messages_label)%> <%= a.messages %></div>
+        <div><%= t(:visits_label)%> <%= a.visits %></div>
+        <div><%= t(:last_update_label)%> <%= a.updated_at.to_s(:long) %></div>
       </div>
     <%  end %>
   </div>

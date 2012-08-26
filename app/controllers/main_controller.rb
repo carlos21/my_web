@@ -1,10 +1,9 @@
 require 'set'
 
 class MainController < ApplicationController
-  before_filter :init_variables, :validate_lang, :set_locale
+  before_filter :validate_lang, :init_variables, :set_locale
 
   def change_language
-    logger.debug request.original_url
     session[:lang] = params[:language]
     I18n.locale = session[:lang] || I18n.default_locale
     respond_to do |format|
@@ -57,6 +56,10 @@ class MainController < ApplicationController
     # Getting a list of articles
     @articles = Article.get_articles_by_category_id(category.id, session[:lang])
 
+    @articles.each do |c|
+      logger.debug c.messages
+    end
+
     respond_to do |format|
       format.html # article_list.html.erb
     end
@@ -87,6 +90,9 @@ class MainController < ApplicationController
 
   def create_comment
 
+    @article  = Article.find(session[:selected_article_id]) 
+    @category = Category.find(session[:selected_category_id]) 
+
     comment = Comment.new
     comment.name = params[:name]
     comment.email = params[:email]
@@ -94,11 +100,12 @@ class MainController < ApplicationController
     comment.description = params[:comments]
     comment.article_id = session[:selected_article_id]
 
-    # save
+    # save comment
     comment.save
 
-    @article  = Article.find(session[:selected_article_id]) 
-    @category = Category.find(session[:selected_category_id]) 
+    # save article
+    @article.update_attributes(messages: @article.messages+1)
+    
     @article.content = get_file_as_string(Rails.root.to_s + @article.route)
     
     CommentMailer.comment_alert_message(comment, @article, @category).deliver

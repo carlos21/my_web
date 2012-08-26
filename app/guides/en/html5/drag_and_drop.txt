@@ -1,6 +1,6 @@
 Seguramente ya has visto en otras ocasiones, cómo mover elementos de un lugar a otro con el mouse, mejor conocido como **drag and drop**. Quizá has visto el funcionamiento con JQuery. Pero qué tal si hacemos lo mismo sin necesidad de una librería externa?. HTML5 nos provee los elementos necesarios para llevar a cabo dicha funcionalidad, usando claro un poco de javascript. 
 
-Lo que haremos es crear tres contenedores grandes. En el primer contenedor, tendremos 3 cuadrados, los cuales van a ser movibles entre los demás contenedores. Empcemos entonces.
+Lo que haremos es crear tres contenedores grandes. En el primer contenedor, tendremos 3 cuadrados, los cuales van a ser movibles entre los demás contenedores. Empecemos entonces.
 
 Creamos nuestro html:
     

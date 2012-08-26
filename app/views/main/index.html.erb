@@ -3,13 +3,37 @@
   var delay = 100;
   var count = 0;
   var current_div = null;
+  var stop = false;
+
+  function quickStart() {
+    stop = true;
+    randomitem();
+  }
 
   function randomitem(){
 
-    if(count == 20){
-      var loading_div = document.createElement('div');
-      loading_div.className = 'loading';
-      current_div.appendChild(loading_div);
+    if(stop){
+      stop = false;
+      return;
+    }
+
+    if(count == 20) {
+
+      var location = 'http://carlos21.com' + $("div.random-item-highlighted a").attr('href');
+      
+      var selectedDiv = $(".random-item-highlighted");
+      selectedDiv.css('opacity', '.4');
+
+      var divLoading  = $("div#loading");
+      
+      divLoading.css('left', selectedDiv.offset().left + 'px');
+      divLoading.css('top' , selectedDiv.offset().top  + 'px');
+      divLoading.css('display', 'block');
+      
+      setTimeout(function(){
+        window.location.href = location;
+      }, 2000);
+      
 
       delay = 100;
       count = 0;
@@ -29,6 +53,10 @@
       }
     }
   }
+
+  $('div.random-item-highlighted a').live('click',function(){
+    $('location').attr('href', $('div.random-item-highlighted a').attr('href'));
+  });
   
   function highlight(div){
     $(".random-item-highlighted").attr("class", "random-item");
@@ -36,9 +64,16 @@
     current_div = div;
   }
 
+  jQuery(function($){
+    $('.tryluck').slideDown();
+  });
+  
 </script>
 
-<div class="tryluck">
+<div id="loading">
+  <img src="assets/loading.gif">
+</div>
+<div class="tryluck" style="display:none">
   <input type="button" class="btn btn-inverse" style="font-size: 11px" value="Quick start" onclick="randomitem()" />
 </div>
 <div class="block">

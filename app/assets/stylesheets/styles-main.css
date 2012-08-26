@@ -278,7 +278,12 @@ a {
   font-size: 12px;
   color: #888;
   margin-left: 5px;
-  
+}
+
+.article .extra-info > div{
+  margin-right: 10px;
+  float: left;
+  min-width: 70px;
 }
 
 .article:hover {
@@ -382,6 +387,22 @@ a {
   float:left;
 }
 
+#loading {
+  width: 30px;
+  height: 30px;
+  float: right;
+  
+  display: none;
+  position:absolute;
+  z-index: 2;
+}
+
+#loading img {
+  margin: auto;
+  margin-left: 92px;
+  margin-top: 25px;
+}
+
 .tryluck {
   width: 98%;
   min-width: 800px;
@@ -391,7 +412,7 @@ a {
 }
 
 .block {
-  width: 98%;
+  width: 100%;
   min-width: 800px;
   overflow: auto;
 }
