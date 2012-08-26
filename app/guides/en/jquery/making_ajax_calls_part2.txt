@@ -2,7 +2,7 @@ Hola de vuelta!. En esta parte veremos cómo hacer llamadas AJAX con JQuery. Te 
 
 Empecemos. Recuerdas esta función?
 
-    function selectFlight(e) {
+    function selectUsers(e) {
       e.preventDefault();
       $("#users a.selected").removeClass("selected");
       $(this).addClass("selected");

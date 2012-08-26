@@ -1,0 +1,172 @@
+Hola de vuelta!. En esta parte veremos cómo hacer llamadas AJAX con JQuery. Te recomiendo primero leer el [tutorial de la parte 1](www.carlos21.com/guides/jquery/creating-simple-tabs-with-jquery-part-1), ya que usaremos las mismas funciones que creamos previamente.
+
+Empecemos. Recuerdas esta función?
+
+    function selectUsers(e) {
+      e.preventDefault();
+      $("#users a.selected").removeClass("selected");
+      $(this).addClass("selected");
+    }
+
+Vamos a tener que modificarla para agregarle una llamada AJAX y así traer una lista de usuarios
+
+    function selectUsers(e) {
+      e.preventDefault();
+      $("#users a.selected").removeClass("selected");
+      $(this).addClass("selected");
+
+      var active_div = $(this);
+
+      $.ajax('/users', {
+        data: {date: active_div}, // '/users?date=%2012-05-12'
+        cache: false,
+        success: function(result) {
+          $("#users").html(result);
+          $("#users").show();
+        }
+      })
+    }
+
+En esta caso, estamos devolviendo *html* desde el servidor por eso ponemos **.html(result)**, para reemplazar el html existente por el nuevo que eśtá siendo enviado. Nota también que hemos puesto *cache : false* para evitar que por algún motivo el navegador no actualice los datos que le estamos enviando.
+
+Hasta este punto podemos hacer click en cada tab y obtendremos los datos de los usuarios, pero qué tal si ocurre algún problema?. Qué pasaría si le doy click en algún tab y se cae mi aplicación?. Debemos controlar esto mostrando un mensaje como *Whoops! Esto no debió pasar!*
+
+    $.ajax('/users', {
+      data: {date: active_div}, // '/users?date=%2012-05-12'
+      cache: false,
+
+      beforeSend: function(result) {
+        $("#error").hide();
+      },
+
+      success: function(result) {
+        $("#users").html(result);
+        $("#users").show();
+      },
+
+      error: function(result) {
+        $("#error").show();
+      }
+    })
+
+Como puedes ver estamos ocultando y mostrando un div, en caso de error. Te dejo a ti colocarle el mensaje que desees.
+
+Bien, bien, bien. Ya estamos listos?. Pues NO!. Vamos a ponernos en el peor de los casos y diremos que tenemos un servidor pentium 3 con 256mb de RAM y demora mucho en responder, por lo tanto debemos mostrarle al usuario, algún mensaje como *Loading...* o *Trayendo datos del servidor...*
+
+    $.ajax('/users', {
+      data: {date: active_div}, // '/users?date=%2012-05-12'
+      cache: false,
+
+      beforeSend: function(result) {
+        $("#error").hide();
+        $("#loading").show();
+      },
+
+      complete: function() {
+        $("#loading").hide();
+      },
+
+      success: function(result) {
+        $("#users").html(result);
+        $("#users").show();
+      },
+
+      error: function(result) {
+        $("#error").show();
+      }
+    })
+
+Estamos mostrando el div *loading* en el evento **beforeSend** y lo ocultamos en el evento **complete**
+
+Parece que ya tenemos todo controlado!. Ah! No es así. Vamos a seguir suponiendo que tenemos un servidor muy lag. Qué pasa si hacemos click a un tab y rápidamente le damos click a otro tab?.Lo que sucederá es que tendremos dos llamadas AJAX, y al final en el mismo div veremos dos listas!. Para esto debemos *abortar* la primera llamada AJAX antes de hacer la segunda
+
+Vamos a declarar una variable afuera de todas las funciones que hemos creado para verificar si se ha hecho una llamada previamente.
+
+    var fetchingUsers = null;
+
+    function selectUsers(e) {
+      e.preventDefault();
+      $("#users a.selected").removeClass("selected");
+      $(this).addClass("selected");
+
+      var active_div = $(this);
+
+      if (fetchingUsers) {
+        fetchingUsers.abort();
+      }
+        fetchingUsers = $.ajax('/users', {
+          data: {date: active_div}, // '/users?date=%2012-05-12'
+          cache: false,
+
+          beforeSend: function(result) {
+            $("#error").hide();
+            $("#loading").show();
+          },
+
+          complete: function() {
+            $("#loading").hide();
+            fetchingUsers = null;
+          },
+
+          success: function(result) {
+            $("#users").html(result);
+            $("#users").show();
+          },
+
+          error: function(result) {
+            $("#error").show();
+          }
+        });
+      }
+      
+    }
+
+Una vez más creemos que ya está todo pero falta algo importante. Cuando le damos **abort** por defecto el evento **error** se ejecuta y por lo tanto va a mostrar el div de error sin que lo haya. Así que pondremos una validación más.
+
+    error: function(result) {
+      if (result.statusText != "abort") {
+        $("tabs #error").show();
+      }
+    }
+
+Por último, pondremos un timeout por eso el server es muy lento y así el usuario no se quede viendo para siempre el mensaje de loading..
+
+    function selectUsers(e) {
+      e.preventDefault();
+      $("#users a.selected").removeClass("selected");
+      $(this).addClass("selected");
+
+      var active_div = $(this);
+
+      if (fetchingUsers) {
+        fetchingUsers.abort();
+      }
+        fetchingUsers = $.ajax('/users', {
+          data: {date: active_div}, // '/users?date=%2012-05-12'
+          cache: false,
+          timeout: 10000, // 10 segundos
+
+          beforeSend: function(result) {
+            $("#error").hide();
+            $("#loading").show();
+          },
+
+          complete: function() {
+            $("#loading").hide();
+            fetchingUsers = null;
+          },
+
+          success: function(result) {
+            $("#users").html(result);
+            $("#users").show();
+          },
+
+          error: function(result) {
+            $("#error").show();
+          }
+        });
+      }
+      
+    }
+
+Ahora si ya puedes respirar y tomarte un descanso. Ya sabes hacer llamadas AJAX con jquery aunque todavía nos falta mucho por aprender ;)
