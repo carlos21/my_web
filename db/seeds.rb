@@ -58,7 +58,7 @@ Article.create(:name => 'Making AJAX calls - Parte 2', :small_description => 'Bu
 Article.create(:name => 'Seleccionadores', :small_description => 'Obtaining elements from DOM on an easy way.', :category_id => 4, :path => 'selectors', :route => '/app/guides/en/jquery/selectors.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
 
 # CSS3
-Article.create(:name => 'Learning how to use pseudo classes', :small_description => 'jeje', :category_id => 1, :path => 'learning-how-to-use-pseudo-classes', :route => '/app/guides/en/jquery/learning_how_to_use_pseudo_classes.txt', :language => 'en', :visits => 0, :image_url => 'css3.jpg', :messages => 0)
+Article.create(:name => 'Learning how to use pseudo classes', :small_description => 'jeje', :category_id => 1, :path => 'learning-how-to-use-pseudo-classes', :route => '/app/guides/en/css3/learning_how_to_use_pseudo_classes.txt', :language => 'en', :visits => 0, :image_url => 'css3.jpg', :messages => 0)
 
 ###########################
 
@@ -102,7 +102,7 @@ Article.create(:name => 'Haciendo llamadas AJAX - Parte 2', :small_description =
 Article.create(:name => 'Seleccionadores', :small_description => 'Obtén elementos del DOM de una manera muy pero muy sencilla.', :category_id => 4, :path => 'selectors', :route => '/app/guides/en/jquery/selectors.txt', :language => 'es', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
 
 # CSS3
-Article.create(:name => 'Learning how to use pseudo classes', :small_description => 'Estas pseudo classes nos ayudarán obtener elementos más fácilmente', :category_id => 1, :path => 'learning-how-to-use-pseudo-classes', :route => '/app/guides/en/jquery/learning_how_to_use_pseudo_classes.txt', :language => 'es', :visits => 0, :image_url => 'css3.jpg', :messages => 0)
+Article.create(:name => 'Learning how to use pseudo classes', :small_description => 'Estas pseudo classes nos ayudarán obtener elementos más fácilmente', :category_id => 1, :path => 'learning-how-to-use-pseudo-classes', :route => '/app/guides/en/css3/learning_how_to_use_pseudo_classes.txt', :language => 'es', :visits => 0, :image_url => 'css3.jpg', :messages => 0)
 
 ###########################
 

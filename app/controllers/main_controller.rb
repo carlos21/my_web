@@ -32,7 +32,7 @@ class MainController < ApplicationController
     articles = Article.includes(:category).where(:language => session[:lang])
     
     @random_articles = []
-    random_array = get_random_array(20, articles.size)
+    random_array = get_random_array(24, articles.size)
 
     random_array.each do |index|
       @random_articles << articles[index]
@@ -108,7 +108,7 @@ class MainController < ApplicationController
     
     @article.content = get_file_as_string(Rails.root.to_s + @article.route)
     
-    CommentMailer.comment_alert_message(comment, @article, @category).deliver
+    #CommentMailer.comment_alert_message(comment, @article, @category).deliver
 
     respond_to do |format|
       format.html {redirect_to guides_category_and_article_url(@category.path, @article.path)}

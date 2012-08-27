@@ -1,0 +1,162 @@
+Que tal te va?. Vamos a ver algunas cosillas que nos harán la vida más fácil con CSS3. Vamos a ver lo que son las *pseudo classes*. Pero qué son?. Una pseudo clase es un estado o uso predefinido de un elemento al que se le puede aplicar un estilo independientemente de su estado por defecto.
+
+Pero aquí no valen mucho las descripciones sino los ejemplos ;). Iré mencionando algunas de las pseudo classes que nos ofrece CSS3 con algunos ejemplos.
+
+Primero que nada crearemos nuestro html para que vayas visualizando cada cambio a medida que sigues el tutorial
+
+    <table>
+      <tr>
+        <td>1st element</td>
+      </tr>
+      <tr>
+        <td>2nd element</td>
+      </tr>
+      <tr>
+        <td>3rd element</td>
+      </tr>
+      <tr>
+        <td>4th element</td>
+      </tr>
+      <tr>
+        <td>5th element</td>
+      </tr>
+      <tr>
+        <td>6th element</td>
+      </tr>
+      <tr>
+        <td>7th element</td>
+      </tr>
+      <tr>
+        <td>8th element</td>
+      </tr>
+      <tr>
+        <td>9th element</td>
+      </tr>
+      <tr>
+        <td>10th element</td>
+      </tr>
+    </table>
+
+
+**:root**
+Selecciona el elemento *<html>*
+
+    :root {background-color: #dddddd}
+
+También podrías hacer esto y vendría a ser lo mismo
+    
+    html {background-color: #dddddd}
+
+**nth-child(n)**
+Selecciona aquellos elementos que tu le especifiques. Por ejemplo puedes decirle *"Pinta de color rojo la fila 4"*
+
+    table tr:nth-child(4) {background-color: red}
+
+*"Pinta aquellas filas que tengan posición *par*"*
+
+    table tr:nth-child(even) {background-color: red}
+
+  Este código equivale al siguiente:
+
+    table tr:nth-child(2n) {background-color: red}
+
+  Pero porqué?. Pues vendría a ser una fórmula
+
+    2 x 0 = **0** => (2n) donde n = 0
+    2 x 1 = **2** => (2n) donde n = 1
+    2 x 2 = **4** => (2n) donde n = 2
+    2 x 3 = **6** => (2n) donde n = 3
+
+*"Pinta aquellas filas que tengan posición *impar*"*
+    
+    table tr:nth-child(odd) {background-color: red}
+
+  Lo cual sería igual a:
+
+    table tr:nth-child(2n+1) {background-color: red}
+
+  Y ya sabes la razón:
+
+    2 x 0 + 1 = **1** => (2n+1) donde n = 0
+    2 x 1 + 1 = **3** => (2n+1) donde n = 1
+    2 x 2 + 1 = **5** => (2n+1) donde n = 2
+    2 x 3 + 1 = **7** => (2n+1) donde n = 3
+
+*"Pinta las filas apartir del 4to elemento en adelante"*
+
+    table tr:nth-child(n+4) {background-color: red}
+
+<br />
+**:nth-last-child(n)**
+Funciona de la misma manera que *nth-child* pero en reversa, es decir contanado desde el último elemento hasta el comienzo.
+
+Comencemos con nuestras instrucciones imaginarias jeje
+
+*"Pinta la última fila"*
+
+    table tr:nth-last-child(1) {background-color: red}
+
+*"Pinta desde la antepenultima fila hasta la primera"*
+
+    table tr:nth-last-child(n+3) {background-color: red}     
+
+*"Pinta las últimas 3 filas"*
+
+    table tr:nth-last-child(-n+3) {background-color: red} 
+
+**:nth-of-type(n)**
+Selecciona eleementos dentro de un elemento padre y de un determinado tipo
+
+*"Pinta los párrafos dentro del div #div1 que tengan una posición par"*
+
+    #div1>p:nth-of-type(even) {background-color: red}
+
+*"Pinta los input que tengan posicón par dentro del #div1 que no sean del tipo radio"*
+
+    #div1 input:nth-of-type(even):not([type=radio]) {background-color: red}
+
+**:first-of-type and :last-of-type**
+Selecciona de una manera más facil el priemr y ultimo elemento de un elemento padre
+
+  En vez de hacer esto:
+
+    article p:nth-of-type(1) {fony-size: 10px} 
+
+  Podrías hacer esto:
+
+    article p:first-of-type(1) {fony-size: 10px} 
+
+  De la misma manera funciona *:last-of-type* pero contando desde el último elemento hacia adelante
+
+
+  **:only-of-type**
+  Selecciona el elemento que le indiques que sea el único en su especie dentro del elemento padre al que pertenece
+
+
+*"Pinta el único párrafo que esté dentro de cada fila"*
+
+    <table>
+      <tr>
+        <td><p>je</p>1st element</td>
+      </tr>
+      <tr>
+        <td>2nd element</td>
+      </tr>
+    <table>
+
+  Estando así el código, si le agregamos
+
+    table tr p:only-of-type {
+      background-color: #eee;
+    }
+
+  Se pintará el único *<p>* que hay, pero si agregamos un <p> más, no funcionará y no se pintará ninguno
+
+    <table>
+      <tr>
+        <td><p>je</p><p>hola</p>1st element</td>
+      </tr>
+      <tr>
+        <td>2nd element</td>
+      </tr>
+    <table>

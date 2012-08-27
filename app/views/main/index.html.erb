@@ -63,16 +63,36 @@
     current_div = div;
   }
 
-  jQuery(function($){
-    $('.tryluck').slideDown();
+  $(document).ready(function(){
+    startAnimation();
   });
+
+  function startAnimation(){
+    var time = 0;
+    var div = null;
+    var div_array = $('div[id^="article"]');
+
+    for(var i=0;i<div_array.length;i++) {
+      displayItem(div_array[i], time);
+      time += 200;
+      $(".navigation").css("height", $(".maincontent").css("height"));
+    }
+  }
+
+  function displayItem(div, time){
+    setInterval(function(){
+      $(div).slideDown();
+      $(".navigation").css("height", $(".maincontent").css("height"));
+    }, time);
+  }
   
 </script>
 
 <div id="loading">
   <img src="assets/loading.gif">
 </div>
-<div class="tryluck" style="display:none">
+<div class="tryluck">
+  <div id="we"></div>
   <input type="button" class="btn btn-inverse" style="font-size: 11px" value="Quick start" onclick="randomitem()" />
 </div>
 <div class="block">

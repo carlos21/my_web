@@ -89,7 +89,10 @@
   <%= render 'footer' %>
 
   <script type="text/javascript">
-    $(".navigation").css("height", $(".maincontent").css("height"));
+    jQuery(function($){
+      $(".navigation").css("height", $(".maincontent").css("height"));  
+    });
+    
   </script>
 </body>
 </html>
