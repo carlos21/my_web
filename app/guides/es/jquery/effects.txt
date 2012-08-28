@@ -1,0 +1,41 @@
+Qué te parece si hechamos un vistazo a aquellos efectos que siempre quisiste hacer? Aunque parezca algo trivial, es muy importante si quieres atraer personas a tu sitio web, así que aprovechémoslo al máximo, vale?
+
+Vamos a ir viendo algunas de las animaciones y funcionalidades que nos permite hacer jquery
+
+**animate()**
+Esta función permite hacer animaciones cambiando el estilo de los elementos
+
+    $('#button').click(function() {
+      $('#book').animate({
+        opacity: 0.25,
+        left: '+=50',
+        height: 'toggle'
+      }, {
+        duration: 5000,
+        easing: 'linear',
+        complete: function(){
+          // Me ejecuto cuando termine la animación!!
+        }
+        }
+
+      );
+    });
+
+Como puedes ver, la función **animate()**, recibe dos parámetros, un hash de propiedades (estilos) y otro de opciones (duración, función de animación, función de completado); en ese orden.
+También hubiéramos podido mandarle 4 parámetros y en el mismo orden:
+
+    $('#button').click(function() {
+      $('#book').animate({
+        opacity: 0.25,
+        left: '+=50',
+        height: 'toggle'
+      }, {
+        duration: 5000,
+        easing: 'linear',
+        complete: function(){
+          // Me ejecuto cuando termine la animación!!
+        }
+        }
+
+      );
+    });

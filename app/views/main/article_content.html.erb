@@ -63,7 +63,6 @@
     <%= form_tag '/comment/create' do %>
       <h3><%= t(:leave_a_comment_label) %></h3>
       <fieldset>
-
         <!-- NAME -->
         <div class="control-group">
           <label class="control-label" for="name"><%= t(:name_label) %></label>
@@ -72,6 +71,10 @@
               <i class="icon-user" style="margin-top:1px"></i>
             </span>
             <%= text_field_tag :name, '', :class => 'input-xlarge', :placeholder => t(:enter_your_name_placeholder) %>
+            <% if !@name_error.nil? then %>
+            <%= @jeje %>
+            <% end  %>
+
           </div>
         </div>
 

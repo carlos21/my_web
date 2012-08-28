@@ -1,0 +1,48 @@
+Si alguna vez has usado animaciones, tienes que haber escuchado de las *queues*. **Queues** son colas de instrucciones (las que tu le des)
+
+Por ejemplo, si escribimos:
+
+    $('#foo').fadeOut();
+    $('#bar').fadeIn();
+
+La animación se ejecutará en ese orden debido que a que JQuery usa un queue por defecto *"behind the scenes"* llamado **fx**; y por lo tanto ambos están usando esa cola.
+
+Nosotros podemos crear nuestros propios *queues* con la función **queue** a la cual le asignaremos un nombre, pero en este caso no lo haremos:
+
+    $('#foo').queue(function(next){
+      alert('Hi World');
+      next();
+    });
+
+Cuando este código es ejecutado, el mensaje de alerta de muestra sin problemas. Recuerda que estamos usando por defecto la cola **fx** ya que no le hemos asignado un nombre.
+
+Vamos a crear ahora un queue personalizado:
+
+    $('#foo').queue('custom', function(next){
+      alert('I was queued!');
+      next();
+    });
+
+Ah! no pasa nada!. Y es que cuando se crea un queue personalizado, es necesario llamar a la función **dequeue()** la cual, ejecuta la siguiente instrucción de la cola
+
+Demos un vistazo ahora a este código, haremos una animación durante 2 segundos:
+
+    $("#object").animate({opacity: 0, top: "-=40"}, {duration: 2000});
+
+Pero que hay si quisiera primero ejecutar una instrucción durante un segundo y luego otra?
+
+    $("#object")
+    .delay(1000, "fader")
+    .queue("fader", function(next) {
+        $(this).animate({opacity: 0}, 
+            {duration: 1000, queue: false});
+        next();
+    })
+    .dequeue("fader")
+    .animate({top: "-=40"}, {duration: 2000})
+
+Hay que tener en cuenta que estamos usando **queue:false** para evitar usar el queue por defecto!
+
+**Conclusión**
+Las queues nos ayudan a establecer líneas de tiempo, las cuales nos permiten hacer una animación detrás de otra, y cambiar el orden de ejecución. No dudes preguntar cualquier cosa.
+  

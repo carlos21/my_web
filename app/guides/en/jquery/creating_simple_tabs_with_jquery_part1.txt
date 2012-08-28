@@ -117,6 +117,7 @@ Hagamos una cosa más. Vamos a pintar cada item que vayamos clickeando. Ejemplo:
 Si le damos click a 2012-05-11, vamos a pintar el background de ese item.
 
 Esta sería nuestra tabla de datos:
+
     <div id="users">
       <table>
         <tr>

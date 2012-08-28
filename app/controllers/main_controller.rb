@@ -100,18 +100,24 @@ class MainController < ApplicationController
     comment.description = params[:comments]
     comment.article_id = session[:selected_article_id]
 
-    # save comment
-    comment.save
+    if params[:name].nil? or params[:name] == '' then
+      @name_error = 'Enter a name bestia'
+    elsif params[:comments].nil? or params[:comments] == '' then
 
-    # save article
-    @article.update_attributes(messages: @article.messages+1)
-    
-    @article.content = get_file_as_string(Rails.root.to_s + @article.route)
-    
+    else
+      # save comment
+      comment.save
+
+      # save article
+      @article.update_attributes(messages: @article.messages+1)
+      
+      @article.content = get_file_as_string(Rails.root.to_s + @article.route)
+    end
+
     #CommentMailer.comment_alert_message(comment, @article, @category).deliver
 
     respond_to do |format|
-      format.html {redirect_to guides_category_and_article_url(@category.path, @article.path)}
+      format.html {redirect_to guides_category_and_article_url(@category.path, @article.path), :jeje => 'caca'}
     end
    
   end
