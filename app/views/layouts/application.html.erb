@@ -1,14 +1,15 @@
 <!DOCTYPE html>
 <html>
 <head>
-  <title>MyWeb</title>
-  <%# stylesheet_link_tag "application", :media => "all" %>
+  <title>Carlos Duclos - Ruby Developer</title>
   <%=csrf_meta_tags %>
   <%# javascript_include_tag "application" %>
 
   <%= stylesheet_link_tag "highlight/styles/default", :title => 'Default' %>
   <%= stylesheet_link_tag "styles-main" %>
   <%= stylesheet_link_tag "bootstrap/css/bootstrap" %>
+  <%= stylesheet_link_tag "jquery/jRating.jquery" %>
+  <%= stylesheet_link_tag "jquery/ui.notify" %>
   <%# stylesheet_link_tag "application" %>
 
   <%# stylesheet_link_tag "highlight/styles/dark", :title => 'Dark' %>
@@ -34,11 +35,24 @@
   
   <%= javascript_include_tag "highlight/highlight.pack" %>
   <%= javascript_include_tag "jquery/jquery-1.7.2.min" %>
+  <%= javascript_include_tag "jquery/jquery-ui-1.8.22.custom.min" %>
   <%= javascript_include_tag "jquery/jqFloat" %>
+  <%= javascript_include_tag "jquery/jRating.jquery" %>
+  <%= javascript_include_tag "jquery/ui.notify" %>
 
-  <script>
+  <script type="text/javascript" >
     hljs.tabReplace = ' ';
     hljs.initHighlightingOnLoad();
+  </script>
+
+  <script type="text/javascript">
+    $(document).ready(function(){
+      // simple jRating call
+      $('.basic').jRating({
+        length : 5,
+        decimalLength : 5
+      });
+    });
   </script>
 
 </head>
@@ -89,11 +103,26 @@
   <!-- Footer -->
   <%= render 'footer' %>
 
+  <%= render 'rating' %>
+
+  <%# render 'chat/chat' %>
+
   <script type="text/javascript">
     jQuery(function($){
-      $(".navigation").css("height", $(".maincontent").css("height"));  
+      $(".navigation").css("height", $(".maincontent").css("height"));   
     });
-    
   </script>
+
+  <% if session[:show_rating] == true %>
+    <script type="text/javascript">
+      setTimeout(function(){
+        if ($(".rating")) {
+          $(".rating").slideDown('slow');  
+        }
+        
+      }, 2000);
+    </script>
+  <% end %>
+
 </body>
 </html>

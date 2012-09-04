@@ -12,6 +12,8 @@
 //
 // require jquery
 // require jquery_ujs
+//= require chat.events
+//= require chat.functions
 
 
 

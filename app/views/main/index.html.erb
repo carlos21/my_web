@@ -64,7 +64,7 @@
   }
 
   $(document).ready(function(){
-    startAnimation();
+    //startAnimation();
   });
 
   function startAnimation(){
@@ -85,7 +85,6 @@
       $(".navigation").css("height", $(".maincontent").css("height"));
     }, time);
   }
-
   
 </script>
 
@@ -96,6 +95,7 @@
   <div id="we"></div>
   <input type="button" class="btn btn-inverse" style="font-size: 11px" value="Quick start" onclick="randomitem()" />
 </div>
+
 <div class="block">
   
   <% @random_articles.each do |a|%>

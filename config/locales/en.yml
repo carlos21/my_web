@@ -30,3 +30,7 @@ en:
   # Menu
   topics_label: "Topics"
 
+  # Rating
+  how_much_did_you_like_the_page_label: "How much did you like this page? ;)"
+  thanks_rating: "Thanks for your vote!"
+

@@ -1,11 +1,13 @@
 MyWeb::Application.routes.draw do
   root :to => "Main#index", :as => 'root'
+  #root :to => "chat#new", :as => 'root'
 
   match 'guides/:category_path' => 'main#article_list', :as => 'guides'
   match 'guides/:category_path/:article_path' => 'main#article_content', :as => 'guides_category_and_article'
   match 'comment/create' => 'main#create_comment', :as => 'create_comment'
   match 'change_language/:language' => 'main#change_language', :as => 'change_language'
-
+  match 'rating/change_rating' => 'rating#change_rating', :as => 'change_rating'
+  match ':controller(/:action(/:id(.:format)))'
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

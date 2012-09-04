@@ -1,7 +1,8 @@
 require 'set'
+require 'pusher'
 
 class MainController < ApplicationController
-  before_filter :validate_lang, :init_variables, :set_locale
+  before_filter :validate_lang, :init_variables, :set_locale, :init_chat
 
   def change_language
     session[:lang] = params[:language]
@@ -9,6 +10,12 @@ class MainController < ApplicationController
     respond_to do |format|
       format.html {redirect_to request.original_url}
     end
+  end
+
+  def init_chat 
+    @chat = Chat.find(1)
+    @user = User.get_or_set_user(session)
+    @messages = Message.where(:chat_id => @chat.id)
   end
 
   def init_variables
@@ -24,6 +31,10 @@ class MainController < ApplicationController
     unless params[:article_path].nil?
       article = Article.get_article_by_path(params[:article_path], session[:lang])
       session[:selected_article_id] = article.id
+    end
+
+    if session[:show_rating].nil?
+      session[:show_rating] = true
     end
 
   end
@@ -98,6 +109,8 @@ class MainController < ApplicationController
     comment.email = params[:email]
     comment.website = params[:website]
     comment.description = params[:comments]
+    comment.created_at = Time.new
+    comment.updated_at = Time.new
     comment.article_id = session[:selected_article_id]
 
     if params[:name].nil? or params[:name] == '' then

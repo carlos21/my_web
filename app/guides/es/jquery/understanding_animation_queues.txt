@@ -43,6 +43,117 @@ Pero que hay si quisiera primero ejecutar una instrucción durante un segundo y 
 
 Hay que tener en cuenta que estamos usando **queue:false** para evitar usar el queue por defecto!
 
+Aquí te dejo un ejemplo que muestra cómo se usan las colas solo utilizando efectos de jquery y no cambios de estilo personalizados:
+
+    <html>
+    <head>
+      <title></title>
+      <style type="text/css">
+        body{
+           font-size: 0.75em;
+           font-family: tahoma, verdana, sans-serif;
+        }
+        #mensaje{
+           margin: 20px 5px;
+        }
+        #box{
+           left: 200px;
+           top: 150px;
+           position: absolute;
+           width: 50px;
+           height: 50px;
+           background-color: #3d3;
+        }
+      </style>
+      <script src="jquery-1.7.2.min.js" type="text/javascript"></script>
+      <script languague="javascript">
+
+        function showItemsLeft(){
+           var numFuncionesEnCola = $("#box").queue().length;
+           $("#mensaje").text(numFuncionesEnCola + " funciones de efectos en cola");
+        }
+
+        $(document).ready(function(){
+           $("#botonfade").click(function(){
+              capa = $("#box");
+              capa.fadeOut(500);
+              capa.fadeIn(500);
+              showItemsLeft();
+           });
+           $("#botonslide").click(function(){
+              capa = $("#box");
+              capa.slideUp(500);
+              capa.slideDown(500);
+              showItemsLeft();
+           });
+           $("#botontamanocola").click(function(){
+              showItemsLeft();
+           });
+        });
+
+      </script>
+    </head>
+    <body>
+      <button id="botonfade">fadeIn y fadeOut</button>
+      <button id="botonslide">slideUp slideDown</button>
+      <button id="botontamanocola">Muestra funciones en cola</button>
+      <div id="mensaje">
+         
+      </div>
+      <div id="box"></div>
+    </body>
+    </html>
+
+Y aquí te dejo otro para que veas como combinar animaciones propias de JQuery con animaciones customizadas.
+
+    <html>
+    <head>
+      <title></title>
+      <style type="text/css">
+        #capa {
+          width: 100px;
+          height: 50px;
+          border: 1px solid black;
+        }
+      </style>
+      <script src="jquery-1.7.2.min.js" type="text/javascript"></script>
+      <script type="text/javascript">
+
+        function start(){
+          var capa = $("#capa");
+          capa.queue(function(){
+            $(this).css({
+              "border": "3px solid #339", 
+            });
+            $(this).text("me alargoooo");
+            // cualquier otro codigo jquery
+            
+            $(this).dequeue();
+          });
+
+          capa.animate({
+            "height":"200px"
+          }, 2000);
+
+          capa.queue(function(){
+            $(this).css("background-color", "black");
+          });
+
+          
+        }
+        
+      </script>
+      
+    </head>
+    <body>
+      <button onclick="start()">Start</button>
+      <div id="capa">
+
+      </div>
+    </body>
+    </html>
+
+
 **Conclusión**
-Las queues nos ayudan a establecer líneas de tiempo, las cuales nos permiten hacer una animación detrás de otra, y cambiar el orden de ejecución. No dudes preguntar cualquier cosa.
+Las queues nos ayudan a establecer líneas de tiempo, las cuales nos permiten hacer una animación detrás de otra, y cambiar el orden de ejecución. Podemos hacer efectos que atraigan a los usuarios en pocas líneas de código; así que no le restemos importancia :D!
   

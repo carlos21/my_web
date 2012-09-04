@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20120825194458) do
+ActiveRecord::Schema.define(:version => 20120901170456) do
 
   create_table "articles", :force => true do |t|
     t.string   "name"
@@ -38,6 +38,12 @@ ActiveRecord::Schema.define(:version => 20120825194458) do
     t.string   "small_description"
   end
 
+  create_table "chats", :force => true do |t|
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+    t.string   "channel"
+  end
+
   create_table "comments", :force => true do |t|
     t.integer  "article_id"
     t.string   "name"
@@ -46,6 +52,31 @@ ActiveRecord::Schema.define(:version => 20120825194458) do
     t.string   "description"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
+  end
+
+  create_table "messages", :force => true do |t|
+    t.string   "description"
+    t.integer  "chat_id"
+    t.integer  "user_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "ratings", :force => true do |t|
+    t.string   "ip"
+    t.decimal  "rate"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "users", :force => true do |t|
+    t.string   "name"
+    t.string   "nickname"
+    t.string   "password"
+    t.string   "email"
+    t.string   "webpage"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
   end
 
   add_foreign_key "articles", "categories", :name => "articles_category_id_fk"

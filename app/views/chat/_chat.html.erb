@@ -1,0 +1,22 @@
+<script type="text/javascript">
+  // Set the globals used by chat.js
+  channel = "<%= @chat.channel %>";
+  chat_id = "<%= @chat.id %>";
+  user_id = "<%= @user.id %>";
+</script>
+
+<%= javascript_include_tag "http://js.pusherapp.com/1.9/pusher.min.js" %>
+
+<div class="chat">
+  <div class="chat-name">
+    <label>Welcome to the chat!</label>
+  </div>
+  <div class="chat-messages">
+
+  </div>
+  <div class="chat-message">
+    <textarea id="message" name="message">
+
+    </textarea>
+  </div>
+</div>
