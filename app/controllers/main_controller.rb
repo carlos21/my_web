@@ -2,7 +2,7 @@ require 'set'
 require 'pusher'
 
 class MainController < ApplicationController
-  before_filter :validate_lang, :init_variables, :set_locale, :init_chat
+  before_filter :validate_lang, :init_variables, :set_locale
 
   def change_language
     session[:lang] = params[:language]
