@@ -12,8 +12,8 @@
 	$.fn.jRating = function(op) {
 		var defaults = {
 			/** String vars **/
-			bigStarsPath : 'assets/jquery/icons/stars.png', // path of the icon stars.png
-			smallStarsPath : 'assets/jquery/icons/small.png', // path of the icon small.png
+			bigStarsPath : 'http://carlos21.com/assets/jquery/icons/stars.png', // path of the icon stars.png
+			smallStarsPath : 'http://carlos21.com/assets/jquery/icons/small.png', // path of the icon small.png
 			phpPath : 'http://carlos21.com/rating/change_rating', // path of the php file jRating.php
 			type : 'big', // can be set to 'small' or 'big'
 			

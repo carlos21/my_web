@@ -1,22 +1,42 @@
 class ChatController < ApplicationController
-  layout 'real_chat'
 
-  def new
-    chat = Chat.new
-    if chat.save
-      chat.channel = 'message_channel_' + chat.id.to_s
-      chat.save
-      
-      redirect_to :action => 'chat', :id => chat.id
+  def post_message
+    chat = Chat.find(1)
+    user = User.get_or_set_user(session[:userid])
+
+    message = Message.new
+    message.description = params[:message]
+    message.chat_id = chat.id
+    message.user_id = user.id
+    message.created_at = Time.now
+    message.updated_at = Time.now
+
+    data = message.attributes
+    data[:user] = user.attributes
+
+    if message.save
+      Pusher[chat.channel].trigger('receive_message', data)
+      render :text => "sent"
+    else
+      render :text => "error"
     end
+    
   end
 
-  def chat
-    if !params[:id].nil?
-      @chat = Chat.find(params[:id])
-      @user = User.get_or_set_user(session)
-      @messages = Message.where(:chat_id => @chat.id)
-    end
+  def typing_status
+    chat = Chat.find(1)
+    user = User.get_or_set_user(session[:userid])
+
+    data = { :user => user.attributes, :status => params[:status]}
+    Pusher[chat.channel].trigger('typing_status', data)
+    render :text => "sent"
+  end
+
+  def change_nickname
+    user = User.get_or_set_user(session[:userid])
+    user.nickname = params[:nickname]
+    user.save
+    render :text => "sent"
   end
 
 end

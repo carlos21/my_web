@@ -1,13 +1,5 @@
 class ApiController < ApplicationController
 
-  def post_message
-    
-    chat = Chat.find(params[:chat_id])
-
-    Pusher[chat.channel].trigger('receive_message', {'description' => 'hola :)'})
-    render :text => "sent"
-  end
-
   def authenticate
 
     if params[:user_id]

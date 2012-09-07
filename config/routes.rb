@@ -7,8 +7,10 @@ MyWeb::Application.routes.draw do
   match 'comment/create' => 'main#create_comment', :as => 'create_comment'
   match 'change_language/:language' => 'main#change_language', :as => 'change_language'
   match 'rating/change_rating' => 'rating#change_rating', :as => 'change_rating'
-  match ':controller(/:action(/:id(.:format)))'
-
+  match 'chat/post_message' => 'chat#post_message', :as => 'post_message'
+  match 'chat/typing_status' => 'chat#typing_status', :as => 'typing_status'
+  match 'chat/change_nickname' => 'chat#change_nickname', :as => 'change_nickname'
+  
   # The priority is based upon order of creation:
   # first created -> highest priority.
 
