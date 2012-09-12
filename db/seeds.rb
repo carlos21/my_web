@@ -20,6 +20,8 @@ Category.create(:name => 'JQuery', :tooltip => 'About JQuery',:image_url => 'jqu
 Category.create(:name => 'Node.js', :tooltip => 'About Node.js',:image_url => 'nodejs.png',  :status => 'A', :path => 'nodejs', :small_description => 'Node JS')
 Category.create(:name => 'Rails', :tooltip => 'About Rails', :image_url => 'rails.png',  :status => 'A', :path => 'rails', :small_description => 'Rails')
 Category.create(:name => 'Ruby', :tooltip => 'About Ruby', :image_url => 'ruby.jpg', :status => 'A', :path => 'ruby', :small_description => 'Ruby')
+Category.create(:name => 'Ubuntu', :tooltip => 'About Ubuntu', :image_url => 'ubuntu.png', :status => 'A', :path => 'ubuntu', :small_description => 'Ubuntu')
+Category.create(:name => 'Miscellanious', :tooltip => 'A bit of everything', :image_url => 'ubuntu.png', :status => 'A', :path => 'a-bit-of-everything', :small_description => 'Some examples of many things')
 
 ######### English #########
 # Ruby
@@ -55,10 +57,16 @@ Article.create(:name => 'Video', :small_description => 'jeje', :category_id => 3
 Article.create(:name => 'How to create a custom tooltip', :small_description => 'jeje', :category_id => 4, :path => 'how-to-create-a-custom-tooltip', :route => '/app/guides/en/jquery/how_to_create_a_custom_tooltip.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
 Article.create(:name => 'Creating simple tabs with some efects - Part 1', :small_description => 'Creating tabs never was that easy like now thanks to JQuery.', :category_id => 4, :path => 'creating-simple-tabs-with-jquery-part-1', :route => '/app/guides/en/jquery/creating_simple_tabs_with_jquery_part1.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
 Article.create(:name => 'Making AJAX calls - Parte 2', :small_description => 'Build a friendly web without refreshing the page. Take care about the user :, :messages => 0)', :category_id => 4, :path => 'making-ajax-calls-part-2', :route => '/app/guides/en/jquery/making_ajax_calls_part2.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
-Article.create(:name => 'Seleccionadores', :small_description => 'Obtaining elements from DOM on an easy way.', :category_id => 4, :path => 'selectors', :route => '/app/guides/en/jquery/selectors.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
+Article.create(:name => 'Selectors', :small_description => 'Obtaining elements from DOM on an easy way.', :category_id => 4, :path => 'selectors', :route => '/app/guides/en/jquery/selectors.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
+Article.create(:name => 'Custom selectors', :small_description => 'Obtaining elements from DOM on an easy way.', :category_id => 4, :path => 'custom-selectors', :route => '/app/guides/en/jquery/customized_selectors.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
+Article.create(:name => 'Understanding animations queues', :small_description => 'You will learn how to handle animation queues.', :category_id => 4, :path => 'selectors', :route => '/app/guides/en/jquery/customized_selectors.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
 
 # CSS3
 Article.create(:name => 'Learning how to use pseudo classes', :small_description => 'jeje', :category_id => 1, :path => 'learning-how-to-use-pseudo-classes', :route => '/app/guides/en/css3/learning_how_to_use_pseudo_classes.txt', :language => 'en', :visits => 0, :image_url => 'css3.jpg', :messages => 0)
+
+# Ubuntu
+Article.create(:name => 'Ubuntu command line from zero', :small_description => 'Lets start running some commands on the terminal', :category_id => 8, :path => 'ubuntu-command-line-from-zero', :route => '/app/guides/en/ubuntu/learning_to_use_the_command_line.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
+Article.create(:name => 'Basic commands', :small_description => 'These are the most popular comandos and we must to know them!', :category_id => 8, :path => 'ubuntu-basic-commands', :route => '/app/guides/en/ubuntu/basic_commands.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
 
 ###########################
 
@@ -100,9 +108,15 @@ Article.create(:name => 'Cómo crear un tooltip personalizado', :small_descripti
 Article.create(:name => 'Creando tabs simples con algunos efectos - Parte 1', :small_description => 'Crear tabs nunca fue tan fácil como ahora gracias a JQuery.', :category_id => 4, :path => 'creating-simple-tabs-with-jquery-part-1', :route => '/app/guides/en/jquery/creating_simple_tabs_with_jquery_part1.txt', :language => 'es', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
 Article.create(:name => 'Haciendo llamadas AJAX - Parte 2', :small_description => 'Construye una web amigable sin recargar la página. Dale el gusto al usuario :, :messages => 0).', :category_id => 4, :path => 'making-ajax-calls-part-2', :route => '/app/guides/en/jquery/making_ajax_calls_part2.txt', :language => 'es', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
 Article.create(:name => 'Seleccionadores', :small_description => 'Obtén elementos del DOM de una manera muy pero muy sencilla.', :category_id => 4, :path => 'selectors', :route => '/app/guides/en/jquery/selectors.txt', :language => 'es', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
+Article.create(:name => 'Seleccionadores personalizados', :small_description => 'Obtén elementos del DOM de una manera muy pero muy sencilla.', :category_id => 4, :path => 'selectors', :route => '/app/guides/en/jquery/customized_selectors.txt', :language => 'es', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
+Article.create(:name => 'Entendiendo las colas de animaciones', :small_description => 'Cómo manejar las colas de aniimaciones? Mira esto!.', :category_id => 4, :path => 'selectors', :route => '/app/guides/en/jquery/customized_selectors.txt', :language => 'es', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
 
 # CSS3
 Article.create(:name => 'Learning how to use pseudo classes', :small_description => 'Estas pseudo classes nos ayudarán obtener elementos más fácilmente', :category_id => 1, :path => 'learning-how-to-use-pseudo-classes', :route => '/app/guides/en/css3/learning_how_to_use_pseudo_classes.txt', :language => 'es', :visits => 0, :image_url => 'css3.jpg', :messages => 0)
+
+# Ubuntu
+Article.create(:name => 'Ubuntu línea de comandos desde cero', :small_description => 'Vamos a empezar corriendo algunos comandos en el terminal', :category_id => 8, :path => 'ubuntu-command-line-from-zero', :route => '/app/guides/en/ubuntu/learning_to_use_the_command_line.txt', :language => 'es', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
+Article.create(:name => 'Comandos básicos', :small_description => 'Estos comandos son unos de los más usados y debemos saberlos!', :category_id => 8, :path => 'ubuntu-basic-commands', :route => '/app/guides/en/ubuntu/basic_commands.txt', :language => 'es', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
 
 ###########################
 

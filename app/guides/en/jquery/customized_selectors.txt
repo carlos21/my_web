@@ -1,0 +1,101 @@
+Qué hay de nuevo!. Ésta vez vamos a ver cómo utilizar seleccionadores personalizados. Te recomiendo que primero leas el tutorial de (seleccionadores)[www.carlos21.com/guides/jquery/selectors] ya que te servirá como base para enteder este tutorial :)
+
+Empecemos. Vamos a crear primero nuestro html
+  
+    <table id="table1" border="1">
+      <tr>
+        <th><a href="google.com">Modelo</a></th>
+        <th data-test="testing">Marca</th>
+        <th>Cantidad</th>
+      </tr>
+      <tr>
+        <td>Tiida</td>
+        <td>Nissan</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>Rio</td>
+        <td>Kia</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>Cerato</td>
+        <td>Kia</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>Yaris</td>
+        <td>Toyota</td>
+        <td>13</td>
+      </tr>
+    </table>
+
+Esta tabla nos ayudará a ejemplificar cada estilo que modifiquemos.
+
+Primero vamos a pintar de rojo la cabecera de nuestra tabla
+
+    $('#table1 th').parent().css'background-color', 'red');
+
+Como verás, con la función **parent()** estamos haciendo referencia al row que contiene a los *th*
+
+Ahora, pintaremos de amarillo aquellas cabeceras que tengan el tag **data-test** con el valor *testing*
+
+    $('#table1 tr th[data-test="testing"]').css('background-color', 'yellow');
+
+Ahora usaremos algunas pseudo classes. Pintaremos de azul aquellas filas que NO sea la cabecera y que tengan una posición par
+
+    $('#table1 tr:not([th]):odd').css('background-color', 'blue');
+
+Estamos usando **:not** que equivaldría a decir *diferente de*, en este caso, diferente de la cabecera.s
+
+Por último, vamos a seleccionar aquellas celdas que contengan el texto Kia, pero pintaremos *sus celdas hermanas*, y esto lo haremos con la función **siblings()**
+
+    $('#table1 td:contains("Kia")').siblings().css('background-color', 'green');
+
+Como en todo lenguaje, no sólo existe una manera de hacer las cosas, veremos ahora que otra manera existe para darle los mismos estilos a otra tabla
+
+Creamos una tabla idéntica a la anterior pero con otro id
+
+    <table id="table2" border="1">
+      <tr>
+        <th><a href="google.com">Modelo</a></th>
+        <th data-test="testing">Marca</th>
+        <th>Cantidad</th>
+      </tr>
+      <tr>
+        <td>Tiida</td>
+        <td>Nissan</td>
+        <td>10</td>
+      </tr>
+      <tr>
+        <td>Rio</td>
+        <td>Kia</td>
+        <td>5</td>
+      </tr>
+      <tr>
+        <td>Cerato</td>
+        <td>Kia</td>
+        <td>15</td>
+      </tr>
+      <tr>
+        <td>Yaris</td>
+        <td>Toyota</td>
+        <td>13</td>
+      </tr>
+    </table>
+
+Y ahora ponemos el código que pintará la tabla igual que la otra
+
+    $('#table2 th').parent().css('background-color', 'red')
+    .end()
+    .parent().find('th[data-test="testing"]').css('background-color', 'yellow')
+    .end()
+    .find('th a[href="google.com"]').css('background-color', 'skyblue')
+    .end()
+    .parent().find('tr:odd').css('background-color', 'blue')
+    .end()
+    .parent().find('td:contains("Kia")').siblings().css('background-color', 'green');
+
+Lo único distinto aquí es que hacemos uso de la función **end()**, la cual nos devuelve el objeto que estábamos usando. Por ejemplo, primero usamos *$('#table2 th').parent()* y le aplicamos un estilo mediante la función **css()**, pero queremos continuar con la sentencia sin necesidad de hacer otro selector, usamos entonces **end()** y obtendremos de vuelta el objeto *$('#table2 th').parent()*.
+
+No olvides postear cualquier duda!.
