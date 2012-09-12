@@ -1,4 +1,4 @@
-Qué hay de nuevo!. Ésta vez vamos a ver cómo utilizar seleccionadores personalizados. Te recomiendo que primero leas el tutorial de (www.carlos21.com/guides/jquery/selectors)[seleccionadores] ya que te servirá como base para enteder este tutorial :)
+Qué hay de nuevo!. Ésta vez vamos a ver cómo utilizar seleccionadores personalizados. Te recomiendo que primero leas el tutorial de [seleccionadores](www.carlos21.com/guides/jquery/selectors) ya que te servirá como base para enteder este tutorial :)
 
 Empecemos. Vamos a crear primero nuestro html
   
