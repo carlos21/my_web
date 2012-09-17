@@ -1,0 +1,61 @@
+Esta es la segunda parte del tutorial para crear nuestro chat personalizado. Puedes ver la primera parte del tutorial haciendo [click aquí](http://www.carlos21.com/guides/miscellanous/how-to-make-simple-chat-with-rails-and-pusher-part1). 
+
+Muy bien llegó la hora de continuar!
+
+Ya habíamos creado un método que inicializa las variables necesarias para nuestro chat. Ahora vamos a manejar los eventos más básicos para nuestro chat. Por ejemplo, el evento *Enter* o *Enviar mensajes* para que los demás usuarios puedan ver lo que vamos escribiendo.
+
+Creemos primero nuestro controlador para dicho propósito:
+
+    def post_message
+
+      # Obtenemos el chat público
+      chat = Chat.find(1)
+
+      # Obtenemos al usuario en sesión
+      user = User.get_or_set_user(session[:userid])
+
+      # Creamos un nuevo registro en messages
+      message = Message.new
+      message.description = params[:message]
+      message.chat_id = chat.id
+      message.user_id = user.id
+      message.created_at = Time.now
+      message.updated_at = Time.now
+
+      # Esta data será enviada a pusher para que la envíe a los browsers conectados a nuestro chat
+      data = message.attributes
+      data[:user] = user.attributes
+
+      # Grabamos el nuevo mensaje
+      if message.save
+
+        # Lanza el evento con el nombre 'receive_message'
+        Pusher[chat.channel].trigger('receive_message', data)
+
+        render :text => "sent"
+      else
+        render :text => "error"
+      end
+      
+    end
+
+Lo sé, debes estarte preguntando y de dónde sale tal **receive_message**. Lo veremos ahora mismo. Hasta esta parte le estamos diciendo a Pusher: *"Por favor, envia estos datos a todos los browsers que estén conectados"*, por lo tanto de alguna manera tenemos que recibir esa información en nuestra capa *view*, y eso es lo que haremos. Primero vamos a crear un archivo *.js* en el cual pondremos los eventos de pusher, lo llamaremos **chat.pusher.events.js**
+
+    $(document).ready(function(){
+
+      // Instanciamos la función Pusher con la llave que configuramos
+      var socket = new Pusher(PUSHER_KEY);
+      
+      // Ésta variable se utilizará para amarrar los eventos
+      var publicChannel = socket.subscribe(channel);
+
+      // Aquí está nuestro evento!. Le damos el nombre que llamamos en el controlador "receive_message"
+      publicChannel.bind('receive_message', function(message) {
+        $('#chat-messages').append("<div class='msg'><div class='msg-user'>" + message.user.nickname + " said:</div><div class='msg-description'>" + message.description + "</div></div>");
+      });
+
+    });
+
+Como podrás ver, esa variable *message* tiene los datos que le enviamos desde nuestro controlador, es por eso que podemos poner **message.user.nickname**, y así ir agregando *divs* para que se vayan mostrando los mensajes.
+
+Hasta este momento, ya hemos visto cómo recibir aquellos mensajes entrantes y también hemos declarado un método en nuestro controlador que enviará los datos a Pusher. El próximo paso es crear aquel evento que llame al controlador que hemos creado y lo veremos en el próximo capítulo. Así que síganme los buenos!. [Tercera parte](http://www.carlos21.com/guides/miscellanous/how-to-make-simple-chat-with-rails-and-pusher-part3)

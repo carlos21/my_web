@@ -1,0 +1,76 @@
+Saludos de nuevo!. He creado esta sección para poner todas aquellas cosas que no van directamente relacionado a un tema en especial. Aquí podrían ir ejemplos, usando muchas tecnologías a la vez, cualquiera de las que existen. En esta ocasión quisiera mostrarte cómo hacer un chat muy parecido al que hice para hacer esta web. Para esto usé Pusher. Pusher es un servicio por el cual podemos enviar y recibir información en tiempo real. Cuando enviemos un mensaje mediante nuestro chat, éste será enviado a través de Pusher a todos los navegadores que se hayan conectado a nuestra web, ya lo verás!.
+
+Pondré algunos layouts de ejemplo. Si quizás deseas el diseño del chat de ésta página puedes entrar a [mi repositorio de github](https://github.com/carlos21/my_web).
+
+Empecemos!
+
+Primero debemos entender los tipos de canales que maneja Pusher:
+
+* Public channels: puede entrar cualquier persona del exterior
+* Private channels: debe tener el prefijo *private-*. Puedes controlar el acceso a los datos que estás compartiendo
+* Presence channels: debe tener el ŕefijo *presence-* y son una extensión de los private channels. Permite que otros usuarios vean información de los que están dentro del canal.
+
+En este ejemplo, usaremos un canal público para que todo el mundo entre a nuestro chat
+
+Ahora que entendemos un poco más de los canales, empezaremos configurando las variables que nos solicita Pusher para poder autenticarnos. Llamaremos a este archivo **pusher.rb** y lo pondremos dentro de la carpeta **config/initializers/**
+
+    require 'pusher'
+ 
+    # Set your pusher API credentials here
+    Pusher.app_id = 'YOUR_ID'
+    Pusher.key = 'YOUR_KEY'
+    Pusher.secret = 'YOUR_SECRET'
+
+Ten en cuenta que estos datos te los da el mismo Pusher uno vez que te registras en la página ;)
+
+Vamos con la capa view entonces, crearemos los divs que conformarán nuestro chat
+
+    <div class="header">
+      <div><input type="text" id="nickname"></div>
+    </div>
+    <div class="content">
+      <div id="messages">
+        <!-- En esta parte irán nuestros mensajes! -->
+      </div>
+      <textarea id="message" name="message"></textarea>
+    </div>
+
+Tenemos que crear también nuestras tablas para registrar 3 cosas: canales, usuarios y los mensajes que éstos vayan enviando a los demás.
+Como sé que sabes cómo crear tablas con rails, obviaré esa parte y te diré qué campos tendrán cada tabla:
+
+* users: id, nickname
+* chats: id
+* messages: id, descripcion, chat_id, user_id
+
+Crearemos ahora unas cuantas variables javascript que usaremos a futuro:
+
+    <script type="text/javascript">
+      // Seteamos nuestras variables globales
+      var post_message_url = "<%=post_message_url%>";
+      var PUSHER_KEY = '<%= Pusher.key %>';
+      channel = "<%= @chat.channel %>";
+      chat_id = "<%= @chat.id %>";
+      user_id = "<%= @user.id %>";
+    </script>
+
+
+Como te habrás dado cuenta, estamos haciendo uso de variables que todavía no hemos creado en nuestro controlador, así que eso haremos en este momento. No olvides de crear un ruteo en tu archivos routes.rb para que puedas usar **post_message_url**:
+
+    match 'chat/post_message' => 'chat#post_message', :as => 'post_message'
+
+En mí caso específico haré uso del método **before_filter** de rails para llamar a mi método **init_chat** y que se ejecute antes de ir cualquier otro método y así poder iniciar el chat de forma correcta.
+
+    before_filter :init_chat
+
+    def init_chat 
+      @chat = Chat.find(1)
+      @user = User.get_or_set_user(session[:userid])
+      session[:userid] = @user.id
+      session[:usernickname] = @user.nickname
+
+      @messages = Message.includes(:user).where(:chat_id => @chat.id)
+    end
+
+No te preocupes, te diré qué está ocurriendo aquí. Primero que nada obtenemos el único que registro en la tabla chats, ya que será solo uno para todos los usuarios que se conecten. Puedes poner ese "1" en una constante si lo deseas. Luego estamos llamando al método **get_or_set_user** y lo que hará es insertar un registro a la tabla users si es que la sesión para el usuario no existe, es decir si es uno nuevo que recién se está conectando. Esto lo hacemos para que cada vez que el usuario escriba algo, podamos relacionarlo con los mensajes que vaya escribiendo y así poderlo mostrar a los demás. Luego ponemos al usuariio en sesión y por último obtenemos la lista de mensajes que tiene ese usuario.
+
+Ésta fue la primera parte para crear nuestro chat, una vez que te sientas listo [ve a la segunda parte de este tutorial!](http://www.carlos21.com/guides/miscellanous/how-to-make-simple-chat-with-rails-and-pusher-part2)

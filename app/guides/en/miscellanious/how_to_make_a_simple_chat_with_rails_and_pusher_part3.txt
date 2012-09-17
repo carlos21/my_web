@@ -1,0 +1,73 @@
+Hola una vez mas! Esta es la tercera parte del tutorial para crear un simple chat con Rails y Pusher. En la parte anterior, llegamos a crear aquel evento que escuchará las peticiones de Pusher y hará posible que nosotros veamos los mensajes en tiempo real. También llegamos a crear el método **post_message** en el controlador que se encargará que conectarse a Pusher para que envíe los datos. Ahora, debemos crear el evento que llame a ese **post_message** desde nuestra vista.
+
+Creemos un archivo javascript llamado **chat.events.js**
+
+    // Esta función será llamada al darle enter en el textarea
+    function send_message() { 
+      var message = $('#message').val();
+
+      // Validamos que el campo no esté vacío
+      if(message == '') {
+        alert('Please enter a message...');
+        $('#message').focus();
+        return false;
+      }
+      
+      // Hacemos una llamada AJAX a la ruta que apunta a nuestro controlador
+      $.ajax({
+        type: "POST",
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        url: post_message_url,
+        data: { "chat_id": chat_id, "message": message },
+        success: function(response){
+          $('#message').val("");
+        }
+      });
+      
+    }
+
+Vamos a detenernos un poco aquí. Si has seguido el tutorial desde la parte 1, deberías tener la variable **post_message_url** que tendrá la ruta hacia nuestro controlador. Como datos le estamos enviando el chat_id y el message. Por último, una vez que la petición regrese del servidor, limpiamos el textarea. 
+
+Si quizás no estás familiarizado con la syntaxis de JQuery, te recomiendo que primero vayas a la sección de jquery y practiques un poco antes de seguir ;)
+
+Lo que debemos hacer ahora es llamar a ese método **send_message** cuando le demos enter en el textarea
+
+    $(document).ready(function(){
+      $('#message').keydown(function(e){    
+        if (e.keyCode == 13) { send_message(); return false; }
+      });
+    );
+
+Ahora sí ya estamos listos! Es hora de que testees lo que has codificado. Si llegas a tener algún error no dudes en postear un comentario para responderte lo más pronto posible.
+
+Hasta el momento hemos visto como enviar y recibir mensajes mediante Pusher. Pero en un chat no sólamente se mandan mensajes, también tienes la opción de modificar tu nickname para que reconozcan quién eres. Así que ese será nuestro próximo reto.
+
+Vamos a crear nuestro controlador que se encargará de eso
+
+    def change_nickname
+      user = User.get_or_set_user(session[:userid])
+      user.nickname = params[:nickname]
+      user.save
+      render :text => "sent"
+    end
+
+Nada difícil eh?. Solo recibimos cuál es el nickname y mediante la variable **user_id** que tenemos en sesión lo actualizamos
+
+Lo siguiente que hubieramos hecho es crear el evento que recibiría los datos en la vista, pero en esta ocasión, solo vamos a actualizar el nickname, por lo tanto no necesitamos recibir nada. Ahora sólo debemos crear el evento para llamar al controlador. Otra vez vía AJAX
+    
+    // Vamos a cambiar el nickname cada vez que salgamos de la caja de texto
+    $("#nickname").focusout(function(e){
+      $.ajax({
+        type: "POST",
+        beforeSend: function(xhr) {xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))},
+        url: change_nickname_url,
+        data: { "nickname": $(this).val() }
+      });
+    });
+
+Esto es todo!. Me alegra que hayas seguido todo el tutorial. Pronto pondré más funcionalidades y cosas interesantes que podemos hacer en tiempo real gracias a Pusher. Nos vemos!.
+
+
+
+    
+

@@ -1,0 +1,104 @@
+Qué cuentas?. Primero que nada déjame decirte que sé muy poco de Ubuntu Linux. Éste tutorial lo hago mientras voy aprendiendo también; al igual que tú, así que qué te parece si le hechamoz un vistazo juntos? Recuerda que aquí todo vale, podemos equivocarnos miles de veces, sólo así nos aseguraremos haber aprendido y no nos volverá a pasar.
+
+Primero que nada quisiera aprender a manejar la consola de Ubuntu, ya que nos permite hacer infinidad de cosas sin necesidad de una interfaz gráfica, de la que al menos yo me he acostumbrado (por Windows).
+
+Hagamos algo tan simple como listar los archivos que tenemos dentro de nuestro escritorio
+
+    carlos@carlos-pc:~/Desktop$ ls
+
+Cuando ejecutamos el comando **ls** si argumentos, ubuntu nos listará los archivos de la carpeta en donde nos encontramos. En cambio, si le especificamos, por ejemplo una carpeta; nos mostrará el contenido de ella
+
+    carlos@carlos-pc:~/Desktop$ ls myfolder    
+
+Y si le pasamos el nombre de un archivo?. Sólamente nos devolverá el nombre de ese archivo. Es decir:
+
+    carlos@carlos-pc:~/Desktop$ ls myfile
+    myfile
+
+Puede parecer nada útil, pero si combinamos esto con otras instrucciones verás que se convertirá en algo que nos será de ayuda, pero lo veremos más adelante.
+
+Vamos a pasarle ahora al comando **ls** un argumento para poder identificar el tipo de archivo que hay dentro de nuestro directorio
+
+    carlos@carlos-pc:~/Desktop$ ls -F
+
+A continuación ubuntu nos muestra la misma lista de archivos pero con un identificador al lado de cada uno
+
+    3638593130-89319628-tickets.pdf   pgadmin3.desktop@
+    algorithm_my_web                  pipeline.txt
+    apuntes/                          pipeline.txt~
+    bootstrap/                        planning_poker_cards_v1.1.pdf
+    ejecutable*                       Projects/
+    curriculum actualizado 2011.docx  mario_image.png
+    DATABASE_URL                      r8168-8.031.00/
+    DATABASE_URL~                     r8168-8.031.00.tar.bz2
+
+Si el archivo es:
+
+* un ejecutable: mostrará **(*)**
+* un folder: mostrará **/**
+* un archivo : mostrará (nada en especial)
+* un hard link: mostrará @
+
+Vamos a mostrar ahora los mismos objetos pero de una manera un poco más detallada (en formato largo) usando otro argumento
+
+    carlos@carlos-pc:~/Desktop$ ls -l
+
+Obtendremos un resultado parecido a éste:
+
+    -rw-rw-r--  1 carlos carlos  84601 May 28 12:34 3638593130-89319628-tickets.pdf
+    -rw-r--r--  1 carlos carlos   1056 Jul  1 06:14 algorithm_my_web
+    -rw-rw-r--  1 carlos carlos    504 Aug 18 03:27 apuntes
+    drwxrwxr-x  5 carlos carlos   4096 May 28 09:59 bootstrap
+    -rw-rw-r--  1 carlos carlos   6089 Jun 21 11:45 Cmsonrails.html
+    -rw-rw-r--  1 carlos carlos  63285 May  3 09:51 curriculum actualizado 2011.docx
+    -rw-rw-r--  1 carlos carlos    375 Aug 26 12:35 DATABASE_URL
+    -rw-rw-r--  1 carlos carlos    375 Aug 26 12:22 DATABASE_URL~
+
+No te preocupes que ahorita vemos que es cada cosa:
+
+* **-rw-rw-r--** son los permisos que tenemos sobre el objeto (read-write-remove)
+* **1** es el número de hard links, que veremos más adelante
+
+* **carlos carlos** el el propietario-grupo respenctivamente
+* **84601** es el tamaño del objeto
+* **May 28 12:34** es la fecha y hora de la última modificación
+* **638593130-89319628-tickets.pdf** es el nombre del archivo
+
+
+Vamos a mostrar los mismos archivos pero esta vez incluyendo aquellos archivos ocultos que comienzan con un punto **(.)**
+
+    carlos@carlos-pc:~/Desktop$ ls -a
+
+A un comando podemos también pasarle más de un argumento. Por ejemplo, vamos a pasarle el argumento **a** y **F** al mismo tiempo
+
+    carlos@carlos-pc:~/Desktop$ ls -aF  
+
+Con esto le estamos diciendo a ubuntu: *muéstrame el tipo de los archivos y también incluye a los que estén ocultos*  
+
+
+Muy bien, llegó la hora de explicar algunas cosas antes de continuar. COmo has visto los argumentos que le hemos ido pasando al comando **ls** siempre han tenido un guión seguido de una letra lo cual es un estándar. Si el argumento va a tener una sola letra, debe empezar con un guión; si va a tener más de una letra, deberá empezar con dos guiones
+
+Vamos a hacer una pequeña prueba
+
+    carlos@carlos-pc:~/Desktop$ ls -help
+
+Qué nos sale?. Un error, entonces corrijámoslo
+
+    carlos@carlos-pc:~/Desktop$ ls --help
+
+La razón es sencilla y ya te habrás dado cuenta, vimos en distintos ejemplos que cuando utilizamos varias opciones o argumentos de una única letra podemos compilarlas y después de un único guión poner varias letras pero cada una de ellas es una instrucción diferente. Si no hiciéramos algo para diferenciar de cuando varias letras son distintos comandos o son un único comando el intéŕprete no sabría entender a cuál nos referimos.
+
+Por último vamos a ver dos últimos comandos: **man** y **info**
+
+Con **man** vamos a obtener un manual de ayuda online de la opción que le especifiquemos y que aparecerá formateado para que se vea dentro de nuestra terminal. Vamos a pedir un manual del mismo comando **man**
+
+    carlos@carlos-pc:~/Desktop$ man man
+
+Provee información sobre el uso en general de los comandos y también con ejemplos de su utilización, así que es un modo de poder produndizar en el uso de un comando. 
+
+Existe también una manera más moderna de obtener información más completa y más actualizada; y es con el comando **info**
+
+    carlos@carlos-pc:~/Desktop$ info info
+
+
+Hemos visto una pequeña introducción a la línea de comandos de ubuntu, en el próximo tutorial veremos los comandos básicos que debemos aprender y así familiarizarnos poco a poco con esta forma de ejecutar intrucciones.

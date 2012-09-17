@@ -1,0 +1,143 @@
+Ya hemos visto una pequeña introducción de cómo ejecutar comandos (para entrar en calor). Ahora vamos a ver más comandos para profundizar aún más nuestros conocimientos.
+
+Empecemos a ejecutar algunos comandos
+
+**cd**
+Sirve para acceder a directorios. Vayamos a la carpeta projects
+
+    carlos@carlos-pc:~/Desktop$ cd projects
+
+Cómo vamos a la raíz?. Con un slash **/**
+
+    carlos@carlos-pc:~/Desktop$ cd /
+
+Y qué pasaría si coloco simplemente **cd**?. Estaremos yendo directamente al directorio **home**
+
+    carlos@carlos-pc:~/Desktop$
+
+Vamos ahora a retroceder entre direcorios. **(..)** se refiere al directorio padre de donde nos encontramos
+
+    carlos@carlos-pc:~/Desktop$ cd ..
+
+<br />
+**ls**
+Lista los archivos de un directorio
+
+    carlos@carlos-pc:~/Desktop$ ls
+
+    3638593130-89319628-tickets.pdf   pgadmin3.desktop@
+    algorithm_my_web                  pipeline.txt
+    apuntes                           pipeline.txt~
+    bootstrap/                        planning_poker_cards_v1.1.pdf
+    Cmsonrails.html                   Projects/
+
+**clear**
+Simplemente limpia la pantalla del terminal
+
+    carlos@carlos-pc:~/Desktop$ clear
+
+<br/>
+**mkdir**
+Crea un folder
+
+    carlos@carlos-pc:~/Desktop$ mkdir test_folder
+
+<br/>
+**rmdir**
+Remueve un folder
+
+    carlos@carlos-pc:~/Desktop$ rmdir test_folder
+
+<br />
+**mv**
+Este comando mueve un archivo de una carpeta a otra
+
+    carlos@carlos-pc:~/Desktop$ mv pipeline.txt /usr/bin
+
+También puede ser usado para renombrar un archivo
+
+    carlos@carlos-pc:~/Desktop$ mv pipeline.txt new_pipeline.txt
+
+<br />
+**cp**
+Copia un archivo de un directorio a otro
+
+    carlos@carlos-pc:~/Desktop$ cp pipeline.txt Projects/pipeline.txt
+
+<br />
+**passwd**
+Resetea al password de tu usuario. Primero, tendrás que poner tu contraseña antigua y luego la nueva dos veces
+
+    carlos@carlos-pc:~/Desktop$ passwd
+
+<br />
+**main**
+Abre un manual de un comando en específico
+
+    carlos@carlos-pc:~/Desktop$ man man
+
+<br />
+**rm**
+Remueve un archivo
+
+<br/>
+**nano**
+Permite editar un archivo de texto dentro de la misma consola
+
+    carlos@carlos-pc:~/Desktop$ nano pipeline.txt
+
+<br/>
+**pwd**
+Te muéstra en qué directorio te encuentras
+
+    carlos@carlos-pc:~/Desktop$ pwd
+    /home/carlos/Desktop
+
+<br/>
+**less**
+Te muestra un archivo de texto, pero no lo podrás editar
+
+    carlos@carlos-pc:~/Desktop$ less pipeline.txt
+
+<br />
+**cal**
+Abre un calendario del mes y día actual
+
+<br/>
+**date**
+Te da la fecha y hora actual
+
+    carlos@carlos-pc:~/Desktop$ date
+    Sun Sep  9 04:27:44 PET 2012
+
+<br />
+**uptime**
+Muestra la cantidad de tiempo que tu PC está encendida
+
+    carlos@carlos-pc:~/Desktop$ uptime
+    04:28:24 up 18:25,  2 users,  load average: 0.57, 0.43, 0.48
+
+<br /
+**ping**
+Envía paquetes de datos a una IP. Sirve para comprobar la conectividad
+
+    carlos@carlos-pc:~/Desktop$ ping www.google.com
+
+<br />
+**df -h**
+Te meustra información del disco duro
+
+    carlos@carlos-pc:~/Desktop$ df -h
+
+    Filesystem      Size  Used Avail Use% Mounted on
+    /dev/sda6       174G   31G  134G  19% /
+    udev            1.4G  4.0K  1.4G   1% /dev
+    tmpfs           549M  952K  548M   1% /run
+    none            5.0M     0  5.0M   0% /run/lock
+    none            1.4G  468K  1.4G   1% /run/shm
+
+
+
+    
+
+  

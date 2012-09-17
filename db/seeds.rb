@@ -21,7 +21,7 @@ Category.create(:name => 'Node.js', :tooltip => 'About Node.js',:image_url => 'n
 Category.create(:name => 'Rails', :tooltip => 'About Rails', :image_url => 'rails.png',  :status => 'A', :path => 'rails', :small_description => 'Rails')
 Category.create(:name => 'Ruby', :tooltip => 'About Ruby', :image_url => 'ruby.jpg', :status => 'A', :path => 'ruby', :small_description => 'Ruby')
 Category.create(:name => 'Ubuntu', :tooltip => 'About Ubuntu', :image_url => 'ubuntu.png', :status => 'A', :path => 'ubuntu', :small_description => 'Ubuntu')
-Category.create(:name => 'Miscellanious', :tooltip => 'A bit of everything', :image_url => 'ubuntu.png', :status => 'A', :path => 'a-bit-of-everything', :small_description => 'Some examples of many things')
+Category.create(:name => 'Miscellaneous', :tooltip => 'A bit of everything', :image_url => 'm-icon.png', :status => 'A', :path => 'miscellaneous', :small_description => 'Some examples of many things')
 
 ######### English #########
 # Ruby
@@ -65,8 +65,13 @@ Article.create(:name => 'Understanding animations queues', :small_description =>
 Article.create(:name => 'Learning how to use pseudo classes', :small_description => 'jeje', :category_id => 1, :path => 'learning-how-to-use-pseudo-classes', :route => '/app/guides/en/css3/learning_how_to_use_pseudo_classes.txt', :language => 'en', :visits => 0, :image_url => 'css3.jpg', :messages => 0)
 
 # Ubuntu
-Article.create(:name => 'Ubuntu command line from zero', :small_description => 'Lets start running some commands on the terminal', :category_id => 8, :path => 'ubuntu-command-line-from-zero', :route => '/app/guides/en/ubuntu/learning_to_use_the_command_line.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
-Article.create(:name => 'Basic commands', :small_description => 'These are the most popular comandos and we must to know them!', :category_id => 8, :path => 'ubuntu-basic-commands', :route => '/app/guides/en/ubuntu/basic_commands.txt', :language => 'en', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
+Article.create(:name => 'Ubuntu command line from zero', :small_description => 'Lets start running some commands on the terminal', :category_id => 8, :path => 'ubuntu-command-line-from-zero', :route => '/app/guides/en/ubuntu/learning_to_use_the_command_line.txt', :language => 'en', :visits => 0, :image_url => 'ubuntu.png', :messages => 0)
+Article.create(:name => 'Basic commands', :small_description => 'These are the most popular comandos and we must to know them!', :category_id => 8, :path => 'ubuntu-basic-commands', :route => '/app/guides/en/ubuntu/basic_commands.txt', :language => 'en', :visits => 0, :image_url => 'ubuntu.png', :messages => 0)
+
+# Miscellaneous
+Article.create(:name => 'How to make a simple chat with Rails and Pusher - Part 1', :small_description => 'You can create your own chat from zero and add it all the functionalities that you want', :category_id => 9, :path => 'how-to-make-a-simple-chat-with-rails-and-pusher-part-1', :route => '/app/guides/en/miscellaneous/how_to_make_a_simple_chat_with_rails_and_pusher_part1.txt', :language => 'en', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
+Article.create(:name => 'How to make a simple chat with Rails and Pusher - Part 2', :small_description => 'You can create your own chat from zero and add it all the functionalities that you want', :category_id => 9, :path => 'how-to-make-a-simple-chat-with-rails-and-pusher-part-2', :route => '/app/guides/en/miscellaneous/how_to_make_a_simple_chat_with_rails_and_pusher_part2.txt', :language => 'en', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
+Article.create(:name => 'How to make a simple chat with Rails and Pusher - Part 3', :small_description => 'You can create your own chat from zero and add it all the functionalities that you want', :category_id => 9, :path => 'how-to-make-a-simple-chat-with-rails-and-pusher-part-3', :route => '/app/guides/en/miscellaneous/how_to_make_a_simple_chat_with_rails_and_pusher_part3.txt', :language => 'en', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
 
 ###########################
 
@@ -112,11 +117,16 @@ Article.create(:name => 'Seleccionadores personalizados', :small_description => 
 Article.create(:name => 'Entendiendo las colas de animaciones', :small_description => 'Cómo manejar las colas de aniimaciones? Mira esto!.', :category_id => 4, :path => 'selectors', :route => '/app/guides/en/jquery/understanding_animation_queues.txt', :language => 'es', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
 
 # CSS3
-Article.create(:name => 'Learning how to use pseudo classes', :small_description => 'Estas pseudo classes nos ayudarán obtener elementos más fácilmente', :category_id => 1, :path => 'learning-how-to-use-pseudo-classes', :route => '/app/guides/en/css3/learning_how_to_use_pseudo_classes.txt', :language => 'es', :visits => 0, :image_url => 'css3.jpg', :messages => 0)
+Article.create(:name => 'Aprendiendo a usar pseudo classes', :small_description => 'Estas pseudo classes nos ayudarán obtener elementos más fácilmente', :category_id => 1, :path => 'learning-how-to-use-pseudo-classes', :route => '/app/guides/en/css3/learning_how_to_use_pseudo_classes.txt', :language => 'es', :visits => 0, :image_url => 'css3.jpg', :messages => 0)
 
 # Ubuntu
-Article.create(:name => 'Ubuntu línea de comandos desde cero', :small_description => 'Vamos a empezar corriendo algunos comandos en el terminal', :category_id => 8, :path => 'ubuntu-command-line-from-zero', :route => '/app/guides/en/ubuntu/learning_to_use_the_command_line.txt', :language => 'es', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
-Article.create(:name => 'Comandos básicos', :small_description => 'Estos comandos son unos de los más usados y debemos saberlos!', :category_id => 8, :path => 'ubuntu-basic-commands', :route => '/app/guides/en/ubuntu/basic_commands.txt', :language => 'es', :visits => 0, :image_url => 'jquery.gif', :messages => 0)
+Article.create(:name => 'Ubuntu línea de comandos desde cero', :small_description => 'Vamos a empezar corriendo algunos comandos en el terminal', :category_id => 8, :path => 'ubuntu-command-line-from-zero', :route => '/app/guides/en/ubuntu/learning_to_use_the_command_line.txt', :language => 'es', :visits => 0, :image_url => 'ubuntu.png', :messages => 0)
+Article.create(:name => 'Comandos básicos', :small_description => 'Estos comandos son unos de los más usados y debemos saberlos!', :category_id => 8, :path => 'ubuntu-basic-commands', :route => '/app/guides/en/ubuntu/basic_commands.txt', :language => 'es', :visits => 0, :image_url => 'ubuntu.png', :messages => 0)
+
+# Miscellaneous
+Article.create(:name => 'Cómo hacer un chat simple con Rails y Pusher - Part 1', :small_description => 'Ahora puedes crear tu propio chat y ponerle toda la funcionalidad que desees!', :category_id => 9, :path => 'how-to-make-a-simple-chat-with-rails-and-pusher-part-1', :route => '/app/guides/en/miscellaneous/how_to_make_a_simple_chat_with_rails_and_pusher_part1.txt', :language => 'es', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
+Article.create(:name => 'Cómo hacer un chat simple con Rails y Pusher - Part 2', :small_description => 'Ahora puedes crear tu propio chat y ponerle toda la funcionalidad que desees!', :category_id => 9, :path => 'how-to-make-a-simple-chat-with-rails-and-pusher-part-2', :route => '/app/guides/en/miscellaneous/how_to_make_a_simple_chat_with_rails_and_pusher_part2.txt', :language => 'es', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
+Article.create(:name => 'Como hacer un chat simple con Rails y Pusher - Part 3', :small_description => 'Ahora puedes crear tu propio chat y ponerle toda la funcionalidad que desees!', :category_id => 9, :path => 'how-to-make-a-simple-chat-with-rails-and-pusher-part-3', :route => '/app/guides/en/miscellaneous/how_to_make_a_simple_chat_with_rails_and_pusher_part3.txt', :language => 'es', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
 
 ###########################
 
