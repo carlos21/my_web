@@ -46,7 +46,7 @@ class MainController < ApplicationController
     articles = Article.includes(:category).where(:language => session[:lang])
     
     @random_articles = []
-    random_array = get_random_array(24, articles.size)
+    random_array = get_random_array(32, articles.size)
 
     random_array.each do |index|
       @random_articles << articles[index]

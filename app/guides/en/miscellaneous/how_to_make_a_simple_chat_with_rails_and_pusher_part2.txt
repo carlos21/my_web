@@ -58,4 +58,4 @@ Lo sé, debes estarte preguntando y de dónde sale tal **receive_message**. Lo v
 
 Como podrás ver, esa variable *message* tiene los datos que le enviamos desde nuestro controlador, es por eso que podemos poner **message.user.nickname**, y así ir agregando *divs* para que se vayan mostrando los mensajes.
 
-Hasta este momento, ya hemos visto cómo recibir aquellos mensajes entrantes y también hemos declarado un método en nuestro controlador que enviará los datos a Pusher. El próximo paso es crear aquel evento que llame al controlador que hemos creado y lo veremos en el próximo capítulo. Así que síganme los buenos!. [Tercera parte](http://www.carlos21.com/guides/miscellanous/how-to-make-simple-chat-with-rails-and-pusher-part-3)
+Hasta este momento, ya hemos visto cómo recibir aquellos mensajes entrantes y también hemos declarado un método en nuestro controlador que enviará los datos a Pusher. El próximo paso es crear aquel evento que llame al controlador que hemos creado y lo veremos en el próximo capítulo. Así que síganme los buenos!. [Tercera parte](http://www.carlos21.com/guides/miscellanous/how-to-make-simple-chat-with-rails-and-pusher-part-3) 

@@ -65,7 +65,7 @@ Lo siguiente que hubieramos hecho es crear el evento que recibiría los datos en
       });
     });
 
-Esto es todo!. Me alegra que hayas seguido todo el tutorial. Pronto pondré más funcionalidades y cosas interesantes que podemos hacer en tiempo real gracias a Pusher. Nos vemos!.
+Esto es todo!. Me alegra que hayas seguido todo el tutorial. Pronto pondré más funcionalidades y cosas interesantes que podemos hacer en tiempo real gracias a Pusher. Nos vemos!. 
 
 
 
