@@ -19,6 +19,7 @@ gem 'i18n'
 gem 'thin'
 gem 'tlsmail'
 gem 'pusher'
+gem 'omniauth-facebook'
 
 # Gems used only for assets and not required
 # in production environments by default.

@@ -1,0 +1,290 @@
+Hola de nuevo. Esta parte será mucho más fácil si has leído el [tutorial del chat usando pusher](www.carlos21.com/guides/miscellaneous/how-to-make-a-simple-chat-with-rails-and-pusher-part-1), ya que aplicaremos los mismos principios.
+
+De paso que hacemos esto, vamos a agregarle algunos botoncillos para seleccionar colores y limpiar el lienzo ;)
+
+Vamos a agregar un arreglo a nivel global para los colores y el pusher key
+
+    var clickColor = new Array();
+    var PUSHER_KEY = '<%= Pusher.key %>';
+
+Y también la rutas que utilizaremos
+
+    var save_history_drawing_url = "<%=save_history_drawing_url %>"
+    var clear_history_drawing_url = "<%=clear_history_drawing_url %>"
+
+Agregaremos el evento **clear** para limpiar el lienzo
+
+    $('#clear').click(function(e){
+      clickX = new Array();
+      clickY = new Array();
+      clickColor = new Array();
+      clickDrag = new Array();
+      redraw();
+
+      $.ajax({
+        type: "post",
+        url: clear_history_drawing_url
+      });
+    });
+
+Y también agregamos eventos para los botones que te mencioné
+
+    $('#blue').click(function(e){
+      color = "blue";
+    });
+
+    $('#eraser').click(function(e){
+      color = "white";
+    });
+
+    $('#black').click(function(e){
+      color = "black";
+    });
+
+    $('#yellow').click(function(e){
+      color = "yellow";
+    });
+
+    $('#green').click(function(e){
+      color = "green";
+    });
+
+    $('#red').click(function(e){
+      color = "red";
+    });
+
+Hagamos memoria. La función **addClick** servía para ir llenando los arreglos de las posiciones, ahora tendremos que decirle que vaya agregando los colores también!
+
+    function addClick(x, y, color, dragging){
+      clickX.push(x);
+      clickY.push(y);
+      clickColor.push(color);
+      clickDrag.push(dragging);
+    }
+
+De igual manera en el evento **mousedown**, le mandamos el color como parámetro
+
+    $('#canvas').mousedown(function(e){
+      var mouseX = e.pageX - this.offsetLeft;
+      var mouseY = e.pageY - this.offsetTop;
+        
+      paint = true;
+      addClick(mouseX, mouseY, color);
+      redraw();
+    });
+
+Igual para el **mousemove**
+
+    $('#canvas').mousemove(function(e){
+      if(paint){
+        addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, color, true);
+        redraw();
+      }
+    });
+
+En el evento **mouseleave** viene lo interesante porque haremos la llamada AJAX para grabar en la base de datos
+
+    $('#canvas').mouseleave(function(e){
+
+      if(paint == true) {
+        $.ajax({
+          type: "post",
+          url: save_history_drawing_url,
+          data: {
+            x_pos: clickX,
+            y_pos: clickY,
+            color_pos: clickColor,
+            drag_pos: clickDrag
+          },
+          beforeSend: function(){
+            paint = false;
+          }
+        });
+      }
+
+      paint = false;
+      
+    });
+
+Lo que hacemos básicamente es enviarle los arreglos que se han llenado para guarlo en la db.
+
+En la función **redraw**, vamos a agregarle el color también!
+
+    function redraw(){
+      canvas.width = canvas.width; // Clears the canvas
+      
+      context.lineJoin = "round";
+      context.lineWidth = 5;
+          
+      for(var i=0; i < clickX.length; i++) {   
+        context.beginPath();
+        # agregamos el color
+        context.strokeStyle = clickColor[i];
+        if(clickDrag[i] && i) {
+          context.moveTo(clickX[i-1], clickY[i-1]);
+        } else {
+          context.moveTo(clickX[i]-1, clickY[i]);
+        }
+        context.lineTo(clickX[i], clickY[i]);
+        context.closePath();
+        context.stroke();
+      }
+    }
+
+Hemos terminado de modificar los eventos para dibujar, pero no nos olvidemos de los eventos de Pusher, que serán los que nos mostraŕan los cambios de manera real!
+
+Declaramos nuestras variables
+
+    var socket = new Pusher(PUSHER_KEY);
+    channel = "<%= @drawing.name %>";
+    chat_id = "<%= @drawing.id %>";
+    user_id = "<%= @user.id %>";
+
+    var publicChannel = socket.subscribe(channel);
+
+Declaramos el eventos para recibir los cambios, cada vez que alguien dibuje
+
+    publicChannel.bind('receive_drawing', function(history_drawing) {
+      if (history_drawing != null) {
+        if (history_drawing.user.id == user_id) {return true;}
+
+        clickX = history_drawing.x_pos.split(",");
+        clickY = history_drawing.y_pos.split(",");
+        clickColor = history_drawing.color_pos.split(",");
+        clickDrag = history_drawing.drag_pos.split(",");
+
+        redraw();
+      }
+      
+    });
+
+Desde nuestro controlador, le estamos enviando un string separado por comas, es por eso que estamos haciendo un split a cada campo para obtener un arreglo y setearselo a los arreglos que teniamos arriba declarados
+
+Declaramos ahora el evento para limpiar el lienzo
+
+    publicChannel.bind('clear_drawing', function(user) {
+      if (user != null) {
+        if (user.id == user_id) {return true;}
+
+        clickX = new Array();
+        clickY = new Array();
+        clickColor = new Array();
+        clickDrag = new Array();
+
+        redraw();
+      }
+      
+    });
+
+Nada difícil eh? Solo limpiamos los arreglos!
+
+Lo último que pondremos en el lado del cliente es este código par que cargue el dibujo la primera vez que entremos a la página
+
+    <% if !@history_drawing.nil? %>
+      var x_string = "<%= @history_drawing.x_pos %>"
+      var y_string = "<%= @history_drawing.y_pos %>"
+      var color_string = "<%= @history_drawing.color_pos %>"
+      var drag_string = "<%= @history_drawing.drag_pos %>"
+
+      clickX = x_string.split(",");
+      clickY = y_string.split(",");
+      clickColor = color_string.split(",");
+      clickDrag = drag_string.split(",");
+
+      redraw();
+
+    <% end %>
+
+Es hora de pasar al controlador, pero primero estas son las tablas que manejaremos:
+
+    * drawing: tendrá un único registro que será el dibujo que todos ven
+    * user: grabará los usuarios que se conecten
+    * history_drawing: grabará cada cosa que hagamos
+
+En nuestro **DrawingController** tendremos:
+
+    class DrawingController < ApplicationController
+      before_filter :init_drawing
+
+      def init_drawing 
+
+        # Obtenemos el dibujo
+        @drawing = Drawing.find(1)
+
+        # Obtenemos o creamos el usuario
+        @user = User.get_or_set_user(session)
+
+        # Obtenemos el ultimo history drawing para mostrarlo
+        @history_drawings = HistoryDrawing.where(:drawing_id => 1).order('created_at desc').limit(1)
+
+        if @history_drawings.any?
+          @history_drawing = @history_drawings[0]
+        end
+      end
+
+      def index
+        respond_to do |format|
+          format.html
+        end
+      end
+
+    end
+
+La clave aquí es obtener el último hsitory_drawing para obtener los últimos cambios que se hayan realizado. Como podrás ver estamos guardando el registro de cada cosa que el usuario haga, por si quieres recuperar el dibuja a una versión específica anterior
+
+
+    class HistoryDrawingController < ApplicationController
+
+      # Grabamos el history_drawing
+      def save_history_drawing
+
+        # Obtenemos el drawing
+        drawing = Drawing.find(1)
+
+        # Obtenemos o seteamos al usuario
+        user = User.get_or_set_user(session)
+
+        # Creamos un history_drawing
+        history_drawing = HistoryDrawing.new
+
+        # Convertimos los arreglos a cadenas separadas por comas
+        history_drawing.x_pos = params[:x_pos].join(",") if !params[:x_pos].nil?
+        history_drawing.y_pos = params[:y_pos].join(",") if !params[:y_pos].nil?
+        history_drawing.drag_pos = params[:drag_pos].join(",") if !params[:drag_pos].nil?
+        history_drawing.color_pos = params[:color_pos].join(",") if !params[:color_pos].nil?
+
+        # Seteamos los demas campos
+        history_drawing.user_id = user.id
+        history_drawing.drawing_id = drawing.id
+        history_drawing.created_at = Time.now
+        history_drawing.updated_at = Time.now
+
+        data = history_drawing.attributes
+        data[:user] = user.attributes
+
+        # Enviamos los datos a los demas navegadores coenctados
+        if history_drawing.save
+          Pusher[drawing.name].trigger('receive_drawing', data)
+          render :text => 'success'
+        else
+          render :text => 'error'
+        end
+
+      end
+
+
+      # Limpiamos el lienzo
+      def clear_history_drawing
+        drawing = Drawing.find(1)
+        user = User.get_or_set_user(session)
+
+        data = user.attributes
+
+        HistoryDrawing.delete_all
+        Pusher[drawing.name].trigger('clear_drawing', data)
+        render :text => 'success'
+      end
+
+    end
+
+En el caso de limpiar el lienzo, podríamos haber creado un history_drawing con cadenas vacías! Pero eso te lo dejo de tarea ;). Por el momento hemos terminado, no olvidas de consultar cualquier cosa. Mucha suerte!

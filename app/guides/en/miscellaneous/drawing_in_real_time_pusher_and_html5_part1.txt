@@ -1,0 +1,93 @@
+Hola una vez mas!, Ya debes saber que me gusta investigar nuevas tecnologías y crear cosas interesantes. Trataré de transmitirte todo lo que aprendo de la mejor manera posible que lo entiendas y lo aplique algún día en la vida real no sólamente a manera de ejemplo =D
+
+Esta vez nos toca combinar Rails, Ruby, Pusher, JQuery y HTML5. Haremos nuestros propios dibujos!
+
+Te recomiendo que antes de que sigas leyendo este tutorial, vayas primero a [Cómo hacer un chat simple con Rails y Pusher](http://www.carlos21.com/guides/miscellanous/how-to-make-a-simple-chat-with-rails-and-pusher-part-1). Ahí te explico detalladamente cómo funciona Pusher y los eventos que maneja, así que para que no te pierdas ve ahora mismo!.
+
+Bien, también es recomendable que vayas al tutorial de [Dibujando formas con HTML5](http://www.carlos21.com/guides/html5/drawing-forms), aquí te explico cómo dibujar formas dentro del canvas ;)
+
+Una vez hecho esto procedemos con nuestro ejercicio.
+
+Primero, vamos a crear nuestro html básico
+
+    <div id="canvas-container">
+        <canvas id="canvas" width="1000" height="500"></canvas>
+    </div>
+
+Por el momento solo tenemos nuestro canvas con un ancho y alto establecido. Nuestro próximo paso es conseguir dibujar con el mouse mientras lo mantengamos presionado.
+
+    var paint;
+    var context = document.getElementById('canvas').getContext("2d");
+    var clickX = new Array();
+    var clickY = new Array();
+    var clickDrag = new Array();
+    var color = "#df4b26";
+
+    function addClick(x, y, dragging){
+      clickX.push(x);
+      clickY.push(y);
+      clickDrag.push(dragging);
+    }
+
+Estamos definiendo la función **addClick** que se encargará se llenar los arreglos que tendrán las posiciones de X e Y que básicamente son las coordenadas por donde pasará el mouse cada vez que lo movamos mientras lo tenemos presionado. Ahora, definimos la función **mousedown**
+
+    $('#canvas').mousedown(function(e){
+
+      // Obtenemos la coordenadas
+      var mouseX = e.pageX - this.offsetLeft;
+      var mouseY = e.pageY - this.offsetTop;
+        
+      paint = true;
+      addClick(mouseX, mouseY);
+      redraw();
+    });
+
+Lo que estamos haciendo setear la variable paint a **true** para indicar que estamos empezando a escribir, luego llamamos a la función **addClick** para registrar las coordenadas en los arreglos. Luego, repintamos el canvas con **redraw**, función que crearemos después.
+
+Ahora programaremos, la función **mousemove**
+
+    $('#canvas').mousemove(function(e){
+      if(paint){
+        addClick(e.pageX - this.offsetLeft, e.pageY - this.offsetTop, color, true);
+        redraw();
+      }
+    });
+
+Inmediatamente después de ejecutarse el evento **mousedown**, se ejecutará **mousemove**. Ésta función se ejecutará apenas hagamos el mínimo movimiento con el mouse. Por eso preguntamos, si se está dibujando (mediante la variable paint), agregamos a los arreglos las coordenadas por donde va pasando el mouse y repintamos.
+
+Cuando terminemos de pintar, debemos setear la variable **paint** a false
+
+    $('#canvas').mouseup(function(e){
+      paint = false;
+    });
+
+De igual manera, en el evento **mouseleave**, ya que es probable que salgamos del canvas, aún manteniendo apretado el botón del mouse.
+
+Nos toca, definir la función **redraw** que pintará en el canvas
+
+    function redraw(){
+
+      // Limpia el canvas
+      canvas.width = canvas.width;
+      
+      context.lineJoin = "round";
+      context.lineWidth = 5;
+      
+      // Itera el arreglo de X
+      for(var i=0; i < clickX.length; i++) {   
+        context.beginPath();
+        context.strokeStyle = color;
+
+        // Indica si es un dibujo continuo o no ()
+        if(clickDrag[i] && i) {
+          context.moveTo(clickX[i-1], clickY[i-1]);
+        } else {
+          context.moveTo(clickX[i]-1, clickY[i]);
+        }
+        context.lineTo(clickX[i], clickY[i]);
+        context.closePath();
+        context.stroke();
+      }
+    }
+
+Estamos listos!. Ya puedes dibujar con HTML5 y lo complementaremos con Pusher en el siguiente tutorial!.  [Ir a la segunda parte](http://www.carlos21.com/guides/miscellanous/drawing-in-real-time-with-pusher-and-html5-part-2)
