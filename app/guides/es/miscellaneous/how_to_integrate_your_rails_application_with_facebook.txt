@@ -1,0 +1,389 @@
+Helloooooou! No desesperes, aquí voy con otro tutorial interesante que de seguro no querraś perderte. Se trata nada más y nada menos que integrar tu aplicación de rails con el api de facebook. Pero qué logramos con esto?. Por ejemplo, podrías hacer que el usuario de tu web se loguee mediante su facebook y no tenga que estarse registrando por millonésima vez en una web más. Seguramente, has tenido que crear una cuenta para publicar y responder en juanito.com y también en jorgito.com, y así sucesicamente en 'n' webs de tu interés. No sería lo máximo usar solo una cuenta que siempre recuerdes?. No te ha pasado que te olvidas tu contraseña de las cuentas que creas?. Yo hasta ni me acuerdo del nickname que me puse! Juas!.
+
+Ahora sí vamos a lo que nos interesa. 
+
+Usaremos esta gema en nuestro Gemfile para dicho propósito
+
+    gem 'omniauth-facebook', '1.4.0'
+
+Y tambien la gema Koala, para obtener datos del usuario
+
+    gem 'koala'
+
+Recomiendo usar la versión 1.4 de omniauth porque he leído que la versión posterior tiene algunos bugs, así que esta es la más estable hasta el momento.
+
+Creamos nuestro model **User**
+
+    rails g model User name oauth_token oauth_secret provider uid username
+
+Configuramos nuestra base de datos
+
+    development:
+      adapter: postgresql
+      encoding: unicode
+      database: facebook
+      pool: 5
+      username: postgres
+      password: ...
+
+Creamos la tabla **users**
+
+    rake db:migrate
+
+Hasta aquí tenemos lo necesario en cuanto a nuestro proyecto en rails se refiere. Lo siguiente que haremos es ir a la siguiente dirección: [https://developers.facebook.com](https://developers.facebook.com). Aquí tendrás que registrar tu aplicación para que Facebook sepa quien está pidiendo información de un determinado usuario y también para hacerle saber al usuario mismo, quién eres tú; y así decida, si permite o no que accedas a ella
+
+Llenas los datos que te piden, hasta que veas tres campos (solo son de ejemplo), tú los llenarás con los datos de tu aplicación:
+    
+* Site URL: http://socialnetworks.carlos21.com/
+* Canvas URL: http://socialnetworks.carlos21.com/homepage/
+* Secure Canvas URL: *https*://socialnetworks.carlos21.com/
+
+En tu caso, para propósitos de prueba, llenarías los campos con:
+
+* Site URL: http://localhost:3000/
+* Canvas URL: http://localhost:3000/
+* Secure Canvas URL: *https*://localhost:3000/
+
+Una vez que le des en **Guardar cambios**, Facebook te dará un App ID y App Secret. Estos dos datos son importantes, ya que con ellos, Facebook te dará un token que te servirá por un período de tiempo, con el cual podrás acceder a información pública del usuario (lo veremos más adelante)
+
+Al parecer, ya tenemos todo listo para empezar
+
+Crearemos nuestro controlador para Facebook en el cual definiremos un método **create**, el cual creará al usuario en nuestra base de datos o lo encontrará si existe para luego ponerlo en sesión. Todo esto ocurrirá cuando Facebook nos avise que el usuario se ha autenticado correctamente 
+
+    def create
+      user = User.create_facebook_user_from_omniauth(env["omniauth.auth"])
+      session[:facebook_user_id] = user.id
+
+      redirect_to facebook_url
+    end
+
+Cuando vayas a esta ruta: http://localhost:3000/auth/facebook, omniauth se encargará de llevarte a Facebook para que te autentiques. Si el usuario se loguea satisfactoriamente, te redireccionará a http://localhost:3000/auth/facebook/callback, por lo tanto debes de agregar esto en tu archivo routes.rb
+
+    match '/auth/facebook/callback', to: 'facebook#create'
+
+También agregaremos esto para poder usar **facebook_url**
+
+    match 'facebook', to: 'facebook#index', as: 'facebook'
+
+Creamos el método **index** que obtendrá el perfil y los amigos del usuario:
+
+    def index
+
+      if session[:facebook_user_id].nil?
+        redirect_to 'http://carlos21.com/auth/facebook'
+        return
+      end
+
+      user = User.find(session[:facebook_user_id])
+      api = Koala::Facebook::API.new(user.oauth_token)
+      
+      # get profile
+      @profile = api.fql_query("select uid, username, first_name, middle_name, last_name, birthday_date, sex, activities, interests, music, movies, books, about_me from user where uid = #{user.uid}").to_json
+
+      # get friends of the current user
+      @friends = api.fql_query("select uid, name, contact_email, profile_url, pic_small from user where uid in (select uid2 from friend where uid1 = #{user.uid})").to_json
+
+      # get albums of the current user
+      #@albums = api.fql_query("select object_id, src_small from photo where aid in (select aid from album where owner = #{user.uid})").to_json
+      #@albums = api.fql_query("select name, description from album where owner = #{user.uid}").to_json
+      #@albums = api.get_object("/#{user.uid}/photos")
+      @albums = api.get_object("/#{user.uid}/albums")
+      #render text: @albums
+    end
+
+Qué estamos haciendo aquí?. Estamos obteniendo el profile del usuario y sus amigos, mediante **facebook query language**, que es básicamente syntaxis sql a determinadas tablas. Puedes entrar y tener más información en: (https://developers.facebook.com/docs/reference/fql/)[https://developers.facebook.com/docs/reference/fql/]
+
+
+Luego crearemos un método en nuestro model **user**:
+
+    def self.create_facebook_user_from_omniauth(auth)
+      where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+        user.provider = auth.provider
+        user.uid = auth.uid
+        user.name = auth.info.name
+        user.oauth_token = auth.credentials.token
+        user.save!
+      end
+    end
+
+Hemos completado lo correspondiente al lado del servidor. Nos toca ver la parte de la vista
+
+    <% content_for :head do %>
+      <%= stylesheet_link_tag    "facebook", :media => "all" %>
+      <%= javascript_include_tag :facebook %>
+
+      <meta property="og:title" content="facebook example" />
+      <meta property="og:url" content="<%= facebook_url %>"; />
+    <% end %>
+
+    <!-- USADO POR FACEBOOK -->
+    <div id='fb-root' />
+    <script src='http://connect.facebook.net/es_ES/all.js#xfbml=1'/></script>
+
+    <!-- REMOVER EL ANCLA QUE FACEBOOK AGREGA -->
+    <script type="text/javascript">
+      $(document).ready(function(e){
+        if (window.location.hash == '#_=_') {
+          window.location.hash = '';
+          history.pushState('', document.title, window.location.pathname);
+          e.preventDefault();
+        }
+      })
+    </script>
+
+    <div id="bluebar">
+      <div id="title">facebook</div>
+    </div>
+
+    <div id="container">
+      <ul class="tabs">
+        <li><a href="#profile">Profile</a></li>
+        <li><a href="#friends">Friends</a></li>
+        <li><a href="#comments">Comments</a></li>
+      </ul>
+
+      <div class="tab_container">
+        <div id="profile" class="tab_content">
+
+          <!-- PROFILE DEL USUARIO -->
+          <% user = JSON.parse(@profile)[0] %>
+          <div class="subtitle">Profile</div>
+          <div class="label">Nombres:</div>
+          <div class="label-info"><%= user['first_name'] %> <%= user['middle_name'] %></div>
+          <div class="label">Apellidos:</div>
+          <div class="label-info"><%= user['last_name'] %></div>
+          <div style="clear: both"></div>
+
+          <div class="label">Birthday date:</div>
+          <div class="label-info"><%= user['birthday_date'] %></div>
+          <div class="label">Sex:</div>
+          <div class="label-info"><%= user['sex'] %></div>
+          <div style="clear: both"></div>
+
+          <div class="label">Activities:</div>
+          <div class="label-info" style="width: 700px"><%= user['activities'] %></div>
+          <div style="clear: both"></div>
+
+          <div class="label">Interests:</div>
+          <div class="label-info"><%= user['interests'] %></div>
+          <div style="clear: both"></div>
+
+          <div class="label">Music:</div>
+          <div class="label-info" style="width: 700px"><%= user['music'] %></div>
+          <div style="clear: both"></div>
+
+          <div class="label">Movies:</div>
+          <div class="label-info" style="width: 700px"><%= user['movies'] %></div>
+          <div style="clear: both"></div>
+
+          <div class="label">Books:</div>
+          <div class="label-info" style="width: 700px"><%= user['books'] %></div>
+          <div style="clear: both"></div>
+
+          <div class="label">About me:</div>
+          <div class="label-info" style="width: 700px"><%= user['about_me'] %></div>
+          <div style="clear: both"></div>
+
+        </div>
+
+        <div id="friends" class="tab_content">
+
+          <!-- FRIENDS -->
+          <% JSON.parse(@friends).each do |f| %>
+            <%= link_to f['profile_url'], :target => '_blank' do %> 
+              <div class="friend">
+                <div class="photo">
+                  <%= image_tag f['pic_small'], :size => '50x50' %>
+                </div>
+                <div class="description"><%= f['name'] %></div>
+              </div>
+            <% end %>
+          <% end %>
+
+        </div>
+
+        <div id="comments" class="tab_content">
+
+          <!-- COMENTARIOS -->
+          <fb:comments href='<%= facebook_url %>' colorscheme='light' num_posts='2' width='500' ></fb:comments>
+          
+        </div>
+      </div>
+    </div>
+
+
+He comentado cada parte del codigo para que lo entiendas. Básicamente, estamos pintando los datos que enviamos desde nuestro controlador.
+
+Los estilos los tienes aquí
+
+    body {
+      margin:0px;
+      padding:0px;
+      background-color: #E7EBF2;
+    }
+
+    #bluebar {
+      border-bottom: 1px solid #133783;
+      background-color: #3B5998;
+      height: 27px;
+      padding-top: 5px;
+      width: 100%;
+    }
+
+    #title {
+      width: 900px;
+      margin: auto;
+      font-size: 20px;
+      font-family: verdana;
+      color: white;
+    }
+
+    #friends {
+      width: 860px;
+      height: 500px;
+      overflow: auto;
+      font-size: 12px;
+      font-family: verdana;
+    }
+
+    .friend {
+      width: 260px;
+      padding: 5px;
+      float: left;
+      border: 1px solid #C4CDE0;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      background-color: #E7EBF2;
+    }
+
+    .photo {
+      width: 50px;
+      height: 50px;
+      float: left;
+    }
+
+    .description {
+      width: 195px;
+      height: 40px;
+      vertical-align: middle;
+      float: left;
+      padding: 5px;
+    }
+
+    .subtitle {
+      color: #999;
+      font-weight: bold;
+      font-size: 16px;
+      background-color: #E7EBF2;
+      padding: 4px;
+      width: 100%;
+      border-top: 1px solid #C4CDE0;
+      margin-bottom: 10px;
+    }
+
+    .label {
+      color: #999;
+      font-weight: bold;
+      font-size: 13px;
+      float: left;
+      padding: 5px;
+      text-align: right;
+      min-width: 100px;
+      width: 100px;
+    }
+
+    .label-info {
+      color: #3B5998;
+      float: left;
+      padding: 5px;
+      font-size: 13px;
+      text-align: left;
+      min-width: 100px;
+      width: 100px;
+    }
+
+    #container {
+      width: 900px;
+      margin: auto;
+    }
+
+    #options {
+      width: 430px;
+      height: 150px;
+      margin: auto;
+    }
+
+    #options div {
+      width: 100px;
+      height: 100px;
+      float:left;
+      margin-right: 10px;
+    }
+
+    #options div:last-child {
+      margin-right: 0px;
+    }
+
+    ul.tabs {
+      margin: 0;
+      padding: 0;
+      float: left;
+      list-style: none;
+      height: 32px;
+      border-bottom: 1px solid #999;
+      border-left: 1px solid #999;
+      width: 100%;
+      margin-top: 30px;
+    }
+
+    ul.tabs li {
+      float: left;
+      margin: 0;
+      padding: 0;
+      height: 31px;
+      line-height: 31px;
+      border: 1px solid #999;
+      border-left: none;
+      margin-bottom: -1px;
+      overflow: hidden;
+      position: relative;
+      background: #D8DFEA;
+    }
+
+    ul.tabs li a {
+      text-decoration: none;
+      color: #000;
+      display: block;
+      font-size: 15px;
+      font-family: verdana;
+      padding: 0 20px;
+      outline: none;
+    }
+
+    ul.tabs li a:hover {
+      background: #E7EBF2;
+    }
+
+    html ul.tabs li.active, html ul.tabs li.active a:hover  {
+      background: #fff;
+      border-bottom: 1px solid #fff;
+    }
+
+    .tab_container {
+      border: 1px solid #999;
+      border-top: none;
+      overflow: hidden;
+      clear: both;
+      float: left; width: 100%;
+      background: #fff;
+    }
+    .tab_content {
+      padding: 20px;
+      font-size: 1.2em;
+    }
+
+Si deseas ver el código detalladamente puedes entrar a mi repositorio de Github [https://github.com/carlos21/social-network](https://github.com/carlos21/social-network). 
+
+Si deseas ver la aplicación funcionando puedes entrar aquí: [http://socialnetworks.carlos21.com/](http://socialnetworks.carlos21.com/)
+
+Son bienvenidas todas las críticas y consejos que me puedas dar para mejorar el código y hacerlo más entendible y eficiente :D.

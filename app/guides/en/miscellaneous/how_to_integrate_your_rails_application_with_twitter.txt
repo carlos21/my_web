@@ -1,0 +1,322 @@
+Bienvenido(a) de vuelta. Hoy veremos cómo integrar tu aplicación de Rails con Twitter. Qué logramos con esto?. Por ejemplo, podrías hacer que el usuario de tu web se loguee mediante su cuenta de Github y no tenga que estarse registrando por millonésima vez en una web más. Seguramente, has tenido que crear una cuenta para publicar y responder en juanito.com y también en jorgito.com, y así sucesivamente en 'n' webs de tu interés. No sería lo máximo usar solo una cuenta que siempre recuerdes?. No te ha pasado que te olvidas tu contraseña de las cuentas que creas?. Yo hasta ni me acuerdo del nickname que me puse! Juas!.
+
+Ahora sí vamos a lo que nos interesa. 
+
+Usaremos esta gema en nuestro Gemfile para dicho propósito
+
+    gem 'omniauth-twitter'
+
+Y también estas gemas para obtener los datos del usuario
+
+    gem 'twitter'
+    gem 'httparty'
+
+Creamos nuestro model **User**
+
+    rails g model User name oauth_token oauth_secret provider uid username
+
+Configuramos nuestra base de datos
+
+    development:
+      adapter: postgresql
+      encoding: unicode
+      database: facebook
+      pool: 5
+      username: postgres
+      password: ...
+
+Creamos la tabla **users**
+
+    rake db:migrate
+
+Hasta aquí tenemos lo necesario en cuanto a nuestro proyecto en rails se refiere. Lo siguiente que haremos es entrar a la página de Twitter [https://dev.twitter.com/apps/new](https://dev.twitter.com/apps/new). 
+
+Ejemplo de datos que llenarás:
+
+* Name: tuapp
+* Description: authenticating with twitter!
+* Website: http://localhost:3000
+* Callback URL: http://localhost:3000/auth/twitter/callback
+
+Una vez que le des en **Create your twitter application**, Twitter te dara un Consumer key y un Consumer secret, los cuales servirán para obtener el access token; con el cual a su vez podrás obtener los datos públicos del usuario.
+
+Al parecer, ya tenemos todo listo para empezar
+
+Crearemos nuestro controlador para Twitter en el cual definiremos un método **create**, el cual creará al usuario en nuestra base de datos o lo encontrará si existe para luego ponerlo en sesión. Todo esto ocurrirá cuando Twitter nos avise que el usuario se ha autenticado correctamente 
+
+    def create
+      user = User.create_twitter_user_from_omniauth(env["omniauth.auth"])
+      session[:twitter_user_id] = user.id
+
+      redirect_to twitter_url
+    end
+
+Cuando vayas a esta ruta: http://localhost:3000/auth/twitter, omniauth se encargará de llevarte a Twitter para que te autentiques. Si el usuario se loguea satisfactoriamente, te redireccionará a http://localhost:3000/auth/twitter/callback, por lo tanto debes de agregar esto en tu archivo routes.rb
+
+    match '/auth/twitter/callback', to: 'twitter#create'
+
+También agregaremos esto para poder usar **twitter_url**
+
+    match 'twitter', to: 'twitter#index', as: 'twitter'
+
+Creamos el método **index** que obtendrá el perfil y los amigos del usuario:
+
+    def index
+
+      if session[:twitter_user_id].nil?
+        redirect_to 'http://localhost:3000/auth/twitter'
+        return
+      end
+
+      user = User.find(session[:twitter_user_id])
+
+      # obtenemos la instancia del cliente
+      @client = Twitter::Client.new(
+        :oauth_token => user.oauth_token,
+        :oauth_token_secret => user.oauth_secret
+      )
+
+      # usamos el objeto para obtener datos
+      @profile = @client.user(user.username).to_json
+      @tweets = @client.user_timeline(user.username).to_json
+      
+    end
+
+Aquí estamos usando la gema Twiter que contiene los métodos para acceder a los datos del usuario. Si deseas profundizar en el tema, ve a [https://github.com/sferik/twitter](https://github.com/sferik/twitter). 
+
+    Luego crearemos un método en nuestro model **user**:
+
+    def self.create_twitter_user_from_omniauth(auth)
+      where(auth.slice(:provider, :uid)).first_or_initialize.tap do |user|
+        user.provider = auth.provider
+        user.uid = auth.uid
+        user.username = auth.info.nickname
+        user.name = auth.info.name
+        user.oauth_token = auth.credentials.token
+        user.oauth_secret = auth.credentials.secret
+        user.save!
+      end
+    end
+
+Hemos completado lo correspondiente al lado del servidor. Nos toca ver la parte de la vista
+
+    <% content_for :head do %>
+      <%= stylesheet_link_tag    "twitter", :media => "all" %>
+      <%= stylesheet_link_tag    "bootstrap/css/bootstrap" %>
+      <%= javascript_include_tag "twitter" %>
+      <%= javascript_include_tag "bootstrap/js/bootstrap" %>
+    <% end %>
+
+    <div id="bar">
+      <div id="header">
+        <div id="bird">
+          <%= image_tag 'twitter_bird.jpg', :size => '40x30' %>
+        </div>
+      <div id="title">Twitter</div>
+      </div>
+    </div>
+
+    <div id="content-div">
+
+      <ul class="nav nav-tabs" id="myTab">
+        <li class="active"><a href="#profile">Profile</a></li>
+        <li><a href="#tweets">Tweets</a></li>
+      </ul>
+       
+      <div class="tab-content">
+        
+        <div class="tab-pane active" id="profile">
+          <% user = JSON.parse(@profile) %>
+
+          <div class="label-twitter">Photo:</div>
+          <div class="label-info-twitter">
+            <%= image_tag user['profile_image_url'] %>
+          </div>
+          <div style="clear: both"></div>
+
+          <div class="label-twitter">Nombre</div>
+          <div class="label-info-twitter"><%= user['name'] %></div>
+          <div class="label-twitter">Username:</div>
+          <div class="label-info-twitter"><%= user['screen_name'] %></div>
+          <div style="clear: both"></div>
+
+          <div class="label-twitter">Location:</div>
+          <div class="label-info-twitter"><%= user['location'] %></div>
+          <div class="label-twitter">Followers:</div>
+          <div class="label-info-twitter"><%= user['followers_count'] %></div>
+          <div style="clear: both"></div>
+
+          <div class="label-twitter">Description:</div>
+          <div class="label-info-twitter"><%= user['description'] %></div>
+          <div style="clear: both"></div>
+        </div>
+
+        <div class="tab-pane" id="tweets">
+          <% JSON.parse(@tweets).each do |f| %> 
+            <div class="tweet">
+              <div class="photo">
+                <%= image_tag f['user']['profile_image_url'] %>
+              </div>
+              <div class="name"><%=f['user']['name']%></div>
+              <div class="nickname">@<%=f['user']['screen_name']%></div>
+              <div class="description"><%= f['text'] %></div>
+            </div>
+          <% end %>
+        </div>
+
+      </div>
+
+    </div>
+
+Aqui solo estamos creando el layout de nuestra web para que se vea más bonito je! xD. También estamos usando Twitter bootstrap, si deseas aprender más de este framework de css entra a [http://twitter.github.com/bootstrap/](http://twitter.github.com/bootstrap/).
+
+Básicamente, estamos pintando los datos que enviamos desde nuestro controlador.
+
+Los estilos los tienes aquí:
+
+    body {
+      margin:0px;
+      padding:0px;
+    }
+
+    #bar {
+      background-color: #00A0D1;
+      -webkit-box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25),0 -1px 0 rgba(0, 0, 0, 0.1) inset;
+      box-shadow: 0 1px 3px rgba(0, 0, 0, 0.25),0 -1px 0 rgba(0, 0, 0, 0.1) inset;
+      height: 35px;
+      width: 100%;
+    }
+
+    #bird {
+      float: left;
+      width: 40px;
+      margin-top: 2px;
+    }
+
+    #header {
+      width: 900px;
+      margin: auto;
+    }
+
+    #title {
+      width: 100px;
+      float: left;
+      margin: auto;
+      font-size: 20px;
+      font-family: arial;
+      color: white;
+      line-height: 30px;
+      margin-top: 3px;
+    }
+
+    #friends {
+      width: 860px;
+      height: 500px;
+      overflow: auto;
+      font-size: 12px;
+      font-family: verdana;
+    }
+
+    .friend {
+      width: 260px;
+      padding: 5px;
+      float: left;
+      border: 1px solid #C4CDE0;
+      margin-right: 5px;
+      margin-bottom: 5px;
+      background-color: #E7EBF2;
+    }
+
+    .photo {
+      width: 50px;
+      height: 50px;
+      float: left;
+    }
+
+    .description {
+      width: 195px;
+      height: 40px;
+      vertical-align: middle;
+      float: left;
+      padding: 5px;
+    }
+
+    .subtitle {
+      color: #999;
+      font-weight: bold;
+      font-size: 16px;
+      background-color: #E7EBF2;
+      padding: 4px;
+      width: 100%;
+      border-top: 1px solid #C4CDE0;
+    }
+
+    .label-twitter {
+      color: #999;
+      font-weight: bold;
+      font-size: 13px;
+      float: left;
+      padding: 5px;
+      text-align: right;
+      min-width: 100px;
+      width: 100px;
+    }
+
+    .label-info-twitter {
+      color: #3B5998;
+      float: left;
+      padding: 5px;
+      font-size: 13px;
+      text-align: left;
+      min-width: 100px;
+      width: 100px;
+    }
+
+    #content-div {
+      width: 900px;
+      margin: auto;
+      margin-top: 20px;
+    }
+
+    .tweet {
+      width: 100%;
+      
+      border-bottom: 1px solid #dddddd;
+      margin-bottom: 15px;
+      overflow: auto;
+    }
+
+    .nickname {
+      color: #CCC;
+      float: left;
+      width: 100px;
+    }
+
+    .photo {
+      float: left;
+      width: 50px;
+      height: 50px;
+      margin-right: 10px;
+    }
+
+    .name {
+      font-size: 12;
+      font-weight: bold;
+      float: left;
+      width: 100px;
+    }
+
+    .description {
+      width: 90%;
+      height: 40px;
+      vertical-align: middle;
+      float: left;
+      padding: 5px;
+      padding-left: 0px;
+    }
+
+Si deseas ver el código detalladamente puedes entrar a mi repositorio de Github [https://github.com/carlos21/social-network](https://github.com/carlos21/social-network). 
+
+Si deseas ver la aplicación funcionando puedes entrar aquí: [http://socialnetworks.carlos21.com/](http://socialnetworks.carlos21.com/)
+
+Son bienvenidas todas las críticas y consejos que me puedas dar para mejorar el código y hacerlo más entendible y eficiente :D.

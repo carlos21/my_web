@@ -2,7 +2,7 @@ Hola una vez mas!, Ya debes saber que me gusta investigar nuevas tecnologías y 
 
 Esta vez nos toca combinar Rails, Ruby, Pusher, JQuery y HTML5. Haremos nuestros propios dibujos!
 
-Te recomiendo que antes de que sigas leyendo este tutorial, vayas primero a [Cómo hacer un chat simple con Rails y Pusher](http://www.carlos21.com/guides/miscellaneous/how-to-make-a-simple-chat-with-rails-and-pusher-part-1). Ahí te explico detalladamente cómo funciona Pusher y los eventos que maneja, así que para que no te pierdas ve ahora mismo!.
+Te recomiendo que antes de que sigas leyendo este tutorial, vayas primero a [Cómo hacer un chat simple con Rails y Pusher](http://www.carlos21.com/guides/miscellanous/how-to-make-a-simple-chat-with-rails-and-pusher-part-1). Ahí te explico detalladamente cómo funciona Pusher y los eventos que maneja, así que para que no te pierdas ve ahora mismo!.
 
 Bien, también es recomendable que vayas al tutorial de [Dibujando formas con HTML5](http://www.carlos21.com/guides/html5/drawing-forms), aquí te explico cómo dibujar formas dentro del canvas ;)
 
@@ -90,4 +90,4 @@ Nos toca, definir la función **redraw** que pintará en el canvas
       }
     }
 
-Estamos listos!. Ya puedes dibujar con HTML5 y lo complementaremos con Pusher en el siguiente tutorial!.  [Ir a la segunda parte](http://www.carlos21.com/guides/miscellaneous/drawing-in-real-time-with-pusher-and-html5-part-2)
+Estamos listos!. Ya puedes dibujar con HTML5 y lo complementaremos con Pusher en el siguiente tutorial!.  [Ir a la segunda parte](http://www.carlos21.com/guides/miscellanous/drawing-in-real-time-with-pusher-and-html5-part-2)

@@ -1,0 +1,376 @@
+Hola!. Ahora nos toca ver el API de Github wuju!. Qué logramos con esto?. Por ejemplo, podrías hacer que el usuario de tu web se loguee mediante su cuenta de Github y no tenga que estarse registrando por millonésima vez en una web más. Seguramente, has tenido que crear una cuenta para publicar y responder en juanito.com y también en jorgito.com, y así sucesivamente en 'n' webs de tu interés. No sería lo máximo usar solo una cuenta que siempre recuerdes?. No te ha pasado que te olvidas tu contraseña de las cuentas que creas?. Yo hasta ni me acuerdo del nickname que me puse! Juas!.
+
+Vayamos directo al grano
+
+Usaremos esta gema en nuestro Gemfile
+
+    gem 'google-api-client'
+
+Creamos nuestro model **User**
+
+    rails g model User name oauth_token oauth_secret provider uid username
+
+Configuramos nuestra base de datos
+
+    development:
+      adapter: postgresql
+      encoding: unicode
+      database: social
+      pool: 5
+      username: postgres
+      password: ...
+
+Creamos la tabla **users**
+
+    rake db:migrate
+
+Hasta aquí tenemos lo necesario en cuanto a nuestro proyecto en rails se refiere. Lo siguiente que haremos es registrar nuestra aplicación en Github [https://github.com/settings/applications](https://github.com/settings/applications) y dale en **New**
+
+Para propósito de prueba llenaremos los datos con lo siguiente:
+
+* Application name: Github test
+* Main URL: http:localhost:3000
+* Callback URL: http:localhost:3000/auth/github/callback
+
+Una vez que le des en **Guardar cambios**, Github te dará un Client ID y CLient Secret. Estos dos datos son importantes, ya que con ellos, Github te dará un token que te servirá por un período de tiempo, con el cual podrás acceder a información pública del usuario (lo veremos más adelante)
+
+Al parecer, ya tenemos todo listo para empezar
+
+Crearemos nuestro controlador para GIthub en el cual definiremos un método **create**, el cual creará al usuario en nuestra base de datos o lo encontrará si existe para luego ponerlo en sesión. Todo esto ocurrirá cuando Github nos avise que el usuario se ha autenticado correctamente 
+
+    def create
+      user = User.create_github_user_from_omniauth(env["omniauth.auth"])
+      session[:github_user_id] = user.id
+
+      redirect_to github_url
+    end
+
+Cuando vayas a esta ruta: http://localhost:3000/auth/github, omniauth se encargará de llevarte a Github para que te autentiques. Si el usuario se loguea satisfactoriamente, te redireccionará a http://localhost:3000/auth/github/callback, por lo tanto debes de agregar esto en tu archivo routes.rb
+
+    match '/auth/github/callback', to: 'github#create'
+
+También agregaremos esto para poder usar **github_url**
+
+    match 'github', to: 'github#index', as: 'github'
+
+Creamos el método **index** que obtendrá el perfil y los amigos del usuario:
+
+    def index
+
+      if session[:github_user_id].nil?
+        redirect_to 'http://localhost:3000/auth/github'
+        return
+      end
+
+      user = User.find(session[:github_user_id])
+
+      @gists = HTTParty.get("https://api.github.com/users/#{user.username}/gists?access_token=#{user.oauth_token}").to_json
+
+      @repositories = HTTParty.get("https://api.github.com/user/repos?access_token=#{user.oauth_token}").to_json
+      
+    end
+
+Qué estamos haciendo aquí?. Estamos obteniendo los **gists** y los **repositories**
+
+Luego crearemos un método en nuestro model **user**:
+
+    def self.create_github_user_from_omniauth(auth)
+      provider = auth[:provider].to_s
+      uid = auth[:uid].to_s
+
+      where(provider: provider, uid: uid).first_or_initialize.tap do |user|
+        user.provider = auth.provider
+        user.uid = auth.uid
+        user.username = auth.info.nickname
+        user.name = auth.info.name
+        user.oauth_token = auth.credentials.token
+        user.oauth_secret = auth.credentials.secret
+        user.save!
+      end
+
+    end
+
+Hemos completado lo correspondiente al lado del servidor. Nos toca ver la parte de la vista
+
+    <% content_for :head do %>
+      <%= stylesheet_link_tag    "github", :media => "all" %>
+      <%= javascript_include_tag :github %>
+    <% end %>
+
+    <div id="bar">
+      <div id="header">
+        <%= image_tag 'github-logo.png'%>
+      </div>
+    </div>
+
+    <div id="container">
+      <ul class="tabs">
+        <li><a href="#gists">Gists</a></li>
+        <li><a href="#repositories">Repositories</a></li>
+      </ul>
+
+      <div class="tab_container">
+
+        <!-- GISTS -->
+        <div id="gists" class="tab_content">
+
+          <!-- Parseamos los gists -->
+          <% JSON.parse(@gists).each do |f| %>
+             
+              <div class="gist">
+                <div class="gist-id">
+                  <%= link_to 'gist:' + f['id'], f['html_url'], :target => '_blank' %>
+                  
+                </div>
+                <div class="gist-description">
+                  <% f['files'].each do |key, value| %>
+                    <%= value['filename']%>
+                  <% end %>
+                </div>
+              </div>
+            <% end %>
+          
+        </div>
+
+        <!-- REPOSITORIES -->
+        <div id="repositories" class="tab_content">
+
+          <!-- Parseamos los repositories -->
+          <% JSON.parse(@repositories).each do |f| %>
+             
+              <div class="repository">
+                <div class="icon"></div>
+                <div class="name">
+                  <%= link_to f['name'], f['html_url'], :target => '_blank' %>
+                </div>
+                <div class="description">
+                  <%= f['description'] %>
+                </div>
+                <div class="last-update">Last update <%= (DateTime.now.to_date - f['updated_at'].to_date).round %> days ago</div>
+              </div>
+            <% end %>
+          
+        </div>
+
+      </div>
+    </div>
+
+He comentado cada parte del codigo para que lo entiendas. Básicamente, estamos pintando los datos que enviamos desde nuestro controlador.
+
+Los estilos los tienes aquí
+
+    body {
+      font-size: 12px;
+      font-family: verdana;
+      margin:0px;
+      padding:0px;
+      background-color: white;
+    }
+
+    #bar {
+      background-color: #FAFAFA;
+      background: -moz-linear-gradient(#FAFAFA, #EAEAEA);
+      background: -webkit-linear-gradient(#FAFAFA, #EAEAEA);
+      -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#fafafa', endColorstr='#eaeaea')";
+      border-bottom: 1px solid #CACACA;
+      box-shadow: 0 1px 0 rgba(255, 255, 255, 0.4),0 0px 10px rgba(0, 0, 0, 0.1);
+      border-bottom: 1px solid #CACACA;
+      padding-top: 5px;
+      height: 45px;
+    }
+
+    #header {
+      width: 900px;
+      margin: auto;
+      font-size: 20px;
+      height: 50px;
+      font-family: verdana;
+      color: #696969;
+      padding-top: 6px;
+    }
+
+    #title {
+
+    }
+
+    .repository {
+      width: 100%;
+      padding: 5px;
+      border-bottom: 1px solid #F1F1F1;
+      overflow: auto;
+    }
+
+    .icon {
+      height: 75px;
+      width: 25px;
+      float: left;
+    }
+
+    .name {
+      width: 80%;
+      height: 25px;
+      float:left;
+      
+    }
+
+    .name a{
+      color: #4183C4;
+      font-size: 16px;
+      font-family: arial;
+      font-weight: bold;
+      text-decoration: none;
+    }
+
+    .name a:hover {
+      text-decoration: underline;
+    }
+
+    .description {
+      width: 80%; 
+      padding: 0px;
+      float: left;
+      font-size: 13px;
+    }
+
+    .last-update {
+      width: 80%; 
+      padding: 0px;
+      float: left;
+      font-size: 10px;
+      color: #666;
+      margin-top: 5px;
+    }
+
+    .gist {
+      width: 100%;
+      height: 30px;
+      padding: 5px;
+      border: 1px solid #D9D9D9;
+      background: whitesmoke;
+      margin-bottom: 5px;
+      color: #666;
+      font-size: 12px;
+      font-family: verdana;
+      text-decoration: none;
+    }
+
+    .gist-id {
+      padding-left: 5px;
+      padding-right: 5px;
+      height: 30px;
+      line-height: 30px;
+      float: left;
+    }
+
+    .gist-id a {
+      color: #4183C4;
+      text-decoration: none;
+    }
+
+    .gist-id a:hover {
+      text-decoration: underline;
+    }
+
+    .gist-description {
+      width: 70%; 
+      height: 30px;
+      line-height: 30px;
+      float: left;
+      padding-left: 5px;
+    }
+
+    #container {
+      width: 900px;
+      margin: auto;
+    }
+
+    #options {
+      width: 430px;
+      height: 150px;
+      margin: auto;
+    }
+
+    #options div {
+      width: 100px;
+      height: 100px;
+      float:left;
+      margin-right: 10px;
+    }
+
+    #options div:last-child {
+      margin-right: 0px;
+    }
+
+    ul.tabs {
+      margin: 0;
+      padding: 0;
+      float: left;
+      list-style: none;
+      height: 32px;
+      width: 100%;
+      margin-top: 30px;
+      font-size: 11px;
+      font-weight: bold;
+      font-family: verdana;
+
+      background: -moz-linear-gradient(#FAFAFA, #EAEAEA);
+      background: -webkit-linear-gradient(#FAFAFA, #EAEAEA);
+      border: 1px solid #EAEAEA;
+      border-bottom-color: #CACACA;
+      border-radius: 3px;
+      color: #CCC;
+    }
+
+    ul.tabs li {
+      float: left;
+      margin: 0;
+      padding: 0;
+      height: 31px;
+      line-height: 31px;
+      margin-bottom: -1px;
+      overflow: hidden;
+      position: relative;
+    }
+
+    ul.tabs li a {
+      text-decoration: none;
+      color: #888;
+      display: block;
+      padding: 0 20px;
+      outline: none;
+
+      text-shadow: 0 1px 0 white;
+      border-right: 1px solid #EEE;
+      border-right-color: rgba(0, 0, 0, 0.04);
+      border-left: 1px solid #FCFCFC;
+      border-left-color: rgba(255, 255, 255, 0.7);
+      border-bottom: 2px solid #DADADA;
+    }
+
+    ul.tabs li a:hover {
+      color: #4183C4;
+    }
+
+    html ul.tabs li.active, html ul.tabs li.active a:hover  {
+      color: #444;
+      border-bottom: 2px solid #D26911;
+      background: -moz-linear-gradient(#FCFCFC, #EBEBEB);
+      background: -webkit-linear-gradient(#FCFCFC, #EBEBEB);
+      -ms-filter: "progid:DXImageTransform.Microsoft.gradient(startColorstr='#fcfcfc', endColorstr='#ebebeb')";
+    }
+
+    .tab_container {
+      overflow: hidden;
+      clear: both;
+      float: left; width: 100%;
+      background: #fff;
+    }
+    .tab_content {
+      padding-top: 20px;
+    }
+
+Te recomiendo que veas el código fuente funcionando en mi repositorio de Github [https://github.com/carlos21/social-network](https://github.com/carlos21/social-network). 
+
+Si deseas ver la aplicación funcionando puedes entrar aquí: [http://socialnetworks.carlos21.com/](http://socialnetworks.carlos21.com/)
+
+Son bienvenidas todas las críticas y consejos que me puedas dar para mejorar el código y hacerlo más entendible y eficiente :D.

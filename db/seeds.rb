@@ -11,6 +11,10 @@
 #Category.delete_all
 
 
+# Chat
+Chat.create()
+
+
 
 # Categories
 Category.create(:name => 'CSS3', :tooltip => 'About CSS3', :image_url => 'css3.jpg', :status => 'A', :path => 'css3', :small_description => 'CSS3')
@@ -22,6 +26,13 @@ Category.create(:name => 'Rails', :tooltip => 'About Rails', :image_url => 'rail
 Category.create(:name => 'Ruby', :tooltip => 'About Ruby', :image_url => 'ruby.jpg', :status => 'A', :path => 'ruby', :small_description => 'Ruby')
 Category.create(:name => 'Ubuntu', :tooltip => 'About Ubuntu', :image_url => 'ubuntu.png', :status => 'A', :path => 'ubuntu', :small_description => 'Ubuntu')
 Category.create(:name => 'Miscellaneous', :tooltip => 'A bit of everything', :image_url => 'm-icon.png', :status => 'A', :path => 'miscellaneous', :small_description => 'Some examples of many things')
+
+
+
+
+
+
+
 
 ######### English #########
 # Ruby
@@ -74,6 +85,10 @@ Article.create(:name => 'How to make a simple chat with Rails and Pusher - Part 
 Article.create(:name => 'How to make a simple chat with Rails and Pusher - Part 3', :small_description => 'You can create your own chat from zero and add it all the functionalities that you want', :category_id => 9, :path => 'how-to-make-a-simple-chat-with-rails-and-pusher-part-3', :route => '/app/guides/en/miscellaneous/how_to_make_a_simple_chat_with_rails_and_pusher_part3.txt', :language => 'en', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
 Article.create(:name => 'Drawing in real time with pusher and HTML5 - Part 1', :small_description => 'We are going to draw in a unique canvas with other friends. It can get funny!', :category_id => 9, :path => 'drawing-in-real-time-with-pusher-and-html5-part-1', :route => '/app/guides/en/miscellaneous/drawing_in_real_time_pusher_and_html5_part1.txt', :language => 'en', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
 Article.create(:name => 'Drawing in real time with pusher and HTML5 - Part 2', :small_description => 'We are going to draw in a unique canvas with other friends. It can get funny!', :category_id => 9, :path => 'drawing-in-real-time-with-pusher-and-html5-part-2', :route => '/app/guides/en/miscellaneous/drawing_in_real_time_pusher_and_html5_part2.txt', :language => 'en', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
+Article.create(:name => 'How to integrate your rails application with Facebook', :small_description => 'We will use the Open Graph API to let the user authenticate with his facebook account and get his public information', :category_id => 9, :path => 'how-to-integrate-your-rails-application-with-facebook', :route => '/app/guides/en/miscellaneous/how_to_integrate_your_rails_application_with_facebook.txt', :language => 'en', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
+Article.create(:name => 'How to integrate your rails application with Github', :small_description => 'We will use the GIthub API to let the user authenticate with his github account and get his public information', :category_id => 9, :path => 'how-to-integrate-your-rails-application-with-github', :route => '/app/guides/en/miscellaneous/how_to_integrate_your_rails_application_with_github.txt', :language => 'en', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
+Article.create(:name => 'How to integrate your rails application with Twitter', :small_description => 'We will use the Twitter API to let the user authenticate with his twitter account and get his public information', :category_id => 9, :path => 'how-to-integrate-your-rails-application-with-twitter', :route => '/app/guides/en/miscellaneous/how_to_integrate_your_rails_application_with_twitter.txt', :language => 'en', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
+Article.create(:name => 'How to integrate your rails application with Google', :small_description => 'We will use the Google API to let the user authenticate with his google account and get his public information', :category_id => 9, :path => 'how-to-integrate-your-rails-application-with-google', :route => '/app/guides/en/miscellaneous/how_to_integrate_your_rails_application_with_google.txt', :language => 'en', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
 
 ###########################
 
@@ -107,7 +122,7 @@ Article.create(:name => 'Editando elementos', :small_description => 'Hagamos edi
 Article.create(:name => 'Nuevos atributos y validaciones de HTML5', :small_description => 'Algunos atributos que HTML5 nos ofrece para simplificarnos la vida', :category_id => 3, :path => 'new-attributes-and-validations', :route => '/app/guides/en/html5/new_attributes_and_validations.txt', :language => 'es', :visits => 0, :image_url => 'html5.png', :messages => 0)
 Article.create(:name => 'Algunos nuevos tags', :small_description => 'Nuevos tags para hacer de nuestro código algo más legible', :category_id => 3, :path => 'some-new-tags', :route => '/app/guides/en/html5/some_new_tags.txt', :language => 'es', :visits => 0, :image_url => 'html5.png', :messages => 0)
 Article.create(:name => 'Grabando datos temporales', :small_description => 'Almacena datos sin necesidad de usar un lenguaje del lado del servidor', :category_id => 3, :path => 'saving-temporal-data', :route => '/app/guides/en/html5/saving_temporal_data.txt', :language => 'es', :visits => 0, :image_url => 'html5.png', :messages => 0)
-Article.create(:name => 'Usando el API para crear y conectarse a una base de datos', :small_description => 'Una de ls cosas más interesantes que nos trae HTML5 es el hecho de poder crear nuestra propia base de datos local con la misma syntaxis SQL que conocemos', :category_id => 3, :path => 'using-the-api-database', :route => '/app/guides/en/html5/using_the_api_database.txt', :language => 'es', :visits => 0, :image_url => 'html5.png', :messages => 0)
+Article.create(:name => 'Usando el API para crear y conectarse a una base de datos', :small_description => 'Una de las cosas más interesantes que nos trae HTML5 es el hecho de poder crear nuestra propia base de datos local con la misma syntaxis SQL que conocemos', :category_id => 3, :path => 'using-the-api-database', :route => '/app/guides/en/html5/using_the_api_database.txt', :language => 'es', :visits => 0, :image_url => 'html5.png', :messages => 0)
 Article.create(:name => 'Video', :small_description => 'Maneja, crea o personaliza tu propio reproductor con esta nueva funcionalidad de HTML5', :category_id => 3, :path => 'video', :route => '/app/guides/en/html5/video.txt', :language => 'es', :visits => 0, :image_url => 'html5.png', :messages => 0)
 
 # JQuery
@@ -129,8 +144,12 @@ Article.create(:name => 'Comandos básicos', :small_description => 'Estos comand
 Article.create(:name => 'Cómo hacer un chat simple con Rails y Pusher - Parte 1', :small_description => 'Ahora puedes crear tu propio chat y ponerle toda la funcionalidad que desees!', :category_id => 9, :path => 'how-to-make-a-simple-chat-with-rails-and-pusher-part-1', :route => '/app/guides/en/miscellaneous/how_to_make_a_simple_chat_with_rails_and_pusher_part1.txt', :language => 'es', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
 Article.create(:name => 'Cómo hacer un chat simple con Rails y Pusher - Parte 2', :small_description => 'Ahora puedes crear tu propio chat y ponerle toda la funcionalidad que desees!', :category_id => 9, :path => 'how-to-make-a-simple-chat-with-rails-and-pusher-part-2', :route => '/app/guides/en/miscellaneous/how_to_make_a_simple_chat_with_rails_and_pusher_part2.txt', :language => 'es', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
 Article.create(:name => 'Como hacer un chat simple con Rails y Pusher - Parte 3', :small_description => 'Ahora puedes crear tu propio chat y ponerle toda la funcionalidad que desees!', :category_id => 9, :path => 'how-to-make-a-simple-chat-with-rails-and-pusher-part-3', :route => '/app/guides/en/miscellaneous/how_to_make_a_simple_chat_with_rails_and_pusher_part3.txt', :language => 'es', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
-Article.create(:name => 'Dibujando en tiempo real con Pusher y HTML5 - Parte 1', :small_description => 'Vamos a dibujar en un solo lienzo con otros amigos. Se puede poner divertido!', :category_id => 9, :path => 'drawing-in-real-time-with-pusher-and-html5-part-1', :route => '/app/guides/en/miscellaneous/drawing_in_real_time_pusher_and_html5_part1.txt', :language => 'en', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
-Article.create(:name => 'Dibujando en tiempo real con Pusher y HTML5 - Parte 2', :small_description => 'Vamos a dibujar en un solo lienzo con otros amigos. Se puede poner divertido!', :category_id => 9, :path => 'drawing-in-real-time-with-pusher-and-html5-part-2', :route => '/app/guides/en/miscellaneous/drawing_in_real_time_pusher_and_html5_part2.txt', :language => 'en', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
+Article.create(:name => 'Dibujando en tiempo real con Pusher y HTML5 - Parte 1', :small_description => 'Vamos a dibujar en un solo lienzo con otros amigos. Se puede poner divertido!', :category_id => 9, :path => 'drawing-in-real-time-with-pusher-and-html5-part-1', :route => '/app/guides/en/miscellaneous/drawing_in_real_time_pusher_and_html5_part1.txt', :language => 'es', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
+Article.create(:name => 'Dibujando en tiempo real con Pusher y HTML5 - Parte 2', :small_description => 'Vamos a dibujar en un solo lienzo con otros amigos. Se puede poner divertido!', :category_id => 9, :path => 'drawing-in-real-time-with-pusher-and-html5-part-2', :route => '/app/guides/en/miscellaneous/drawing_in_real_time_pusher_and_html5_part2.txt', :language => 'es', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
+Article.create(:name => 'Cómo integrar tu aplicación de Rails con Facebook', :small_description => 'Vamos a usar el Open Graph API para permitirle al usuario loguearse con su cuenta de facebook y obtener su información pública', :category_id => 9, :path => 'how-to-integrate-your-rails-application-with-facebook', :route => '/app/guides/en/miscellaneous/how_to_integrate_your_rails_application_with_facebook.txt', :language => 'es', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
+Article.create(:name => 'Cómo integrar tu aplicación de Rails con Github', :small_description => 'Vamos a usar el API de GIthub para permitirle al usuario loguearse con su cuenta de github y obtener su información pública', :category_id => 9, :path => 'how-to-integrate-your-rails-application-with-github', :route => '/app/guides/en/miscellaneous/how_to_integrate_your_rails_application_with_github.txt', :language => 'es', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
+Article.create(:name => 'Cómo integrar tu aplicación de Rails con Twitter', :small_description => 'Vamos a usar el API de Twitter para permitirle al usuario loguearse con su cuenta de twitter y obtener su información pública', :category_id => 9, :path => 'how-to-integrate-your-rails-application-with-twitter', :route => '/app/guides/en/miscellaneous/how_to_integrate_your_rails_application_with_twitter.txt', :language => 'es', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
+Article.create(:name => 'Cómo integrar tu aplicación de Rails con Google', :small_description => 'Vamos a usar el API de Google para permitirle al usuario loguearse con su cuenta de google y obtener su información pública', :category_id => 9, :path => 'how-to-integrate-your-rails-application-with-google', :route => '/app/guides/en/miscellaneous/how_to_integrate_your_rails_application_with_google.txt', :language => 'es', :visits => 0, :image_url => 'm-icon.png', :messages => 0)
 ###########################
 
 

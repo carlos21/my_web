@@ -1,0 +1,298 @@
+Hola!. Pasaremos a ver ahora el API de Google. Google a diferencia de las demás redes sociales que hemos visto anteriormente, nos ofrece más servicios como Youtube, Google+, Google Maps, etc; todos ellos los puedes ver una ves que registres tu aplicación. En esta ocasión, vamos a utilizar el procotolo OAuth2, tal como Google lo recomienda. Si deseas saber más de este protocolo, por favor visita [http://oauth.net/2/](http://oauth.net/2/).
+
+Empecemos. Usaremos esta gema en nuestro Gemfile para dicho propósito
+
+    gem 'omniauth-github'
+
+Creamos nuestro model **User**
+
+    rails g model User name oauth_token oauth_secret provider uid username
+
+Configuramos nuestra base de datos
+
+    development:
+      adapter: postgresql
+      encoding: unicode
+      database: facebook
+      pool: 5
+      username: postgres
+      password: ...
+
+Creamos la tabla **users**
+
+    rake db:migrate
+
+Hasta aquí tenemos lo necesario en cuanto a nuestro proyecto en rails se refiere. Lo siguiente que haremos es registrar nuestra aplicación en Google [https://code.google.com/apis/console/](https://code.google.com/apis/console/) y dale en **New**
+
+Una vez que registres tu aplicación, Google te dará los siguientes datos:
+
+* Client ID
+* Email address
+* Client secret
+* Redirect URls
+
+Estos dos datos son importantes, ya que con ellos, Google te dará un token que te servirá por un período de tiempo, con el cual podrás acceder a información pública del usuario (lo veremos más adelante)
+
+Al parecer, ya tenemos todo listo para empezar
+
+Crearemos nuestro controlador para Google en el cual definiremos un método **validate**, el cual inicializará el objeto del APIClient.
+    
+    require 'httparty'
+    require 'google/api_client'
+    class GoogleController < ActionController::Base
+      include HTTParty
+
+      before_filter :validate
+
+      def validate
+        @client = Google::APIClient.new
+        @client.authorization.client_id = '296124660908.apps.googleusercontent.com'
+        @client.authorization.client_secret = 'M8IkiHI6GpQb7MzrZ1cQxQn9'
+        @client.authorization.scope = 'https://www.googleapis.com/auth/userinfo.profile+https://www.googleapis.com/auth/userinfo.email'
+        @client.authorization.redirect_uri = 'http://socialnetworks.carlos21.com/oauth2callback'
+      end 
+
+    end
+
+Algo que hay que tener en cuenta aquí, es cuando utilizamos **@client.authorization.scope**. Ese *scope* se refiere a **qué datos voy a tener acceso una vez que tenga el token**. Es como decir: *"Sr. Google quiero tener acceso al perfil del usuario, dame un token para poder tener acceso a él, más adelante utilizaré ese token y sólo podré acceder a su perfil más no a otro dato. Si deseo acceder a más datos voy a pasarte un conjunto de scopes para que el token que me devuelvas me permita acceder a más."*. En nuestro caso, estamos trayendo el profile y el email de usuario. Más información en [https://developers.google.com/accounts/docs/OAuth2Login](https://developers.google.com/accounts/docs/OAuth2Login)
+
+Agregamos dos rutas en nuestro archivo routes.rb
+
+    match 'oauth2authorize', to: 'google#oauth2authorize'
+    match 'oauth2callback', to: 'google#oauth2callback'
+    match 'google', to: 'google#index', as: 'google'
+
+Agregamos los métodos correspondientes
+    
+    # redirecciona para autenticarse
+    def oauth2authorize
+      redirect_to @client.authorization.authorization_uri.to_s
+    end
+
+    # vuelve si se autentico correctamente
+    def oauth2callback
+      @client.authorization.fetch_access_token!
+      session[:google_token] = @client.authorization.access_token
+      redirect_to google_url
+    end
+
+Creamos nuestro método index para obtener el profile
+
+    def index
+
+      # get a user by userid
+      @profile = HTTParty.get("https://www.googleapis.com/oauth2/v1/userinfo?access_token=#{session[:google_token]}").to_json
+
+      # create  a user or get a user by authorization id
+      user = User.get_or_create_google_user(@profile['id'], session[:google_token])
+      session[:google_user_id] = user.id
+      
+    end
+
+Luego crearemos un método en nuestro model **user**:
+
+    def self.get_or_create_google_user(uid, token)
+      where(provider: 'google', uid: uid.to_s).first_or_initialize.tap do |user|
+        user.provider = 'google'
+        user.uid = uid
+        user.oauth_token = token
+        user.save!
+      end
+
+    end
+
+Hemos completado lo correspondiente al lado del servidor. Nos toca ver la parte de la vista
+
+    <% content_for :head do %>
+      <%= stylesheet_link_tag    "google", :media => "all" %>
+      <%= javascript_include_tag :google %>
+    <% end %>
+
+
+    <% user = JSON.parse(@profile) %>
+
+    <div id="bar">
+      <div id="header">
+        <%= image_tag 'developers-logo.png' %>
+
+        <div id="photo">
+          <%= image_tag "https://plus.google.com/s2/photos/profile/#{user['id']}", :size => '35x35' %>      
+        </div>
+
+        <div id="email">
+          <%= user['email'] %>
+        </div>
+        
+      </div>
+    </div>
+
+    <div id="tab-bar"></div>
+
+    <div id="container">
+      <ul class="tabs">
+        <li><a href="#profile">Profile</a></li>
+        <li><a href="#friends">Friends</a></li>
+      </ul>
+
+      <div class="tab_container">
+
+        <!-- PROFILE -->
+        <div id="profile" class="tab_content">
+
+          <div class="label-google">Nombres:</div>
+          <div class="label-google-info"><%= user['given_name'] %></div>
+          <div style="clear: both"></div>
+
+          <div class="label-google">Apellidos:</div>
+          <div class="label-google-info"><%= user['family_name'] %></div>
+          <div style="clear: both"></div>
+
+          <div class="label-google">Email:</div>
+          <div class="label-google-info"><%= user['email'] %></div>
+          <div style="clear: both"></div>
+
+          <div class="label-google">Birthday date:</div>
+          <div class="label-google-info"><%= user['birthday'] %></div>
+          <div style="clear: both"></div>
+
+          <div class="label-google">Sex:</div>
+          <div class="label-google-info"><%= user['gender'] %></div>
+          <div style="clear: both"></div>
+
+        </div>
+
+        <!-- FRIENDS -->
+        <div id="friends" class="tab_content">
+          
+        </div>
+
+      </div>
+    </div>
+
+En esta parte solo estamos parseando el JSON y así mostrar su profile
+
+Los estilos los tienes aquí:
+
+    body {
+      margin:0px;
+      padding:0px;
+    }
+
+    #bar {
+      background-color: whitesmoke;
+      height: 75px;
+      width: 100%;
+    }
+
+    #tab-bar {
+      height: 32px;
+      width: 100%;
+      background-color: #444;
+      position: absolute;
+    }
+
+    #header {
+      width: 900px;
+      margin: auto;
+      padding-top: 15px;
+      font-size: 20px;
+      height: 50px;
+      font-family: verdana;
+      color: #696969;
+    }
+
+    #email {
+      padding: 2px;
+      font-size: 11px;
+      font-weight: bold;
+      float: right;
+      margin-right: 5px;
+    }
+
+    #photo {
+      width: 35px;
+      height: 35px;
+      float: right;
+    }
+
+    #container {
+      width: 900px;
+      margin: auto;
+    }
+
+    .label-google {
+      border-left: 5px solid #dddddd;
+      background-color: whitesmoke;
+      padding: 4px;
+      width: 100px;
+      text-align: right;
+      float: left;
+      font-size: 12px;
+      font-family: verdana;
+    }
+
+    .label-google-info {
+      text-align: left;
+      padding: 4px;
+      float: left;
+      min-width: 300px;
+      font-size: 12px;
+      font-family: verdana;
+    }
+
+
+    ul.tabs {
+      margin: 0;
+      padding: 0;
+      float: left;
+      list-style: none;
+      height: 32px;
+      width: 100%;
+    }
+
+    ul.tabs li {
+      float: left;
+      margin: 0;
+      padding: 0;
+      height: 32px;
+      line-height: 31px;
+      margin-bottom: -1px;
+      overflow: hidden;
+      position: relative;
+      background: #444;
+    }
+
+    ul.tabs li a {
+      text-decoration: none;
+      color: white;
+      display: block;
+      font-size: 13px;
+      font-family: verdana;
+      padding: 0 20px;
+      outline: none;
+    }
+
+    ul.tabs li a:hover {
+      
+    }
+
+    html ul.tabs li.active, html ul.tabs li.active a:hover  {
+      background: #696969;
+    }
+
+    .tab_container {
+      overflow: hidden;
+      clear: both;
+      float: left; width: 100%;
+      background: #fff;
+    }
+    .tab_content {
+      padding-top: 20px;
+      font-size: 1.2em;
+    }
+
+Te recomiendo que veas el código fuente funcionando en mi repositorio de Github [https://github.com/carlos21/social-network](https://github.com/carlos21/social-network). 
+
+Si deseas ver la aplicación funcionando puedes entrar aquí: [http://socialnetworks.carlos21.com/](http://socialnetworks.carlos21.com/)
+
+Son bienvenidas todas las críticas y consejos que me puedas dar para mejorar el código y hacerlo más entendible y eficiente :D.
