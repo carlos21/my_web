@@ -14,6 +14,8 @@
 // require jquery_ujs
 //= require chat.events
 //= require chat.functions
+//= require navigation
+//= require dashboard
 
 
 

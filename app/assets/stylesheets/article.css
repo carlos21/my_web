@@ -1,0 +1,89 @@
+
+.articles-header {
+  height: 68px;
+  width: 100%;
+  background-color: #F1F1F7;
+  border: 1px solid #dddddd;
+  border-top: none;
+  margin-bottom: 5px;
+
+}
+
+.articles-header .image {
+  height: 50px;
+  width: 50px;
+  margin: 10px;
+  margin-top: 8px;
+  float: left;  
+}
+
+.articles-header .description {
+  margin-top: 15px;
+  float: left;
+}
+
+.articles-header .description .description-title {
+  font-size: 15px;
+  font-weight: bold;
+}
+
+.articles-header .description .description-intro {
+  float: left;
+  font-size: 11px;
+  color: #757575;
+}
+
+.article {
+  border-bottom: 1px solid #dddddd;
+  height: 35px;
+  width: 100%;
+  padding-top: 2px;
+
+}
+
+.article .icon {
+  height: 31px;
+  width: 31px;
+  float:left;
+  border-right: 1px dotted #dddddd;
+  margin-right: 10px;
+  margin-top: 1px;
+}
+
+.article .icon i {
+  margin-top: 9px;
+  margin-left: 9px;
+}
+
+.article .name {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 13px;
+  margin-left: 5px;
+
+}
+
+.article .extra-info {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 12px;
+  color: #888;
+  margin-left: 5px;
+}
+
+.article .extra-info > div{
+  margin-right: 10px;
+  float: left;
+  min-width: 70px;
+}
+
+.article:hover {
+  background-color: #F1F1F7; 
+}
+
+.article a {
+  color: #08C;
+  text-decoration: none;
+}
+
+.article a:visited {
+  color: #08C;
+}

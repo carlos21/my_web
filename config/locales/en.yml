@@ -1,6 +1,3 @@
-# Sample localization file for English. Add more files in this directory for other locales.
-# See https://github.com/svenfuchs/rails-i18n/tree/master/rails%2Flocale for starting points.
-
 en:
   messages_label: "Messages:"
   visits_label: "Visits:"
@@ -13,7 +10,7 @@ en:
   view_profile_label: "View profile"
   go_label: "Go"
 
-  # comments
+  # Comments
   comments_title: "Comments"
   leave_a_comment_label: "Leave a comment"
   name_label: "Name:"
@@ -33,4 +30,8 @@ en:
   # Rating
   how_much_did_you_like_the_page_label: "How much did you like this page? ;)"
   thanks_rating: "Thanks for your vote!"
+
+  # Rightmenu
+  news_label: "News"
+  all_demos_label: "All demos"
 

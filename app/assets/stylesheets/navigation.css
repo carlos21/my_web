@@ -1,0 +1,97 @@
+.navigation {
+  text-align: left;
+  width: 15%;
+  max-width: 200px;
+  height: 100%;
+  min-height: 100%;
+  float: left;
+  margin: auto;
+  border-right: 1px solid #dddddd;
+  background-image: linear-gradient(right , rgb(241,241,247) 0%, rgb(248,248,255) 74%, rgb(248,248,255) 71%);
+  background-image: -o-linear-gradient(right , rgb(241,241,247) 0%, rgb(248,248,255) 74%, rgb(248,248,255) 71%);
+  background-image: -moz-linear-gradient(right , rgb(241,241,247) 0%, rgb(248,248,255) 74%, rgb(248,248,255) 71%);
+  background-image: -webkit-linear-gradient(right , rgb(241,241,247) 0%, rgb(248,248,255) 74%, rgb(248,248,255) 71%);
+  background-image: -ms-linear-gradient(right , rgb(241,241,247) 0%, rgb(248,248,255) 74%, rgb(248,248,255) 71%);
+  background-image: -webkit-gradient(
+    linear,
+    right top,
+    left top,
+    color-stop(0, rgb(241,241,247)),
+    color-stop(0.74, rgb(248,248,255)),
+    color-stop(0.71, rgb(248,248,255))
+  );
+}
+
+.navigation .name {
+  margin: 0px;
+  cursor: pointer;
+  height: 22px;
+  padding-top: 5px;
+  padding-left: 20px;
+}
+
+.navigation .selected-name {
+  background-color: #757575;
+  color: white;
+  margin: 0px;
+  padding-left: 5px; 
+  cursor: pointer;
+  height: 22px;
+  padding-top: 5px;
+  padding-left: 13px;
+}
+
+.navigation a{
+  font-style: italic;
+  font-size: 12px;
+  cursor: pointer;
+  color: #08C;
+  text-decoration: none;
+
+  -webkit-transition: all .5s ease-in-out;
+  -moz-transition: all .5s ease-in-out;
+  transition: all .5s ease-in-out;
+}
+
+.navigation a:hover{
+  text-decoration: none;
+}
+
+.navigation .name:hover {
+  background-color: #dddddd; 
+  border-top: none;
+}
+
+.navigation h1 {
+  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-size: 15px;
+  padding-left: 10px;
+  line-height: 20px;
+  margin-top: 10px;
+  
+}
+
+.custom-tooltip {
+  width: 100px;
+  background-color: #F1F1F7;
+  border: 1px solid #dddddd;
+  position: absolute;
+  display: block;
+  padding: 5px;
+  
+  font-size: 11px;
+  z-index: 2;
+}
+
+.colita {
+  width: 10px;
+  height: 10px;
+  left: -8px;
+  top: -17px;
+  position: relative;
+  background-color: #F1F1F7;
+  border: 1px solid #dddddd;
+  z-index: -1;
+  -webkit-transform: rotate(45deg);
+  transform: rotate(45deg);
+}

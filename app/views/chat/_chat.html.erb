@@ -7,11 +7,11 @@
 
 <%= javascript_include_tag "http://js.pusherapp.com/1.9/pusher.min.js" %>
 
+<!-- CHAT -->
 <div id="chat">
+
+  <!-- HEADER -->
   <div id="chat-name" >
-    <!--<button type="button" class="close" style="color:white; margin-right: 5px" data-dismiss="alert" onclick="closeChat()" >×</button>
-    <button type="button" class="close" style="color:white; margin-right: 5px" data-dismiss="alert" onclick="setChatVisibility()">-</button>-->
-    
     <div id="chat-title">Pusher chat!</div>
     <div id="chat-nickname">
       <input type="text" name="input-nickname" maxsize="15" value="<%=@user.nickname%>">
@@ -20,7 +20,10 @@
       <a href="javascript:setChatVisibility()">Show</a>
     </div>
   </div>
+
   <div id="chat-container">
+
+    <!-- MESSAGES -->  
     <div id="chat-messages" class="chat-messages">
       <% @messages.each do |m| %>
         <div class="msg">
@@ -29,13 +32,14 @@
         </div>
       <% end %>
     </div>
-    <div id="chat-is-typing">
 
-    </div>
+    <!-- TYPING MESSAGE -->
+    <div id="chat-is-typing"></div>
+
+    <!-- MESSAGE -->
     <div class="chat-message">
       <textarea id="message" name="message"></textarea>
     </div>
   </div>
-  
   
 </div>

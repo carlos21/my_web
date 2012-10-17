@@ -1,6 +1,6 @@
 <div class="header">
   
-  
+  <!-- LANGUAGES -->
   <div class="header-top1">
     <div class="lang">
       <a href="<%=change_language_path('en')%>">English</a> | <a href="<%=change_language_path('es')%>">Español</a>
@@ -8,20 +8,24 @@
   </div>
 
   <div class="header-top2">
+
+    <!-- PHOTO -->
     <div class="photo">
       <%= image_tag 'mario.jpg', :size => '60x60' %>
     </div>
+
+    <!-- DESCRIPTION -->
     <div class="details">
       <h1>Carlos Duclós</h1>
       <ul>
         <li>&nbsp;Ruby on Rails Developer</li>
         <li>&nbsp;Css3 & Html5</li>
       </ul>
-
-
     </div>
 
+    <!-- CHAT -->
     <%= render 'chat/chat' %>
+
   </div>
 
 </div>

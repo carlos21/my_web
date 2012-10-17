@@ -1,0 +1,54 @@
+.comments {
+  float:left;
+  margin-top: 40px;
+  width: 100%;
+}
+
+.comments .comments-list h4 {
+  border-bottom: 1px solid #dddddd;
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: left;
+}
+
+.comments .item {
+  width: 100%;
+  min-width: 600px;
+  max-width: 100%;
+
+  min-height: 53px;
+  max-height: 400px;
+  background-color: #F1F1F7;
+  overflow:auto;
+  margin-bottom: 5px;
+
+  border: 1px solid #dddddd;
+}
+
+.comments .item .image {
+  float: left;
+  min-width: 50px;
+}
+
+.comments .item .description {
+  float: left;
+  margin-top: 8px;
+  margin-left: 10px;
+  margin-bottom: 10px;
+  min-width: 540px;
+  width: 90%;
+}
+
+.comments .item .description {
+  font-size: 11px;
+}
+
+.comments .userimage {
+  margin-top: 10px;
+  margin-left: 10px;
+}
+
+.comments .comments-form {
+  margin-top: 40px;
+  color: #888;
+}

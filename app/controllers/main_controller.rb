@@ -24,6 +24,7 @@ class MainController < ApplicationController
   def init_variables
 
     @categories = Category.get_categories
+    @demos = Demo.get_demos_by_language(session[:lang])
 
     unless params[:category_path].nil?
       @category = Category.get_category_by_path(params[:category_path])

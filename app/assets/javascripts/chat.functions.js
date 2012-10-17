@@ -88,12 +88,17 @@ function typing_status(status) {
 }
 
 function setChatVisibility(){
-  if($("#chat-container").css('display') == 'block'){
-    $("#chat-container").slideUp('slow');
-    $("#chat-visibility a").html('Show');
+  var chat_container = $("#chat-container");
+  var chat_visibility_link = $("#chat-visibility a");
+
+  if(chat_container.css('display') == 'block'){
+    //chat_container.slideUp('slow');
+    chat_container.css('display', 'none');
+    chat_visibility_link.html('Show');
   } else {
-    $("#chat-container").slideDown('slow');
-    $("#chat-visibility a").html('Hide');
+    //chat_container.slideDown('slow');
+    chat_container.css('display', 'block');
+    chat_visibility_link.html('Hide');
   }
 }
 

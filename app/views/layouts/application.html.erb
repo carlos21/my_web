@@ -7,6 +7,11 @@
 
   <%= stylesheet_link_tag "highlight/styles/default", :title => 'Default' %>
   <%= stylesheet_link_tag "styles-main" %>
+  <%= stylesheet_link_tag "navigation" %>
+  <%= stylesheet_link_tag "article" %>
+  <%= stylesheet_link_tag "dashboard" %>
+  <%= stylesheet_link_tag "comment" %>
+  <%= stylesheet_link_tag "rightmenu" %>
   <%= stylesheet_link_tag "bootstrap/css/bootstrap" %>
   <%= stylesheet_link_tag "jquery/jRating.jquery" %>
   <%= stylesheet_link_tag "jquery/ui.notify" %>
@@ -41,6 +46,8 @@
   <%= javascript_include_tag "jquery/ui.notify" %>
   <%= javascript_include_tag "chat.pusher.events" %>
   <%= javascript_include_tag "chat.functions" %>
+  <%= javascript_include_tag "navigation" %>
+  <%= javascript_include_tag "dashboard" %>
 
   <script type="text/javascript" >
     hljs.tabReplace = ' ';
@@ -66,59 +73,42 @@
 <body>
 
   
-  <!-- Header -->
+  <!-- HEADER -->
   <%= render 'header' %>
 
   <div class="maincontent">
-    <!-- Navigation -->
+    
+    <!-- NAVIGATION -->
     <%= render 'navigation' %>
     
-    <!-- Content -->
+    <!-- CONTENT -->
     <div class="content">
       <div class="section-content">
-        <% if !@pages_path.nil? %>
-          <% if @pages_path.size > 1 %>
-            <div class="pages-path">
-              <% count = 0 %>
-              <% @pages_path.each do |page| %>
-                <div class="pages-path-item">
-                  <% if count == 0 %>
-                    &nbsp;&nbsp;<%= link_to page[0], root_path  %> 
-                  <% elsif count == @pages_path.size - 1 %>
-                    <%= page[0] %>
-                  <% else %>
-                    <%= link_to page[0], root_path + "guides/#{page[1]}" %>
-                  <% end %>
-                </div>
 
-                <% if count != @pages_path.size - 1 %>
-                  <div class="pages-path-item" style="padding-top: 6px; height: 16px">
-                    <i class="icon-chevron-right"></i>
-                  </div>
-                <% end %>
-                
-              <% count += 1 %>
-              <% end %>
-              <div class="separator"></div>
-            </div>
-          <% end %>  
-        <% end %>
+        <!-- PAGES PATH -->
+        <%= render 'pages_path', :locals => {:pages_path => @pages_path} %>
+
+        <!-- MAIN CONTENT -->
         <%= yield %>
+
       </div>
-      
     </div>  
+
+    <!-- RIGHT MENU -->
+    <%= render 'rightmenu', :locals => {:demos => @demos} %>
+
   </div>
 
-  <!-- Footer -->
+  <!-- FOOTER -->
   <%= render 'footer' %>
 
+  <!-- RATING -->
   <%= render 'rating' %>
-
-  
 
   <script type="text/javascript">
     jQuery(function($){
       $(".navigation").css("height", $(".maincontent").css("height"));   
+      $(".rightmenu").css("height", $(".maincontent").css("height"));   
     });
   </script>
 
@@ -128,7 +118,6 @@
         if ($(".rating")) {
           $(".rating").slideDown('slow');  
         }
-        
       }, 2000);
     </script>
   <% end %>

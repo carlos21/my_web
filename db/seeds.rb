@@ -28,10 +28,21 @@ Category.create(:name => 'Ubuntu', :tooltip => 'About Ubuntu', :image_url => 'ub
 Category.create(:name => 'Miscellaneous', :tooltip => 'A bit of everything', :image_url => 'm-icon.png', :status => 'A', :path => 'miscellaneous', :small_description => 'Some examples of many things')
 
 
+Demo.create(:name => 'Drawing', :description => 'Drawing with HTML5 and at a real time', :url => 'http://drawing.carlos21.com', :language => 'en')
+Demo.create(:name => 'Facebook', :description => 'Facebook', :url => 'http://socialnetworks.carlos21.com', :language => 'en')
+Demo.create(:name => 'Github', :description => 'Github', :url => 'http://socialnetworks.carlos21.com', :language => 'en')
+Demo.create(:name => 'Google', :description => 'Google', :url => 'http://socialnetworks.carlos21.com', :language => 'en')
+Demo.create(:name => 'Google Maps', :description => 'Google Maps', :url => 'http://socialnetworks.carlos21.com/googlemaps', :language => 'en')
+Demo.create(:name => 'Twitter', :description => 'Twitter', :url => 'http://socialnetworks.carlos21.com', :language => 'en')
+Demo.create(:name => 'Scrum', :description => 'Scrum', :url => 'http://scrum.carlos21.com', :language => 'en')
 
-
-
-
+Demo.create(:name => 'Drawing', :description => 'Drawing with HTML5 and at a real time', :url => 'http://drawing.carlos21.com', :language => 'es')
+Demo.create(:name => 'Facebook', :description => 'Facebook', :url => 'http://socialnetworks.carlos21.com', :language => 'es')
+Demo.create(:name => 'Github', :description => 'Github', :url => 'http://socialnetworks.carlos21.com', :language => 'es')
+Demo.create(:name => 'Google', :description => 'Google', :url => 'http://socialnetworks.carlos21.com', :language => 'es')
+Demo.create(:name => 'Google Maps', :description => 'Google Maps', :url => 'http://socialnetworks.carlos21.com/googlemaps', :language => 'es')
+Demo.create(:name => 'Twitter', :description => 'Twitter', :url => 'http://socialnetworks.carlos21.com', :language => 'es')
+Demo.create(:name => 'Scrum', :description => 'Scrum', :url => 'http://scrum.carlos21.com', :language => 'es')
 
 
 ######### English #########
