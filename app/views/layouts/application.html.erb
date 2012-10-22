@@ -3,7 +3,6 @@
 <head>
   <title>Carlos Duclos - Ruby Developer</title>
   <%=csrf_meta_tags %>
-  <%# javascript_include_tag "application" %>
 
   <%= stylesheet_link_tag "highlight/styles/default", :title => 'Default' %>
   <%= stylesheet_link_tag "styles-main" %>
@@ -16,28 +15,6 @@
   <%= stylesheet_link_tag "jquery/jRating.jquery" %>
   <%= stylesheet_link_tag "jquery/ui.notify" %>
   <%# stylesheet_link_tag "application" %>
-
-  <%# stylesheet_link_tag "highlight/styles/dark", :title => 'Dark' %>
-  <%# stylesheet_link_tag "highlight/styles/far", :title => 'FAR'  %>
-  <%# stylesheet_link_tag "highlight/styles/idea", :title => 'IDEA' %>
-  <%# stylesheet_link_tag "highlight/styles/sunburst", :title => 'Sunburst' %>
-  <%# stylesheet_link_tag "highlight/styles/zenburn", :title => 'Zenburn' %>
-  <%# stylesheet_link_tag "highlight/styles/vs", :title => 'Visual' %>
-  <%# stylesheet_link_tag "highlight/styles/ascetic", :title => 'Ascetic' %>
-  <%# stylesheet_link_tag "highlight/styles/magula", :title => 'Magula' %>
-  <%# stylesheet_link_tag "highlight/styles/github", :title => 'GitHub' %>
-  <%# stylesheet_link_tag "highlight/styles/googlecode", :title => 'Google Code' %>
-  <%# stylesheet_link_tag "highlight/styles/brown_paper", :title => 'Brown Paper' %>
-  <%# stylesheet_link_tag "highlight/styles/school_book", :title => 'School Book' %>
-  <%# stylesheet_link_tag "highlight/styles/ir_black", :title => 'IR Black' %>
-  <%# stylesheet_link_tag "highlight/styles/solarized_dark", :title => 'Solarized - Dark' %>
-  <%# stylesheet_link_tag "highlight/styles/solarized_light", :title => 'SOlarized - Light' %>
-  <%# stylesheet_link_tag "highlight/styles/arta", :title => 'Arta' %>
-  <%# stylesheet_link_tag "highlight/styles/monokai", :title => 'Monokai' %>
-  <%# stylesheet_link_tag "highlight/styles/xcode", :title => 'XCode' %>
-  <%# stylesheet_link_tag "highlight/styles/pojoaque", :title => 'Pojoaque' %>
-
-  
   <%= javascript_include_tag "highlight/highlight.pack" %>
   <%= javascript_include_tag "jquery/jquery-1.7.2.min" %>
   <%= javascript_include_tag "jquery/jquery-ui-1.8.22.custom.min" %>
@@ -48,6 +25,7 @@
   <%= javascript_include_tag "chat.functions" %>
   <%= javascript_include_tag "navigation" %>
   <%= javascript_include_tag "dashboard" %>
+  <script src="//connect.facebook.net/en_US/all.js"></script>
 
   <script type="text/javascript" >
     hljs.tabReplace = ' ';
@@ -56,7 +34,7 @@
     var PUSHER_KEY = '<%= Pusher.key %>';
     var post_message_url = "<%=post_message_url%>";
     var typing_status_url = "<%=typing_status_url%>";
-    var change_nickname_url = "<%=change_nickname_url%>"
+    var change_nickname_url = "<%=change_nickname_url%>";
   </script>
 
   <script type="text/javascript">
@@ -68,6 +46,8 @@
       });
     });
   </script>
+
+  <%= yield :head %>
 
 </head>
 <body>
@@ -106,9 +86,29 @@
   <%= render 'rating' %>
 
   <script type="text/javascript">
+    function getDocWidth() {
+      var D = document;
+      return Math.max(
+          Math.max(D.body.scrollWidth, D.documentElement.scrollWidth),
+          Math.max(D.body.offsetWidth, D.documentElement.offsetWidth),
+          Math.max(D.body.clientWidth, D.documentElement.clientWidth)
+      );
+    }
+
+    var width = getDocWidth();
+    var nav_width = parseInt($('.navigation').css('width'));
+    var menu_width = parseInt($('.rightmenu').css('width'));
+    var caca = (width - nav_width - menu_width - 30);
+
+    if (nav_width >= 199 && menu_width >= 199) {
+      console.log('entro webon');
+      $('.content').width(caca);
+      $('.section-content').width(caca);
+    }
+
     jQuery(function($){
       $(".navigation").css("height", $(".maincontent").css("height"));   
-      $(".rightmenu").css("height", $(".maincontent").css("height"));   
+      $(".rightmenu").css("height", $(".maincontent").css("height"));  
     });
   </script>
 

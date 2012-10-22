@@ -10,29 +10,26 @@
 </div>
 
 <!-- DASHBOARD -->
-<div class="block">
   
-    <% @random_articles.each do |a|%>
-      <% days = (Time.now - a.created_at)/60/60/24 %>
-      <div id="article_<%=a.id%>" class="random-item" style="overflow: hidden;">
-        <%= link_to guides_category_and_article_path(a.category.path, a.path) do %>
-        <div class="random-item-image">
-          <%= image_tag a.image_url, :size => '46x46' %>
-        </div>
-        <div class="random-item-name">
-          <%= a.name %>
-        </div>
-        <!--<div class="random-item-description"></div>-->
-        <% end %>
-
-        <% if days < 7 %>
-          <div class="corner">
-            New
-          </div>
-        <% end %>
+  <% @random_articles.each do |a|%>
+    <% days = (Time.now - a.created_at)/60/60/24 %>
+    <div id="article_<%=a.id%>" class="random-item" style="overflow: hidden;">
+      <%= link_to guides_category_and_article_path(a.category.path, a.path) do %>
+      <div class="random-item-image">
+        <%= image_tag a.image_url, :size => '46x46' %>
       </div>
+      <div class="random-item-name">
+        <%= a.name %>
+      </div>
+      <!--<div class="random-item-description"></div>-->
+      <% end %>
+
+      <% if days < 7 %>
+        <div class="corner">
+          New
+        </div>
+      <% end %>
+    </div>
     
   <% end %>
-</div> 
-  
 

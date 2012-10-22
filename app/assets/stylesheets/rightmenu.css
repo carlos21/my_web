@@ -23,30 +23,30 @@
 }
 
 .rightmenu .name {
+  font-family: "oswaldregular";
   margin: 0px;
-  padding-left: 5px; 
   cursor: pointer;
-  height: 22px;
-  padding-top: 5px;
+  height: 25px;
+  padding-top: 9px;
   padding-left: 20px;
 }
 
 .rightmenu .selected-name {
+  font-family: "oswaldregular";
   background-color: #757575;
-  color: white;
+  color: #ddd;
   margin: 0px;
   padding-left: 5px; 
   cursor: pointer;
-  height: 22px;
-  padding-top: 5px;
-  padding-left: 13px;
+  height: 25px;
+  padding-top: 9px;
+  padding-left: 20px;
 }
 
 .rightmenu a{
-  font-style: italic;
-  font-size: 12px;
+  font-size: 1.1em;
   cursor: pointer;
-  color: #08C;
+  color: #85B3D4;
   text-decoration: none;
 
   -webkit-transition: all .5s ease-in-out;
@@ -64,10 +64,11 @@
 }
 
 .rightmenu h1 {
-  font-family: "Helvetica Neue", Helvetica, Arial, sans-serif;
-  font-size: 15px;
+  font-family: "oswaldlight";
+  font-size: 19px;
   padding-left: 10px;
   line-height: 20px;
   margin-top: 10px;
-  
+  margin-bottom: 5px;
+  color: #757575;
 }

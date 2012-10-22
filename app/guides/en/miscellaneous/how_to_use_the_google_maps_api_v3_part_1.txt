@@ -1,0 +1,196 @@
+Vamos a darle una checkeada al API de Google Maps. Éste nos permitirá usar el mapa prácticamente *a nuestro antojo*. Podremos crear markadores, localizar un lugar mediante un zip code o un state, manejar eventos del propio mapa, etc; el cielo es el límite!
+
+Para poder ilustrar alguna de las funcionalidades de este API, vamos a crear un mantenimiento de posiciones. El usuario podrá crear una posición, asignándole un nombre, una descripción y una posición haciéndole click en el mapa. Todo se guardará usando un poco de AJAX ;)
+
+Empecemos. Primero vamos a importar el javascript de Google para utilizar las funciones que nos servirán más adelante
+
+    <script type="text/javascript" src="https://maps.google.com/maps/api/js?sensor=true"></script>
+
+El parámetro sensor, indica si la aplicación utiliza un sensor para determinar la ubicación del usuario
+
+Luego agregaremos un **div** para el mapa:
+
+    <div id='map_canvas' style='width: 300px; height: 300px'></div>
+
+Ahora vamos a inicializar nuestro mapa para que aparezca!
+
+    function initialize() {
+      map = null;
+
+      // instanciamos el objeto con coordenadas específicas
+      var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+
+      // Armamos un conjunto de opciones
+      var myOptions = {
+        zoom: 4,
+        center: myLatlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+
+      // instanciams el mapa1
+      map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+
+    }
+
+Hasta aquí, debería de aparecerte el mapa en algún lugar de australia por las coordenadas ;). Esto es lo mínimo necesario, pero ahora pasaré a mostrarte como va a quedar nuestro view
+
+    <div id="content">
+      <div style="text-align:center">
+        <h2>Google Maps API</h1>
+      </div>
+
+      <div id="rules">
+        <h3>Rules</h3>
+        <h4>Add</h4>
+        <ul>
+          <li>Click on the Add button</li>
+          <li>Enter name and description</li>
+          <li>Click on the map to add a marker</li>
+          <li>Press on the Save button</li>
+        </ul>
+        <h4>Edit</h4>
+        <ul>
+          <li>Click an Edit link</li>
+          <li>Change name and description</li>
+          <li>Click on the map to modify the marker</li>
+          <li>Press on the Save button</li>
+        </ul>
+        <h4>Delete</h4>
+        <ul>
+          <li>Click a Destroy link</li>
+        </ul>
+      </div>
+      <div id='map_canvas' style='width: 300px; height: 300px'></div>
+
+      <div id="table-div">
+        <%= render :partial => 'position/list', :locals => {:positions => @positions} %>
+      </div>
+
+      <div class="button">
+        <button id="add" class="btn btn-inverse" onclick="new_position()" style="display:">Add</button>
+      </div>
+
+      <div class="button">
+        <button id="save" class="btn btn-inverse" onclick="save_position()">Save</button>
+      </div>
+
+      <div class="button">
+        <button id="cancel" class="btn btn-inverse" onclick="cancel()">Cancel</button>
+      </div>
+
+    </div>
+
+Vamos a ver qué está pasando aquí. La tabla que mostrará la lista de posiciones la pondremos en un archivo aparte dentro de la carpeta **position** y le pasaremos la colección como parámetro. Llegó la hora de crear nuestra tablita de posiciones
+
+    rails g model Position name, lat:decimal, lng:decimal, description
+
+    rails g controller position
+
+Agregamos las rutas!
+
+    match 'googlemaps', to: 'position#index', as: 'positions'
+    match 'position/save', to: 'position#save', as: 'save_position'
+    match 'position/delete/:id', to: 'position#delete', as: 'delete_position'
+
+En nuestro controlador de posiciones agregaremos lo siguiente:
+    
+    # listamos todas las posiciones
+    def index
+      @positions = Position.all
+    end
+
+    # maneja el grabado de la posición
+    def save
+      if params[:id] == '0'
+        # new
+        if Position.create(name: params[:name], description: params[:description], lat: params[:lat], lng: params[:lng])
+          @positions = Position.all
+          render :partial => 'position/list', :locals => {:positions => @positions}
+        end
+      else
+        # update
+        pos = Position.find(params[:id])
+        if pos.update_attributes(name: params[:name], description: params[:description], lat: params[:lat], lng: params[:lng])
+          @positions = Position.all
+          render :partial => 'position/list', :locals => {:positions => @positions}
+        end
+      end
+    end
+
+    # borra una posición
+    def delete
+      position = Position.find(params[:id])
+      if position.destroy
+        @positions = Position.all
+        render :partial => 'position/list', :locals => {:positions => @positions}
+      else
+        render text: 'error'
+      end
+    end
+
+Ten en cuenta que tanto el método **save** como **delete** van a ser llamados via AJAX, es por eso que solo estamos enviando de vuelta sólo el html de la tabla, que por cierto está aquí:
+
+    <table id="positions" class="table table-bordered table-striped">
+      <tr>
+        <td>Name</td>
+        <td>Description</td>
+        <td>Show</td>
+        <td>Edit</td>
+        <td>Delete</td>
+      </tr>
+      <% @positions.each do |p| %>
+        <tr>
+          <td style="width: 100px"><label><%= p.name %></label></td>
+          <td><label><%= p.description %></label></td>
+          <td style="width: 80px"><%= link_to 'Show', "javascript:show_position(#{p.lat}, #{p.lng})" %></td>
+          <td style="width: 80px"><%= link_to 'Edit', "#", :onclick => "edit_position(this, #{p.id}, #{p.lat}, #{p.lng})" %></td>
+          <td style="width: 80px"><%= link_to 'Destroy', "javascript:delete_position(#{p.id})" %></td>
+        </tr>
+      <% end %>
+    </table>
+
+Aquí un poco de estilos
+
+    #content {
+      width: 900px;
+      margin: auto;
+      overflow: auto;
+    }
+
+    .name-input {
+      width: 90px;
+    }
+
+    .description-input {
+      width: 98%;
+    }
+
+    .button {
+      float : left;
+      margin-right: 10px;
+    }
+
+    #rules {
+      padding: 20px;
+      border: 1px solid #dddddd;
+      float: left;
+      height: 260px;
+      width: 550px;
+      margin-bottom: 10px;
+    }
+
+    #rules h4{
+      font-style: italic;
+      text-decoration: underline;
+    }
+
+    #rules h3 {
+      margin-bottom: 10px;
+      text-decoration: underline;
+    }
+
+    #map_canvas {
+      float: right;
+    }
+
+Ya sólo nos falta agregar el código javascript para manejar nuestra tabla y crear marcadores en el mapa. Todo esto lo veremos en la segunda parte de este tutorial!. [Llévame a la segunda parte!](http://www.carlos21.com/guides/miscellaneous/how-to-use-google-maps-api-v3)

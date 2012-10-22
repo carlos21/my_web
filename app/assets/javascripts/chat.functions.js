@@ -95,10 +95,12 @@ function setChatVisibility(){
     //chat_container.slideUp('slow');
     chat_container.css('display', 'none');
     chat_visibility_link.html('Show');
+    $("#chat").height(0);
   } else {
     //chat_container.slideDown('slow');
     chat_container.css('display', 'block');
     chat_visibility_link.html('Hide');
+    $("#chat").height(300);
   }
 }
 

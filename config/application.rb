@@ -56,6 +56,8 @@ module MyWeb
     # Version of your assets, change this if you want to expire all your assets
     config.assets.version = '1.0'
 
+    config.assets.paths << "#{Rails.root}/app/assets/fonts"
+    config.autoload_paths += Dir["#{config.root}/assets/fonts"]
     config.autoload_paths += Dir["#{config.root}/models/constants"]
 
     
