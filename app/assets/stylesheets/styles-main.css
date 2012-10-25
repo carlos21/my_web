@@ -132,7 +132,7 @@ a {
   height: 30px;
   background-color: #F1F1F7;
   border: 1px solid #dddddd;
-  border-bottom: none;
+  border-bottom: 1px solid #dddddd; 
   margin-top: 10px;
 }
 
@@ -508,4 +508,38 @@ pre {
     text-decoration: none;
     text-shadow: 1px 1px 1px #000;
     padding: 0px;
+}
+
+.centered-buttons {
+  position: relative;
+  margin: auto;
+  width: 300px;
+  margin-top: 45px;
+}
+
+.right-buttons {
+  position: relative;
+  float: right;
+  width: 300px;
+  margin-top: 3px;
+}
+
+.facebook-button {
+  padding-top: 4px;
+  width: 100px;
+  float: left;
+  text-align: center;
+}
+
+.twitter-button {
+  padding-top: 4px;
+  width: 100px;
+  float: left;
+  text-align: center;
+}
+
+.googleplus-button {
+  width: 100px;
+  float: left;
+  text-align: center;
 }

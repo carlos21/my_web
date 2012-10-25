@@ -9,6 +9,8 @@
 
   <div class="header-top2">
 
+
+
     <!-- PHOTO -->
     <div class="photo">
       <%= image_tag 'mario.jpg', :size => '60x60' %>
@@ -21,6 +23,15 @@
         <li>&nbsp;Ruby on Rails Developer</li>
         <li>&nbsp;Css3 & Html5</li>
       </ul>
+    </div>
+
+    <div class="centered-buttons">
+      
+      <% if request.fullpath == "/" %>
+        <%= render :partial => 'socialnetworks/facebook_button', :locals => {:url => 'http://carlos21.com'} %>
+        <%= render :partial => 'socialnetworks/twitter_button', :locals => {:url => 'http://carlos21.com'} %>
+        <%= render :partial => 'socialnetworks/googleplus_button', :locals => {:url => 'http://carlos21.com'} %>
+      <% end %>
     </div>
 
     <!-- CHAT -->

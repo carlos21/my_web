@@ -21,7 +21,12 @@
         
       <% count += 1 %>
       <% end %>
-      <div class="separator"></div>
+      <div class="right-buttons">
+        <%= render :partial => 'socialnetworks/facebook_button', :locals => {:url => 'http://carlos21.com'} %>
+        <%= render :partial => 'socialnetworks/twitter_button', :locals => {:url => 'http://carlos21.com'} %>
+        <%= render :partial => 'socialnetworks/googleplus_button', :locals => {:url => 'http://carlos21.com'} %>
+      </div>
+      
     </div>
   <% end %>  
 <% end %>

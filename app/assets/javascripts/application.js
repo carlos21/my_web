@@ -16,7 +16,7 @@
 //= require chat.functions
 //= require navigation
 //= require dashboard
-
+//= require facebook.api
 
 
 
