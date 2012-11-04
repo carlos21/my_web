@@ -154,6 +154,15 @@ class MainController < ApplicationController
     end
   end
 
+  def about_me
+    @pages_path = Array.new
+    session[:selected_category_id] = nil
+    @about_me = get_file_as_string(Rails.root.to_s + '/app/guides/es/others/about_me.txt')
+    respond_to do |format|
+      format.html
+    end
+  end
+
   private
     def validate_lang
       session[:lang] = 'es' if session[:lang].nil?

@@ -9,8 +9,6 @@
 
   <div class="header-top2">
 
-
-
     <!-- PHOTO -->
     <div class="photo">
       <%= image_tag 'mario.jpg', :size => '60x60' %>
@@ -25,12 +23,12 @@
       </ul>
     </div>
 
-    <div class="centered-buttons">
+    <div class="header-right-buttons">
       
       <% if request.fullpath == "/" %>
         <%= render :partial => 'socialnetworks/facebook_button', :locals => {:url => 'http://carlos21.com'} %>
         <%= render :partial => 'socialnetworks/twitter_button', :locals => {:url => 'http://carlos21.com'} %>
-        <%= render :partial => 'socialnetworks/googleplus_button', :locals => {:url => 'http://carlos21.com'} %>
+        <% render :partial => 'socialnetworks/googleplus_button', :locals => {:url => 'http://carlos21.com'} %>
       <% end %>
     </div>
 

@@ -10,7 +10,7 @@ MyWeb::Application.routes.draw do
   match 'chat/post_message' => 'chat#post_message', :as => 'post_message'
   match 'chat/typing_status' => 'chat#typing_status', :as => 'typing_status'
   match 'chat/change_nickname' => 'chat#change_nickname', :as => 'change_nickname'
-  
+  match 'about-me' => 'main#about_me', :as => 'about_me'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

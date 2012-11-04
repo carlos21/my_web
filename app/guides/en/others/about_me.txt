@@ -1,0 +1,5 @@
+Un poco de mí
+----------------
+
+Hola!, mi nombre es Carlos Duclós Caballero. Tengo 21 años y actualmente vivo en Lima, Perú. Me gusta todo lo que es desarrollo web usando las tecnologías del momento. Me gusta salir de lo ordinario, crear cosas nuevas e innovadoras y ponerme a prueba de lo que soy capaz. Hago aplicaciones Open Source en mi tiempo libre a fin de poner en práctica todo lo que voy aprendiendo. Creo que es importante plasmar lo que aprendo, y es una de las razones por las que hago tutoriales continuamente; sé que me ayudarán a mí en un futuro y a las demás personas tengan el mismo deseo de superación. Mi manera de pensar es quizá distinta a los demás, para mí un CV no es lo más importante, sino lo que uno es capaz de crear y demostrar. Ya lo dice el dicho! **Un hecho vale más que mil palabras** ;)
+

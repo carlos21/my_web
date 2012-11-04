@@ -1,0 +1,47 @@
+**<h4>Un poco de mí</h4>**
+
+Hola!, mi nombre es Carlos Duclós Caballero. Tengo 21 años y actualmente vivo en Lima, Perú. Me gusta todo lo que es desarrollo web usando las tecnologías del momento. Me gusta salir de lo ordinario, crear cosas nuevas e innovadoras y ponerme a prueba de lo que soy capaz. Hago aplicaciones Open Source en mi tiempo libre a fin de poner en práctica todo lo que voy aprendiendo. Creo que es importante plasmar lo que aprendo, y es una de las razones por las que hago tutoriales continuamente; sé que me ayudarán a mí en un futuro y a las demás personas tengan el mismo deseo de superación. Mi manera de pensar es quizá distinta a los demás, para mí un CV no es lo más importante, sino lo que uno es capaz de crear y demostrar. Ya lo dice el dicho! **Un hecho vale más que mil palabras** ;)
+
+<br />
+**<h4>En qué he trabajado?</h4>**
+
+Durante 3 años aproximadamente, fui parte de un equipo de desarrollo de aplicaciones web y escritorio para grandes almacenes e importadores de Estados Unidos. Esto me ha permitido ganar experiencia en el ámbito del análisis y programación. Las tecnologías que solíamos usar eran **Visual Basic .NET** y **SQL Server 2008 R2**. Adicionalmente, he hecho algunos proyectos en **PHP**, **C#** y **Ruby on Rails**.
+
+<br />
+**<h4>Por qué decidí cambiarme a Ruby?</h4>**
+
+Desde que vi y probé el lenguaje, simplemente me gustó. Las ventajas de usar Ruby saltan a la vista, me gusta la flexibilidad y la simplicidad con las que se hacen las cosas. Puedo ahorrar varias líneas de código gracias a su syntaxis y hacer el código más legible. No es eso genial? 
+
+<br />
+**<h4>Qué es lo que sé?</h4>**
+
+A continuación pondré una lista de lenguajes, herramientas y frameworks que he usado en algún momento. Espero no olvidarme ninguno! 
+<br />
+
+<div class="aboutme-tools"><code>Backbone.js</code></div>
+<div class="aboutme-tools"><code>C#</code></div>
+<div class="aboutme-tools"><code>CSS3</code></div>
+<div class="aboutme-tools"><code>CodeIgniter</code></div>
+<div class="aboutme-tools"><code>Eclipse</code></div>
+<div class="aboutme-tools"><code>Facebook API</code></div>
+<div class="aboutme-tools"><code>Github API</code></div>
+<div class="aboutme-tools"><code>Google Maps API</code></div>
+<div class="aboutme-tools"><code>HTML5</code></div>
+<div class="aboutme-tools"><code>Ibatis</code></div>
+<div class="aboutme-tools"><code>JQuery</code></div>
+<div class="aboutme-tools"><code>JSF</code></div>
+<div class="aboutme-tools"><code>Javascript</code></div>
+<div class="aboutme-tools"><code>MySql</code></div>
+<div class="aboutme-tools"><code>Oracle</code></div>
+<div class="aboutme-tools"><code>Pusher</code></div>
+<div class="aboutme-tools"><code>Rails</code></div>
+<div class="aboutme-tools"><code>Redactor.js</code></div>
+<div class="aboutme-tools"><code>Ruby</code></div>
+<div class="aboutme-tools"><code>SQL Server 2005 - 2008</code></div>
+<div class="aboutme-tools"><code>Struts 2</code></div>
+<div class="aboutme-tools"><code>Twitter API</code></div>
+<div class="aboutme-tools"><code>Ubuntu</code></div>
+<div class="aboutme-tools"><code>Underscore.js</code></div>
+<div class="aboutme-tools"><code>VB.NET</code></div>
+<div class="aboutme-tools"><code>Visual Studio 2008 - 2010</code></div>
+
