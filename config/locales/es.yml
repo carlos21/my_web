@@ -1,4 +1,5 @@
 es:
+  welcometo_label: "Welcome to"
   messages_label: "Mensajes:"
   visits_label: "Visitas:"
   last_update_label: "Última actualización:"

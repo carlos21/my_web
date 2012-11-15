@@ -6,5 +6,8 @@ class Constants
   DASHBOARD_MENU = 'Dashboard'
   DASHBOARD_MENU_PATH = '/'
 
+  HOME_MENU = 'home'
+  ABOUT_ME_MENU = 'aboutme'
+
 end
 

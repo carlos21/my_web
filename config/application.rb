@@ -58,7 +58,7 @@ module MyWeb
 
     config.assets.paths << "#{Rails.root}/app/assets/fonts"
     config.autoload_paths += Dir["#{config.root}/assets/fonts"]
-    config.autoload_paths += Dir["#{config.root}/models/constants"]
+    config.autoload_paths += Dir["#{config.root}/lib/constants"]
 
     
     #require 'tlsmail'    

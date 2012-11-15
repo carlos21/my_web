@@ -39,9 +39,8 @@ a {
 .header {
   margin-left: auto ;
   margin-right: auto ;
-  text-align: center;
   width: 100%;
-  height: 95px;
+  height: 110px;
   background-color: #e3e3e6;
   border-bottom: 4px solid #dbd7db;
 }
@@ -60,7 +59,7 @@ a {
 
 .header .header-top1 {
   width: 100%;
-  height: 25px;
+  height: 40px;
   background-color: #2D2D2D;
 }
 
@@ -119,13 +118,19 @@ a {
 
 .content {
   text-align: left;
-  width: 69.8%;
+  width: 84%;
   max-width: 100%;
   float: left;
   min-height: 300px;
   padding-top: 5px;
   padding-bottom: 20px;
 }
+
+.section-content {
+  margin-left: 20px;
+  margin-right: 15px;
+}
+
 
 .pages-path {
   width: 100%;
@@ -153,13 +158,6 @@ a {
   border-top: 1px solid #dddddd; 
   clear: both;
 }
-
-.section-content {
-  margin-left: 20px;
-  margin-right: 15px;
-}
-
-
 
 #loading {
   width: 30px;
@@ -516,15 +514,11 @@ pre {
 }
 
 .facebook-button {
-  padding-top: 4px;
-  width: 85px;
   text-align: right;
-  margin-right: 10px;
 }
 
 .twitter-button {
-  padding-top: 4px;
-  width: 90px;
+  margin-top: 40px;
   text-align: right;
 }
 

@@ -21,11 +21,13 @@
   <%= javascript_include_tag "jquery/jqFloat" %>
   <%= javascript_include_tag "jquery/jRating.jquery" %>
   <%= javascript_include_tag "jquery/ui.notify" %>
+  <%= javascript_include_tag "bootstrap/js/bootstrap" %>
   <%= javascript_include_tag "chat.pusher.events" %>
   <%= javascript_include_tag "chat.functions" %>
   <%= javascript_include_tag "navigation" %>
   <%= javascript_include_tag "dashboard" %>
   <%= javascript_include_tag "facebook.api" %>
+  <%= javascript_include_tag "header" %>
 
   <meta property="og:title" content="jje probando" />
   <meta property="og:type" content="website" />
@@ -33,10 +35,6 @@
   <meta property="og:image" content="" />
   <meta property="og:site_name" content="jejejeje" />
   <meta property="fb:app_id" content="446804795358920" />
-
-  
-
-  
 
   <script type="text/javascript" >
     hljs.tabReplace = ' ';
@@ -55,6 +53,15 @@
         length : 5,
         decimalLength : 5
       });
+
+      <% if session[:show_rating] == true %>
+          setTimeout(function(){
+            if ($(".rating")) {
+              $(".rating").slideDown('slow');  
+            }
+          }, 2000);
+      <% end %>
+
     });
   </script>
 
@@ -62,7 +69,6 @@
 
 </head>
 <body>
-
   
   <!-- HEADER -->
   <%= render 'header' %>
@@ -86,7 +92,7 @@
     </div>  
 
     <!-- RIGHT MENU -->
-    <%= render 'rightmenu', :locals => {:demos => @demos} %>
+    <%# render 'rightmenu', :locals => {:demos => @demos} %>
 
   </div>
 
@@ -96,42 +102,7 @@
   <!-- RATING -->
   <% render 'rating' %>
 
-  <script type="text/javascript">
-    function getDocWidth() {
-      var D = document;
-      return Math.max(
-          Math.max(D.body.scrollWidth, D.documentElement.scrollWidth),
-          Math.max(D.body.offsetWidth, D.documentElement.offsetWidth),
-          Math.max(D.body.clientWidth, D.documentElement.clientWidth)
-      );
-    }
-
-    var width = getDocWidth();
-    var nav_width = parseInt($('.navigation').css('width'));
-    var menu_width = parseInt($('.rightmenu').css('width'));
-    var caca = (width - nav_width - menu_width - 30);
-
-    if (nav_width >= 199 && menu_width >= 199) {
-      console.log('entro webon');
-      $('.content').width(caca);
-      $('.section-content').width(caca);
-    }
-
-    jQuery(function($){
-      $(".navigation").css("height", $(".maincontent").css("height"));   
-      $(".rightmenu").css("height", $(".maincontent").css("height"));  
-    });
-  </script>
-
-  <% if session[:show_rating] == true %>
-    <script type="text/javascript">
-      setTimeout(function(){
-        if ($(".rating")) {
-          $(".rating").slideDown('slow');  
-        }
-      }, 2000);
-    </script>
-  <% end %>
+  
 
 </body>
 </html>

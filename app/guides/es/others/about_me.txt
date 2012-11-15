@@ -10,7 +10,7 @@ Durante 3 años aproximadamente, fui parte de un equipo de desarrollo de aplicac
 <br />
 **<h4>Por qué decidí cambiarme a Ruby?</h4>**
 
-Desde que vi y probé el lenguaje, simplemente me gustó. Las ventajas de usar Ruby saltan a la vista, me gusta la flexibilidad y la simplicidad con las que se hacen las cosas. Puedo ahorrar varias líneas de código gracias a su syntaxis y hacer el código más legible. No es eso genial? 
+Desde que vi y probé el lenguaje, simplemente me gustó. Las ventajas de usar Ruby saltan a la vista, me gusta la flexibilidad y la simplicidad con las que se hacen las cosas. Puedo ahorrar varias líneas de código gracias a su syntaxis, hacer el código más legible y tener una aplicación funcionando en cuestión de minutos. No es eso genial? 
 
 <br />
 **<h4>Qué es lo que sé?</h4>**
@@ -25,19 +25,22 @@ A continuación pondré una lista de lenguajes, herramientas y frameworks que he
 <div class="aboutme-tools"><code>Eclipse</code></div>
 <div class="aboutme-tools"><code>Facebook API</code></div>
 <div class="aboutme-tools"><code>Github API</code></div>
-<div class="aboutme-tools"><code>Google Maps API</code></div>
+<div class="aboutme-tools"><code>Google Maps API v3</code></div>
 <div class="aboutme-tools"><code>HTML5</code></div>
 <div class="aboutme-tools"><code>Ibatis</code></div>
 <div class="aboutme-tools"><code>JQuery</code></div>
 <div class="aboutme-tools"><code>JSF</code></div>
+<div class="aboutme-tools"><code>Java EE</code></div>
 <div class="aboutme-tools"><code>Javascript</code></div>
 <div class="aboutme-tools"><code>MySql</code></div>
 <div class="aboutme-tools"><code>Oracle</code></div>
+<div class="aboutme-tools"><code>PHP</code></div>
 <div class="aboutme-tools"><code>Pusher</code></div>
 <div class="aboutme-tools"><code>Rails</code></div>
 <div class="aboutme-tools"><code>Redactor.js</code></div>
 <div class="aboutme-tools"><code>Ruby</code></div>
 <div class="aboutme-tools"><code>SQL Server 2005 - 2008</code></div>
+<div class="aboutme-tools"><code>Servlets</code></div>
 <div class="aboutme-tools"><code>Struts 2</code></div>
 <div class="aboutme-tools"><code>Twitter API</code></div>
 <div class="aboutme-tools"><code>Ubuntu</code></div>

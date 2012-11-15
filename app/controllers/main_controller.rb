@@ -103,6 +103,21 @@ class MainController < ApplicationController
     end
   end
 
+  def demo_content
+    @demo  = Article.find(session[:selected_demo_id]) 
+    session[:selected_category_id] = nil
+
+    @demo.content = get_file_as_string(Rails.root.to_s + @demo.route)
+    
+    @pages_path = []
+    @pages_path << [ 'Dashboard', '/' ]
+    @pages_path << [ @demo.name, @demo.path ]
+
+    respond_to do |format|
+      format.html # index.html.erb
+    end
+  end
+
   def create_comment
 
     @article  = Article.find(session[:selected_article_id]) 
@@ -157,6 +172,7 @@ class MainController < ApplicationController
   def about_me
     @pages_path = Array.new
     session[:selected_category_id] = nil
+    
     @about_me = get_file_as_string(Rails.root.to_s + '/app/guides/es/others/about_me.txt')
     respond_to do |format|
       format.html
