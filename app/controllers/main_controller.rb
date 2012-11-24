@@ -180,7 +180,7 @@ class MainController < ApplicationController
   end
 
   def instagramcallback
-    render text: params["hub.challenge"]
+    render text: "ya no se que hacer"
   end
 
   private
