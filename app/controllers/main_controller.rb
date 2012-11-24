@@ -180,7 +180,7 @@ class MainController < ApplicationController
   end
 
   def instagramcallback
-    render :json => 'jejejejopjojo'
+    render :json => params["hub.challenge"]
   end
 
   private
