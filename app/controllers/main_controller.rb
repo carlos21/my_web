@@ -180,7 +180,7 @@ class MainController < ApplicationController
   end
 
   def instagramcallback
-    render text: "ya no se que hacer"
+    render :json => 'jejejejopjojo'
   end
 
   private
