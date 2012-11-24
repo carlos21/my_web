@@ -1,0 +1,95 @@
+Qué tal? Vengo aquí una vez más para mostrarte uno nuevo framework que estoy aprendiendo y se trata d Backbone.js.
+
+<h3>Por qué usarlo?</h3>
+Estoy 99% seguro que en algún momento de tu vida, has intentado organizar tu código javascript pero no de la mejor forma. Al final has terminado insertando mucho código dentro de tu página html y todo se vuelve más desordenado a medida que debes agregar más funcionalidad. Aquí viene Backbone a rescatarte. Él te ofrecerá la estructura básica (Model, Collections, Views y Routes) para que no te desordenes.
+
+No demos más rodeos y empecemos. 
+
+Primero crearemos una carpeta backbone con 4 carpetas adentro:
+
+* models
+* router
+* templates
+* views
+
+**<h3>Creando los model y collection</h3>**
+
+Dentro de la carpeta **models** crea el archivo **carModel.js**
+
+    var Car = Backbone.Model.extend({
+      urlRoot: 'cars',
+      defaults: {
+        brand: '',
+        model: '',
+        color: ''
+      }
+    });
+
+Lo que estamos haciendo aquí es crear una variable que actuará como nuestra **clase**. Le defimos la ruta principal de los autos y algunos atributos por defecto que tendrá el objeto.
+
+Luego creamos un archivo llamado **carCollectionModel.js**
+
+    var CarCollection = Backbone.Collection.extend({
+      model: Car,
+      url: 'cars'
+    });
+
+Le decimos a Backbone: "Esta es una colleccion de cars y la ruta principal es cars"
+
+
+**<h3>Creando nuestros templates</h3>**
+
+Abre tu carpeta **templates** y coloca el siguiente código:
+
+    <form class="form-horizontal">
+      <div class="control-group">
+        <label class="control-label" for="brand">Brand</label>
+        <div class="controls">
+          <input type="text" id="brand" placeholder="Enter a brand" value="{{brand}}">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="model">Model</label>
+        <div class="controls">
+          <input type="text" id="model" placeholder="Enter a model" value="{{model}}">
+        </div>
+      </div>
+      <div class="control-group">
+        <label class="control-label" for="color">Color</label>
+        <div class="controls">
+          <input type="text" id="color" placeholder="Enter a color" value="{{color}}">
+        </div>
+      </div>
+      <div class="control-group">
+        <div class="controls">
+          <button type="submit" id="save" class="btn btn-inverse">Save</button>
+        </div>
+      </div>
+    </form>
+
+Esta vista es para la creeación y edición de autos.
+
+Ahora crea un archivo llamado **carListItem.html**, que será el que contenga cada elemento de nuestra lista
+
+    <div style="width: 100px; float: left;">
+      <a href="#" data-id="{{id}}" style="width: 100px">{{brand}} {{model}}</a>
+    </div>
+
+    <div style="width: 20px; float: right;">
+    <a href="#" data-id="{{id}}" class="delete" data-method="delete">x</a>
+    </div>
+
+    <div style="clear:both"></div>
+
+Y por último creamos **header.html**
+
+    <div id="search" class="well" style="margin-bottom: 5px">
+      <input type="text" id="query" name="query" placeholder="Search by model or brand" value="">
+
+      <button id="search-button" class="btn btn-inverse">Search</button>
+      <button id="new" class="btn btn-inverse">New</button>
+    </div>
+
+Seguramente te estarás preguntando.. Y qué pasa con ese {{id}}, {{color}} o ese {{brand}} ? No te preocupes que lo veremos luego, aunque si deseas puedes ir averiguando algo de Mustache.js =)
+
+Nos vemos en la [segunda parte](http://carlos21.com/guides/backbonejs/creating-simple-car-maintenance-part-2) de este tutorial donde veremos todo lo referente a la creación de views

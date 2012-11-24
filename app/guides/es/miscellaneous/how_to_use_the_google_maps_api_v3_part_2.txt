@@ -1,0 +1,270 @@
+Esta es la segunda parte del tutorial del google maps. Si deseas ver la primera parte del tutorial haz click [aquí](http://www.carlos21.com/guides/miscellaneous/how-to-use-the-google-maps-v3-part-1)
+
+Hasta el momento teníamos todo excepto el código javascript que creará los marcadores y manejará algunos eventos de los botones.
+
+Vamos a empezar declarando algunas variables globales y definiendo la función **initialize**
+
+    var map;
+    var marker;
+    var id = 0;
+    var lat;
+    var lng;
+
+    function initialize() {
+      map = null;
+
+      // Inicializamos el mapa en un punto cualquiera
+      var myLatlng = new google.maps.LatLng(-25.363882,131.044922);
+      var myOptions = {
+        zoom: 4,
+        center: myLatlng,
+        mapTypeId: google.maps.MapTypeId.ROADMAP
+      }
+
+      // Cada vez que hagamos click en el mapa, limpiará el marcador si existe y pondrá uno nuevo
+      map = new google.maps.Map(document.getElementById("map_canvas"), myOptions);
+      
+      google.maps.event.addListener(map, 'click', function(event) {
+        if (marker) {
+          marker.setMap(null);
+        }
+        placeMarker(event.latLng.lat(), event.latLng.lng());
+
+      });
+
+      // Ocultamos los botones de save y cancel por defecto
+      save_button = document.getElementById('save');
+      cancel_button = document.getElementById('cancel');
+
+      save_button.style.display = 'none';
+      cancel_button.style.display = 'none';
+
+    }
+
+Ahora creamos la función que  agrega el marcador al mapa en base a coordenadas:
+
+    function placeMarker(latitude, longitude) {
+      lat = latitude;
+      lng = longitude;
+      var location = new google.maps.LatLng(lat, lng);
+      map.setCenter(location);
+      marker = new google.maps.Marker({
+          position: location, 
+          map: map,
+          draggable: true
+      });
+    }
+
+Luego, crearemos una función que será llamada al darle click en el botón **Add**, que básicamente agregará una fila a la tabla para poder crear una nueva posición:
+
+    function new_position() {
+      if (marker) {
+        marker.setMap(null);
+      }
+
+      marker = null;
+      id = 0;
+
+      // get the table
+      table = document.getElementById('positions');
+
+      // create tr
+      row = document.createElement('tr');
+
+      // cells
+      name_cell = document.createElement('td');
+      description_cell = document.createElement('td');
+      edit_cell = document.createElement('td');
+      delete_cell = document.createElement('td');
+
+      // name
+      text_name = document.createElement('input');
+      text_name.className = 'name-input';
+      text_name.id = 'new-name';
+      text_name.type = 'text';
+      text_name.name = 'name';
+      text_name.style.marginBottom = '0px';
+      name_cell.appendChild(text_name);
+
+      // description
+      text_description = document.createElement('input');
+      text_description.id = 'new-description';
+      text_description.className = 'description-input';
+      text_description.type = 'text';
+      text_description.name = 'name';
+      text_description.style.marginBottom = '0px';
+      description_cell.appendChild(text_description);
+
+      row.appendChild(name_cell);
+      row.appendChild(description_cell);
+      row.appendChild(edit_cell);
+      row.appendChild(delete_cell);
+      table.appendChild(row);
+
+      add_button = document.getElementById('add');
+      save_button = document.getElementById('save');
+      cancel_button = document.getElementById('cancel');
+
+      add_button.style.display = 'none';
+      save_button.style.display = 'block';
+      cancel_button.style.display = 'block';
+    }
+
+También, deberá existir una función llamada **edit** para que sea posible editar una posición ya existente. Creará cajas de texto dinamicamente en la fila seleccionada y cargará la posición que había sido guardada.
+
+    function edit_position(link, idPos, latPos, lngPos) {
+
+      if (id) {return;}
+
+      // load fields
+      id = idPos;
+      lat = latPos;
+      lng = lngPos;
+
+      // destroy current marker
+      if (marker) { marker.setMap(null); }
+
+      // set a marker for the selected position
+      placeMarker(latPos, lngPos);
+
+      // hide and show buttons
+      add_button = document.getElementById('add');
+      save_button = document.getElementById('save');
+      cancel_button = document.getElementById('cancel');
+
+      add_button.style.display = 'none';
+      save_button.style.display = 'block';
+      cancel_button.style.display = 'block';
+
+      current_cell = link.parentNode;
+      current_row = current_cell.parentNode;
+      cells = current_row.getElementsByTagName('td');
+      $(cells[0]).find("label").css('display', 'none');
+      $(cells[1]).find("label").css('display', 'none');
+
+      // name
+      text_name = document.createElement('input');
+      text_name.id = 'new-name';
+      text_name.className = 'name-input';
+      text_name.type = 'text';
+      text_name.name = 'name';
+      text_name.value = $(cells[0]).find("label").html();
+      text_name.style.marginBottom = '0px';
+      cells[0].appendChild(text_name);
+
+      // description
+      text_description = document.createElement('input');
+      text_description.id = 'new-description';
+      text_description.className = 'description-input';
+      text_description.type = 'text';
+      text_description.name = 'name';
+      text_description.value = $(cells[1]).find("label").html();
+      text_description.style.marginBottom = '0px';
+      cells[1].appendChild(text_description);
+
+      // create event for the new marker
+      google.maps.event.addListener(marker, 'dragend', function(event){
+        lat = event.latLng.lat();
+        lng = event.latLng.lng();
+
+        console.log(lat);
+        console.log(lng);
+      });
+    }
+
+Esta función limpia las variables globales
+
+    function clearFields() {
+      // clear fields
+
+      // destroy current marker
+      if (marker) { marker.setMap(null); marker = null; }
+      id = null;
+      lat = null;
+      lng = null;
+
+      // hide and show buttons
+      add_button = document.getElementById('add');
+      save_button = document.getElementById('save');
+      cancel_button = document.getElementById('cancel');
+
+      add_button.style.display = 'block';
+      save_button.style.display = 'none';
+      cancel_button.style.display = 'none';
+
+    }
+
+La función **cancel** deja la lista tal y como estaba, es decir, cancela los cambios por si le diste **Add** o **Edit**
+
+    function cancel() {
+      if (id == 0) {
+        // delete the row
+        text_name = document.getElementById('new-name');
+        current_cell = text_name.parentNode;
+        current_row = current_cell.parentNode;
+        remove(current_row);
+      } else {
+        // search for textboxes to delete them
+        text_name = document.getElementById('new-name');
+        text_description = document.getElementById('new-description');
+        if(text_name) {
+          current_cell = text_name.parentNode;
+          current_row = current_cell.parentNode;
+          cells = current_row.getElementsByTagName('td');
+          $(cells[0]).find("label").css("display", "block");
+          $(cells[1]).find("label").css("display", "block");
+          remove(text_name);
+          remove(text_description);
+        }
+      }
+
+      clearFields();
+    }
+
+La función **show** muestra un marcador de la posición con la que había sido guardada 
+
+    function show_position(lat, lng) {
+      // destroy current marker
+      if (marker) { marker.setMap(null); }
+
+      // set a marker for the selected position
+      placeMarker(lat, lng);
+    }
+
+Luego deberá haber una función para **grabar** la posición que estemos editando o agregando. Para esto hacemos una llamada AJAX y le pasamos los datos:
+
+    function save_position() {
+      $.ajax({
+        type: 'post',
+        url: '/position/save',
+        data: {
+          id: id,
+          name: $("#new-name").val(),
+          description: $("#new-description").val(),
+          lat: lat,
+          lng: lng
+        },
+        success: function(html) {
+          $("#table-div").html(html);
+          if (marker) {marker.setMap(null);}
+          clearFields();
+        }
+      });
+    }
+
+Ya casi terminando crearemos una método que destruye un objeto. Nos sirve en el cancel:
+
+    function remove(selection){
+      selection.parentNode.removeChild(selection);
+    }
+Y por último, inicializamos nuestra demo poniendo:
+
+    $(document).ready(function(){
+      initialize();
+    });
+
+Ahora sí estamos listos!. Si deseas ver el código fuente completo, puedes entrar a mi repositorio de Github: [https://github.com/carlos21/social-network](https://github.com/carlos21/social-network). En ese mismo repositorio, también está cómo usar el API de Facebook, Twitter, Google y Github por si te interesa ;)
+
+La aplicación funcionando la tienes aquí! [http://socialnetworks.carlos21.com/googlemaps](http://socialnetworks.carlos21.com/googlemaps)
+
+Suerte! y nunca dejes de aprender!

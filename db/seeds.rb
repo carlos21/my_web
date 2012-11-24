@@ -18,7 +18,7 @@ Chat.create()
 
 # Categories
 Category.create(:name => 'CSS3', :tooltip => 'About CSS3', :image_url => 'css3.jpg', :status => 'A', :path => 'css3', :small_description => 'CSS3')
-Category.create(:name => 'Ember.js', :tooltip => 'About Ember.js', :image_url => 'emberjs.png', :status => 'A', :path => 'emberjs', :small_description => 'EmberJS')
+Category.create(:name => 'Backbone.js', :tooltip => 'About Backbone.js', :image_url => 'backbonejs.png', :status => 'A', :path => 'backbonejs', :small_description => 'BasckboneJS')
 Category.create(:name => 'HTML5', :tooltip => 'About HTML5',:image_url => 'html5.png',  :status => 'A', :path => 'html5', :small_description => 'HTML 5')
 Category.create(:name => 'JQuery', :tooltip => 'About JQuery',:image_url => 'jquery.gif',  :status => 'A', :path => 'jquery', :small_description => 'JQuery')
 Category.create(:name => 'Node.js', :tooltip => 'About Node.js',:image_url => 'nodejs.png',  :status => 'A', :path => 'nodejs', :small_description => 'Node JS')
@@ -27,7 +27,7 @@ Category.create(:name => 'Ruby', :tooltip => 'About Ruby', :image_url => 'ruby.j
 Category.create(:name => 'Ubuntu', :tooltip => 'About Ubuntu', :image_url => 'ubuntu.png', :status => 'A', :path => 'ubuntu', :small_description => 'Ubuntu')
 Category.create(:name => 'Miscellaneous', :tooltip => 'A bit of everything', :image_url => 'm-icon.png', :status => 'A', :path => 'miscellaneous', :small_description => 'Some examples of many things')
 
-
+Demo.create(:name => 'Backbone', :description => 'Car maintenance using Backbone', :url => 'http://backbone.carlos21.com', :language => 'en')
 Demo.create(:name => 'Drawing', :description => 'Drawing with HTML5 and at a real time', :url => 'http://drawing.carlos21.com', :language => 'en')
 Demo.create(:name => 'Facebook', :description => 'Facebook', :url => 'http://socialnetworks.carlos21.com', :language => 'en')
 Demo.create(:name => 'Github', :description => 'Github', :url => 'http://socialnetworks.carlos21.com', :language => 'en')
@@ -36,6 +36,7 @@ Demo.create(:name => 'Google Maps', :description => 'Google Maps', :url => 'http
 Demo.create(:name => 'Twitter', :description => 'Twitter', :url => 'http://socialnetworks.carlos21.com', :language => 'en')
 Demo.create(:name => 'Scrum', :description => 'Scrum', :url => 'http://scrum.carlos21.com', :language => 'en')
 
+Demo.create(:name => 'Backbone', :description => 'Mantenimiento de autos usando Backbone', :url => 'http://backbone.carlos21.com', :language => 'es')
 Demo.create(:name => 'Drawing', :description => 'Drawing with HTML5 and at a real time', :url => 'http://drawing.carlos21.com', :language => 'es')
 Demo.create(:name => 'Facebook', :description => 'Facebook', :url => 'http://socialnetworks.carlos21.com', :language => 'es')
 Demo.create(:name => 'Github', :description => 'Github', :url => 'http://socialnetworks.carlos21.com', :language => 'es')
@@ -46,6 +47,10 @@ Demo.create(:name => 'Scrum', :description => 'Scrum', :url => 'http://scrum.car
 
 
 ######### English #########
+
+# Backbone
+
+
 # Ruby
 Article.create(:name => 'Accessors', :small_description => 'jeje', :category_id => 7, :path => 'accessors', :route => '/app/guides/en/ruby/accessors.txt', :language => 'en', :visits => 0, :image_url => 'ruby.jpg', :messages => 0)
 Article.create(:name => 'Blocks', :small_description => 'jeje', :category_id => 7, :path => 'how-to-use-blocks', :route => '/app/guides/en/ruby/blocks.txt', :language => 'en', :visits => 0, :image_url => 'ruby.jpg', :messages => 0)

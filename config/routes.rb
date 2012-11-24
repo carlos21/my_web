@@ -11,6 +11,8 @@ MyWeb::Application.routes.draw do
   match 'chat/typing_status' => 'chat#typing_status', :as => 'typing_status'
   match 'chat/change_nickname' => 'chat#change_nickname', :as => 'change_nickname'
   match 'about-me' => 'main#about_me', :as => 'about_me'
+
+  get 'instagramcallback' => 'main#instagramcallback'
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

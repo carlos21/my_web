@@ -179,6 +179,10 @@ class MainController < ApplicationController
     end
   end
 
+  def instagramcallback
+    render text: params["hub.challenge"]
+  end
+
   private
     def validate_lang
       session[:lang] = 'es' if session[:lang].nil?
