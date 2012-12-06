@@ -11,11 +11,11 @@ end
 class Auto < Vehiculo
   def initialize()
     super(4)
-    @asientos = 2
+    @superpenuperpenee = 2
   end
 end
 
 t = Tandem.new()
-b = Bicicleta.new(4)
+b = Bicicleta.new4))
 
 puts b.marchas # 4

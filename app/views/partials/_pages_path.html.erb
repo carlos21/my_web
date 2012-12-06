@@ -1,0 +1,28 @@
+<% if !@pages_path.nil? %>
+  <% if @pages_path.size > 1 %>
+    <div class="pages-path">
+      <% count = 0 %>
+      <% @pages_path.each do |page| %>
+        <div class="pages-path-item">
+          <% if count == 0 %>
+            &nbsp;&nbsp;<%= link_to page[0], root_path  %> 
+          <% elsif count == @pages_path.size - 1 %>
+            <%= page[0] %>
+          <% else %>
+            <%= link_to page[0], root_path + "guides/#{page[1]}" %>
+          <% end %>
+        </div>
+
+        <% if count != @pages_path.size - 1 %>
+          <div class="pages-path-item" style="padding-top: 6px; height: 16px">
+            <i class="icon-chevron-right"></i>
+          </div>
+        <% end %>
+        
+      <% count += 1 %>
+      <% end %>
+      
+      
+    </div>
+  <% end %>  
+<% end %>

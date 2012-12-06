@@ -71,19 +71,19 @@
 <body>
   
   <!-- HEADER -->
-  <%= render 'header' %>
+  <%= render 'partials/header' %>
   
   <div class="maincontent">
     
     <!-- NAVIGATION -->
-    <%= render 'navigation' %>
+    <%= render 'partials/navigation' %>
     
     <!-- CONTENT -->
     <div class="content">
       <div class="section-content">
 
         <!-- PAGES PATH -->
-        <%= render 'pages_path', :locals => {:pages_path => @pages_path} %>
+        <%= render 'partials/pages_path', :locals => {:pages_path => @pages_path} %>
 
         <!-- MAIN CONTENT -->
         <%= yield %>
@@ -97,10 +97,10 @@
   </div>
 
   <!-- FOOTER -->
-  <%= render 'footer' %>
+  <%= render 'partials/footer' %>
 
   <!-- RATING -->
-  <% render 'rating' %>
+  <% render 'partials/rating' %>
 
   
 

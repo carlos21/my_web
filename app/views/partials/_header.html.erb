@@ -1,0 +1,42 @@
+<div class="header">
+  <div class="header-top1">
+    
+    <!-- TOP BAR -->    
+    <%= render 'partials/nav_top_bar' %>
+    
+    <!--<div class="lang">
+      <a href="<%=change_language_path('en')%>">English</a> | <a href="<%=change_language_path('es')%>">Español</a>
+    </div>-->
+  </div>
+
+  <div class="header-top2">
+
+    <!-- PHOTO -->
+    <div class="photo">
+      <%= image_tag 'yope.jpg', :size => '60x60' %>
+    </div>
+
+    <!-- DESCRIPTION -->
+    <div class="details">
+      <h1>Carlos Duclós</h1>
+      <ul>
+        <li>&nbsp;Ruby on Rails Developer</li>
+        <li>&nbsp;Css3 & Html5</li>
+      </ul>
+    </div>
+
+    <div class="header-right-buttons">
+      
+      <% if request.fullpath == "/" %>
+        <%# render :partial => 'socialnetworks/facebook_button', :locals => {:url => 'http://carlos21.com'} %>
+        <%= render :partial => 'socialnetworks/twitter_button', :locals => {:url => 'http://carlos21.com'} %>
+        <%# render :partial => 'socialnetworks/googleplus_button', :locals => {:url => 'http://carlos21.com'} %>
+      <% end %>
+    </div>
+
+    <!-- CHAT -->
+    <%= render 'chat/chat' %>
+
+  </div>
+
+</div>
