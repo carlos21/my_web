@@ -5,6 +5,10 @@ class Article < ActiveRecord::Base
   belongs_to :category
   has_many :comments
 
+  def self.get_articles_for_dashboard(lang)
+    self.includes(:category).where(:language => lang)
+  end
+
   def self.get_article_by_path(path_filter, lang_filter)
     articles = where(path: path_filter, language: lang_filter)
     return articles[0] if articles.any?

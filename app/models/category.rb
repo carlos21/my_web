@@ -4,12 +4,13 @@ class Category < ActiveRecord::Base
   has_many :articles
 
   # bd methods
-  def self.get_categories()
-    categories = all(:select => 'c.id, c.name, c.tooltip, c.image_url, c.path, count(a.id) as cant_articles',
+  def self.get_active_categories()
+    categories = find(:all, :select => 'c.id, c.name, c.tooltip, c.image_url, c.path, count(a.id) as cant_articles',
                      :from   => 'categories c',
                      :joins  => 'left join articles a on c.id = a.id',
                      :group  => 'c.id, c.name, c.tooltip, c.image_url, c.path',
-                     :order  => 'c.name asc') 
+                     :order  => 'c.name asc',
+		     :conditions => "status = 'A'") 
 
     return categories
   end

@@ -1,0 +1,25 @@
+Este es un pequeño ejemplo de cómo usar el API de Google Maps. Google nos ofrece muchas funcionalidades que podemos implementar, he aquí algunas de ellas para que te des una idea ;)
+
+* Crear marcadores (con tus propias imágenes si lo deseas)
+* Obtener la latitud y longitud de tu ubicación
+* Obtener la locación de un determinado lugar por medio de un **state**, **zipcode** o **address**
+* Definir eventos en varios elemetos del mapa
+* Customizar el mapa para hacer aparecer solo las herramientas que deseas
+* Crear rutas
+* Etc!
+
+El ejemplo que hice es un mantenimiento simple de posiciones. Las tecnologías que usé fueron:
+
+* Javascript
+* JQuery
+* HTML
+* CSS
+* Twitter Bootstrap
+* Google Maps API
+
+Puedes descargarte la aplicación o verla online aquí:
+
+* **Github:** https://github.com/carlos21/social-network
+* **Demo:** http://socialnetworks.carlos21.com/googlemaps
+
+No olvides dejar tus comentarios o contactarme vía email si tienes alguna duda ;)

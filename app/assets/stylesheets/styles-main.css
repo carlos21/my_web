@@ -59,6 +59,7 @@ a {
 
 .header .header-top1 {
   width: 100%;
+  min-width: 940px;
   height: 40px;
   background-color: #2D2D2D;
 }
@@ -120,6 +121,7 @@ a {
   text-align: left;
   width: 84%;
   max-width: 100%;
+  min-width: 652px;
   float: left;
   min-height: 300px;
   padding-top: 5px;
@@ -273,6 +275,7 @@ a {
 
 .maincontent {
   width: 100%;
+  min-width: 774px;
   overflow: auto;
 }
 

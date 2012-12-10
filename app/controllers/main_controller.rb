@@ -2,7 +2,6 @@ require 'set'
 require 'pusher'
 
 class MainController < ApplicationController
-  
 
   def change_language
     session[:lang] = params[:language]
@@ -12,10 +11,8 @@ class MainController < ApplicationController
     end
   end
 
-  
-
   def index  
-    articles = Article.includes(:category).where(:language => session[:lang])
+    articles = Article.get_articles_for_dashboard(session[:lang])
     
     @random_articles = []
     random_array = get_random_array(32, articles.size)
@@ -54,7 +51,7 @@ class MainController < ApplicationController
   def article_content
     
     @article  = Article.find(session[:selected_article_id]) 
-    @category = Category.find(session[:selected_category_id]) 
+    @category = Category.find(@article.category_id) 
 
     @article.content = get_file_as_string(Rails.root.to_s + @article.route)
 
@@ -68,6 +65,17 @@ class MainController < ApplicationController
     @pages_path << [ 'Dashboard', '/' ]
     @pages_path << [ @category.name, @category.path ]
     @pages_path << [ @article.name, @article.path ]
+   
+    # clear the category id if it's demo 
+    logger.debug '-------------------'
+    logger.debug session[:selected_category_id]
+    logger.debug '-------------------'
+
+    session[:selected_category_id] = nil if @article.category_id == 10
+	
+    logger.debug '-------------------'
+    logger.debug session[:selected_category_id]
+    logger.debug '-------------------'
 
     respond_to do |format|
       format.html # index.html.erb

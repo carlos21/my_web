@@ -1,15 +1,26 @@
 MyWeb::Application.routes.draw do
   root :to => "Main#index", :as => 'root'
-  #root :to => "chat#new", :as => 'root'
 
+  # guides
   match 'guides/:category_path' => 'main#article_list', :as => 'guides'
   match 'guides/:category_path/:article_path' => 'main#article_content', :as => 'guides_category_and_article'
+
+  # demo
+  match 'demos/:article_path' => 'main#article_content', :as => 'demo_content'  
+
+  # comments
   match 'comment/create' => 'main#create_comment', :as => 'create_comment'
   match 'change_language/:language' => 'main#change_language', :as => 'change_language'
+
+  # rating
   match 'rating/change_rating' => 'rating#change_rating', :as => 'change_rating'
+
+  # chat
   match 'chat/post_message' => 'chat#post_message', :as => 'post_message'
   match 'chat/typing_status' => 'chat#typing_status', :as => 'typing_status'
   match 'chat/change_nickname' => 'chat#change_nickname', :as => 'change_nickname'
+
+  # about me
   match 'about-me' => 'main#about_me', :as => 'about_me'
 
   get 'instagramcallback' => 'main#instagramcallback'

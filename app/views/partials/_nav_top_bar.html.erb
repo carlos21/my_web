@@ -47,8 +47,8 @@
             <b class="caret"></b>
           </a>
           <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
-            <% @demos.each do |d| %>
-            <li><%= link_to d.name, d.url, :target => '_blank' %></li>
+            <% @article_demos.each do |d| %>
+            <li><%= link_to d.name, demo_content_path(d.path)  %></li>
             <% end %>
           </ul>
         </li>

@@ -87,4 +87,7 @@ var tooltip = function () {
 
 jQuery(function($){
   $(".navigation").css("height", $(".maincontent").css("height"));  
+  $(".navigation div.name").tooltip({
+    animation: true
+  });
 });
