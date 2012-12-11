@@ -1,0 +1,23 @@
+Hola qué tal!. Este es un ejemplo que hice en la cual pongo en práctica algunos conocimientos de un framework de javascript llamado Backbone. Hm, seguro te estarás preguntando porqué deberías aprenderlo y usarlo en algún momento. Este framework ayuda a mantener un órden a nuestro código javascript. Si has hecho sistemas anteriores, en el cual hayas tenido que manejar llamadas asíncronas, te habrás dado cuenta que a medida que tu proyecto crecía, era más difícil mantener un estándar en el órden de los archivos, nombres, variables, etc. En backbone tendrás que preocuparte en 4 elementos básicos:
+
+* Models
+* Collections
+* Routes
+* Views
+
+Separando tus archivos de esta manera te resultará mucho más fácil darle mantenimiento a un sistema que utilice full AJAX para su funcionamiento. No entraré más en detalle en esta sección, ya que para eso te daré los links de los tutoriales que te servirán como introducción a este framework ;)
+
+
+<br>
+<h4>Demo</h4>
+* **Demo:** http://backbone.carlos21.com
+
+<br>
+<h4>Github</h4>
+* **Github:** https://github.com/carlos21/backbone_app
+
+<br>
+<h4>Tutoriales</h4>
+* **Parte 1:** En progreso <br> 
+* **Parte 2:** En progreso <br>
+* **Parte 3:** En progreso <br>

@@ -15,7 +15,7 @@ class MainController < ApplicationController
     articles = Article.get_articles_for_dashboard(session[:lang])
     
     @random_articles = []
-    random_array = get_random_array(32, articles.size)
+    random_array = get_random_array(40, articles.size)
 
     random_array.each do |index|
       @random_articles << articles[index]

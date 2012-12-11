@@ -6,7 +6,7 @@ class Article < ActiveRecord::Base
   has_many :comments
 
   def self.get_articles_for_dashboard(lang)
-    self.includes(:category).where(:language => lang)
+    self.includes(:category).where('language = ? and category_id != ?', lang, 10)
   end
 
   def self.get_article_by_path(path_filter, lang_filter)
@@ -16,7 +16,7 @@ class Article < ActiveRecord::Base
 
   def self.get_articles_by_category_id(category_id, lang_filter)
     articles = Article.select("articles.*")
-                      .where("articles.category_id = #{category_id} and articles.language = '#{lang_filter}'")
+                      .where("articles.category_id = ? and articles.language = ?", category_id, lang_filter)
                       .order('articles.name asc')
 
     #articles = Article.select("articles.*, count(c.id) as messages")
