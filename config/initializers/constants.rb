@@ -14,4 +14,6 @@ module Constants
 
   MY_FACEBOOK_UID = '535444862'
 
+  CATEGORY_DEMO_ID = 10
+
 end
