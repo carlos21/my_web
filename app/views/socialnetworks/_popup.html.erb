@@ -1,0 +1,17 @@
+<div id="socialnetworks">
+  <div>
+    <%= link_to Constants::BASE_URL + Constants::FACEBOOK_LOGIN_URL do %>
+      <%= image_tag 'facebook.jpg', :size => '100x100' %>
+    <% end %>
+  </div>
+  <div>
+    <%= link_to "auth/twitter" do %>
+      <%= image_tag 'twitter.jpg', :size => '100x100' %>
+    <% end %>
+  </div>
+  <div>
+    <%= link_to "auth/github" do %>
+      <%= image_tag 'github.jpg', :size => '100x100' %>
+    <% end %>
+  </div>
+</div>

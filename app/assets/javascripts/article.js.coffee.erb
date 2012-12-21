@@ -1,0 +1,43 @@
+<% #Sprockets::Context.send :include, Rails.application.routes.url_helpers %>
+<% #environment.context_class.instance_eval { include MyHelper } %>
+
+$ ->
+	
+	# remove the string the facebook adds
+	if window.location.hash == '#_=_'
+		window.location.hash = ''
+		history.pushState('', document.title, window.location.pathname)
+		e.preventDefault()
+   
+
+	$("#form_comment").submit (e) ->
+		e.preventDefault()
+		if authorization_uid
+			# Post the comment
+			$.ajax
+				type: 'post'
+				url: create_comment_url
+				data: $('#form_comment').serialize()
+				beforeSend: (xhr) ->
+			    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+				success: (html) ->
+					$(html).css('display', 'none')
+					$(html).appendTo('.comments-list').fadeIn('slow')
+        
+		else
+			# Show the modal to select the provider
+			$.ajax
+				type: 'post'
+				url: create_comment_url
+				beforeSend: (xhr) ->
+			    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+				complete: (xhr, html) ->
+					if xhr.status == 202
+						$('#modal').find('.modal-body').html(xhr.responseText)
+						$('#modal').modal('show')
+					else if xhr.status == 200
+						console.log('lol')
+
+					
+
+

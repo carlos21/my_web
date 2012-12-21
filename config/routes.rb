@@ -1,6 +1,8 @@
 MyWeb::Application.routes.draw do
   root :to => "Main#index", :as => 'root'
 
+  match '/auth/:provider/callback', to: 'authorization#callback'
+
   # guides
   match 'guides/:category_path' => 'main#article_list', :as => 'guides'
   match 'guides/:category_path/:article_path' => 'main#article_content', :as => 'guides_category_and_article'
@@ -9,7 +11,8 @@ MyWeb::Application.routes.draw do
   match 'demos/:article_path' => 'main#article_content', :as => 'demo_content'  
 
   # comments
-  match 'comment/create' => 'main#create_comment', :as => 'create_comment'
+  match 'comment/create' => 'comment#create', :as => 'create_comment'
+  match 'comment/delete/:id' => 'comment#delete', :as => 'delete_comment'
   match 'change_language/:language' => 'main#change_language', :as => 'change_language'
 
   # rating
@@ -22,8 +25,13 @@ MyWeb::Application.routes.draw do
 
   # about me
   match 'about-me' => 'main#about_me', :as => 'about_me'
+  match 'show/socialnetworks' => 'main#show_socialnetworks_popup', :as => 'socialnetworks'
 
-  get 'instagramcallback' => 'main#instagramcallback'
+
+  # omniauth
+  match "/auth/:provider/callback" => "authorizations#create"
+  match "/signout" => "sessions#destroy", :as => :signout
+
   # The priority is based upon order of creation:
   # first created -> highest priority.
 

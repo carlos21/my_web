@@ -1,4 +1,11 @@
-Hola qué tal!. Este es un ejemplo que hice en la cual pongo en práctica algunos conocimientos de un framework de javascript llamado Backbone. Hm, seguro te estarás preguntando porqué deberías aprenderlo y usarlo en algún momento. Este framework ayuda a mantener un órden a nuestro código javascript. Si has hecho sistemas anteriores, en el cual hayas tenido que manejar llamadas asíncronas, te habrás dado cuenta que a medida que tu proyecto crecía, era más difícil mantener un estándar en el órden de los archivos, nombres, variables, etc. En backbone tendrás que preocuparte en 4 elementos básicos:
+<br>
+<h5><u>Introducción</u></h5><br>
+Hola qué tal!. Este es un ejemplo que hice en la cual pongo en práctica algunos conocimientos de un framework de javascript llamado Backbone. Hm, seguro te estarás preguntando porqué deberías aprenderlo y usarlo en algún momento. Vamos a ver esto y también cómo crear la app desde 0. Yo también aprendí, leyendo tutoriales! ;) 
+
+<br>
+<h5><u>Descripción</u></h5>
+<br>
+Este framework ayuda a mantener un órden a nuestro código javascript. Si has hecho sistemas anteriores, en el cual hayas tenido que manejar llamadas asíncronas, te habrás dado cuenta que a medida que tu proyecto crecía, era más difícil mantener un estándar en el órden de los archivos, nombres, variables, etc. En backbone tendrás que preocuparte en 4 elementos básicos:
 
 * Models
 * Collections
@@ -9,15 +16,14 @@ Separando tus archivos de esta manera te resultará mucho más fácil darle mant
 
 
 <br>
-<h4>Demo</h4>
-* **Demo:** http://backbone.carlos21.com
+<h5><u>Descárgalo o pruébalo online</u></h5>
 
-<br>
-<h4>Github</h4>
+* **Demo:** http://backbone.carlos21.com
 * **Github:** https://github.com/carlos21/backbone_app
 
 <br>
-<h4>Tutoriales</h4>
+<h5><u>Tutoriales</u></h5>
+
 * **Parte 1:** En progreso <br> 
 * **Parte 2:** En progreso <br>
 * **Parte 3:** En progreso <br>

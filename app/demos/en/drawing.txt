@@ -1,0 +1,30 @@
+<br>
+<h5><u>Introducción</u></h5><br>
+Hola de nuevo!. En esta aplicación combinaremos algunas de nuestras favoritas tecnologías. Una de las cosas que más me gusta hacer es combinar elementos que me permitan crear nuevas cosas innovadoras e interesantes. A quién no? :P
+
+<br>
+<h5><u>Descripción</u></h5><br>
+De qué trata?. Con esta demo podrás dibujar en un lienzo y a la vez dejar que las demás personas vean lo que estás dibujando pero en tiempo real! =D. El lienzo automáticamente mostrará los trazos que vayas haciendo sin tener que actualizar la página. Cool eh?. LE agregué algunas cosillas para que puedas cambiar, el color del lápiz, borrar, y limpiar el lienzo por completo.
+
+Las tecnologías usadas son las siguientes:
+
+* Pusher
+* HTML5	
+* CSS
+* Rails
+* Ruby
+* Javascript
+* JQuery
+
+<br>
+<h5><u>Descárgalo o pruébalo online</u></h5>
+<br>
+
+* **Demo:** http://drawing.carlos21.com
+* **Github:** https://github.com/carlos21/drawing
+
+<br>
+<h5><u>Tutoriales</u></h5> <br>
+
+* **Parte 1:** http://www.carlos21.com/guides/miscellaneous/drawing-in-real-time-with-pusher-and-html5-part-1 <br>
+* **Parte 2:** http://www.carlos21.com/guides/miscellaneous/drawing-in-real-time-with-pusher-and-html5-part-2

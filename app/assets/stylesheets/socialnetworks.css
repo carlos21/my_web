@@ -1,0 +1,18 @@
+body #modal {
+  width: 410px;
+  height: 150px;
+  /*must be half of the width, minus scrollbar on the left (30px)*/
+  margin: -175px 0 0 -205px;
+  background-color: whitesmoke;
+
+  -moz-border-radius: 10px;
+  -webkit-border-radius: 10px;
+  border-radius: 10px;
+}
+
+#socialnetworks > div {
+  width: 100px;
+  height: 100px;
+  padding: 10px;
+  float: left;
+}

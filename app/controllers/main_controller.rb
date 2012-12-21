@@ -67,15 +67,8 @@ class MainController < ApplicationController
     @pages_path << [ @article.name, @article.path ]
    
     # clear the category id if it's demo 
-    logger.debug '-------------------'
-    logger.debug session[:selected_category_id]
-    logger.debug '-------------------'
-
-    session[:selected_category_id] = nil if @article.category_id == 10
-	
-    logger.debug '-------------------'
-    logger.debug session[:selected_category_id]
-    logger.debug '-------------------'
+    session[:selected_category_id] = nil if @article.category_id == 10	 
+    session[:current_url] = "#{request.protocol}#{request.host_with_port}#{request.fullpath}"
 
     respond_to do |format|
       format.html # index.html.erb
@@ -131,6 +124,10 @@ class MainController < ApplicationController
       format.html {redirect_to guides_category_and_article_url(@category.path, @article.path), :jeje => 'caca'}
     end
    
+  end
+
+  def show_socialnetworks_popup
+    render 'popups/socialnetworks', :layout => false
   end
    
   def get_file_as_string(filename)

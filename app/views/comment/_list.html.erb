@@ -1,0 +1,8 @@
+<div class="comments-list">
+  <% if comments.any? %>
+    <h3><%= t(:comments_title) %></h3>
+    <% comments.each do |c| %>
+      <%= render :partial => 'comment/item', :locals => {:@comment => c} %>
+    <% end %>
+  <% end %>
+</div>

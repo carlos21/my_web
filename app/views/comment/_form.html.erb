@@ -1,0 +1,59 @@
+<div id="modal" class="modal hide fade" tabindex="-1" role="dialog" aria-labelledby="myModalLabel" aria-hidden="true">
+  <div class="modal-body">
+    
+  </div>
+</div>
+
+<div class="comments-form">
+  <%= form_tag '/comment/create', id: 'form_comment' do %>
+    <h3><%= t(:leave_a_comment_label) %></h3>
+    <fieldset>
+
+      <!-- NAME -->
+      <!--<div class="control-group">
+        <label class="control-label" for="name"><%= t(:name_label) %></label>
+        <div class="input-prepend">
+          <span class="add-on">
+            <i class="icon-user" style="margin-top:1px"></i>
+          </span>
+          <%= text_field_tag :name, '', :class => 'input-xlarge', :placeholder => t(:enter_your_name_placeholder) %>
+          <% if !@name_error.nil? then %>
+          <%= @jeje %>
+          <% end  %>
+
+        </div>
+      </div>
+
+      
+      <div class="control-group">
+        <label class="control-label" for="email"><%= t(:email_label) %></label>
+        <div class="input-prepend">
+          <span class="add-on">@</span>
+          <%= text_field_tag :email, '', :class => 'input-xlarge', :placeholder => t(:enter_your_email_placeholder) %>
+        </div>
+      </div>-->
+
+      <!-- WEBSITE -->
+      <div class="control-group">
+        <label class="control-label" for="website"><%= t(:website_label) %></label>
+        <div class="input-prepend">
+          <span class="add-on">
+            <i class="icon-globe" style="margin-top:2px"></i>
+          </span>
+          <%= text_field_tag :website, '', :class => 'input-xlarge', :placeholder => t(:enter_your_website_placeholder) %>
+        </div>
+      </div>
+
+      <!-- COMMENTS -->
+      <div class="control-group">
+        <label class="control-label" for="comments"><%= t(:comments_label) %></label>
+        <div class="controls">
+          <%= text_area_tag :comments, '', :style => 'width: 299px; height: 80px;', :placeholder => t(:enter_your_comments_placeholder) %>
+        </div>
+      </div>
+      
+      <%= submit_tag t(:submit_button), :class => 'btn btn-info' %>
+      
+    </fieldset>
+  <% end %>
+</div>

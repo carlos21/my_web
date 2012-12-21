@@ -11,16 +11,17 @@
   <%= stylesheet_link_tag "dashboard" %>
   <%= stylesheet_link_tag "comment" %>
   <%= stylesheet_link_tag "rightmenu" %>
+  <%= stylesheet_link_tag "socialnetworks" %>
   <%= stylesheet_link_tag "bootstrap/css/bootstrap" %>
   <%= stylesheet_link_tag "jquery/jRating.jquery" %>
   <%= stylesheet_link_tag "jquery/ui.notify" %>
-  <%# stylesheet_link_tag "application" %>
+  <%= javascript_include_tag "application" %>
   <%= javascript_include_tag "highlight/highlight.pack" %>
-  <%= javascript_include_tag "jquery/jquery-1.7.2.min" %>
   <%= javascript_include_tag "jquery/jquery-ui-1.8.22.custom.min" %>
   <%= javascript_include_tag "jquery/jqFloat" %>
   <%= javascript_include_tag "jquery/jRating.jquery" %>
   <%= javascript_include_tag "jquery/ui.notify" %>
+  
   <%= javascript_include_tag "bootstrap/js/bootstrap" %>
   <%= javascript_include_tag "chat.pusher.events" %>
   <%= javascript_include_tag "chat.functions" %>
@@ -28,22 +29,29 @@
   <%= javascript_include_tag "dashboard" %>
   <%= javascript_include_tag "facebook.api" %>
   <%= javascript_include_tag "header" %>
+  <%= javascript_include_tag "article" %>
+  <%= javascript_include_tag "comment" %>
+  
 
-  <meta property="og:title" content="jje probando" />
+  <meta property="og:title" content="Carlos21 Great Tutorials!" />
   <meta property="og:type" content="website" />
-  <meta property="og:url" content="" />
-  <meta property="og:image" content="" />
-  <meta property="og:site_name" content="jejejeje" />
+  <meta property="og:url" content="www.carlos21.com" />
+  <meta property="og:image" content="http://www.carlos21.com/assets/yope.jpg" />
+  <meta property="og:site_name" content="Carlos21" />
   <meta property="fb:app_id" content="446804795358920" />
 
   <script type="text/javascript" >
     hljs.tabReplace = ' ';
     hljs.initHighlightingOnLoad();
     
-    var PUSHER_KEY = '<%= Pusher.key %>';
-    var post_message_url = "<%=post_message_url%>";
-    var typing_status_url = "<%=typing_status_url%>";
-    var change_nickname_url = "<%=change_nickname_url%>";
+    PUSHER_KEY = '<%= Pusher.key %>';
+    post_message_url = "<%=post_message_url%>";
+    typing_status_url = "<%=typing_status_url%>";
+    change_nickname_url = "<%=change_nickname_url%>";
+    post_message_url = "<%=post_message_url%>";
+    authorization_uid = "<%= session[:uid] %>";
+    socialnetworks_url = "<%= socialnetworks_url %>";
+    create_comment_url = "<%= create_comment_url %>";
   </script>
 
   <script type="text/javascript">

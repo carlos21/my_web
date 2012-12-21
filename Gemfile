@@ -13,13 +13,17 @@ gem 'json'
 gem 'redcarpet'
 gem 'haml'
 gem "haml-rails"
-#gem 'jquery-rails'
+gem 'jquery-rails'
 gem 'rb-readline'
 gem 'i18n'
 gem 'thin'
 gem 'tlsmail'
 gem 'pusher'
-#gem 'omniauth-facebook'
+gem 'omniauth'
+gem 'omniauth-facebook'
+gem 'omniauth-twitter'
+gem 'omniauth-github'
+gem 'js-routes'
 
 # Gems used only for assets and not required
 # in production environments by default.

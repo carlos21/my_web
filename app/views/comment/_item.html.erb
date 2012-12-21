@@ -1,0 +1,30 @@
+<!-- COMMENT -->
+<div class="item" data-id="<%= @comment.id %>">
+
+  <!-- IMAGE -->
+  <div class="image">
+    <%= image_tag @comment.photo_url, :class => 'userimage', :onerror => "this.src='" + root_url + '/assets/user-image.png' +"'" %>
+  </div>
+
+  <div class="description">
+
+    <!-- TITLE -->
+    <div class="description-title">
+      <b><%= @comment.name %></b> 
+      says:
+
+    </div>
+
+    <!-- CONTENT -->
+    <div class="description-content">
+      <%= @comment.description %>
+    </div>
+
+  </div>
+
+  <%if session[:social_user].present? 
+      if session[:social_user].uid == Constants::MY_FACEBOOK_UID %>
+        <%= link_to 'x', delete_comment_path(@comment.id), :class => 'close-item', 'data-id' => @comment.id, :remote => true %>
+  <%  end
+    end %>
+</div>

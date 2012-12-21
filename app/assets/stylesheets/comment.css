@@ -4,11 +4,13 @@
   width: 100%;
 }
 
-.comments .comments-list h4 {
+.comments .comments-list h3 {
   border-bottom: 1px solid #dddddd;
   margin-bottom: 10px;
   width: 100%;
   text-align: left;
+  font-size: 18px;
+  color: #888;
 }
 
 .comments .item {
@@ -46,9 +48,25 @@
 .comments .userimage {
   margin-top: 10px;
   margin-left: 10px;
+  width: 32px;
+  height: 32px;
 }
 
 .comments .comments-form {
   margin-top: 40px;
   color: #888;
+}
+
+.comments .comments-form h3 {
+  border-bottom: 1px solid #dddddd;
+  margin-bottom: 10px;
+  width: 100%;
+  text-align: left;
+}
+
+.close-item {
+  position: absolute;
+  float: right;
+  margin-top: 5px; 
+  margin-right: 5px;
 }

@@ -1,0 +1,29 @@
+<br>
+<h5><u>Introducción</u></h5><br>
+Bienvenido una vez más. Ahora verás un pequeño ejemplo que trata básicamente en la extracción de datos públicos de un cuenta de Github, utilizando por supuesto su misma API, nada de trucos sucios ;)
+
+<br>
+<h5><u>Descrición</u></h5><br>
+Lo primero que tendrás que hacer para ver la aplicación es loguearte con tu cuenta de Github. Una vez que lo hagas verás dos tabs. El primero te mostrará la lista de repositorios que tengas y en el segundo verás tu lista de gists
+
+Las tecnologías que usé para esto fueron:
+
+* GIthub API
+* HTML
+* CSS
+* Ruby (gemas: omniauth y omniauth-github)
+* Rails
+
+<br>
+
+<h5><u>Descárgalo o pruébalo online</u></h5><br>
+
+* **Demo:** http://socialnetworks.carlos21.com
+* **Github:** https://github.com/carlos21/socialnetwork
+
+<br>
+<h5><u>Tutorial</u></h5>
+* http://www.carlos21.com/guides/miscellaneous/how-to-integrate-your-rails-application-with-github
+
+<br>
+No olvides dejarme todas tus dudas o comentarios.
