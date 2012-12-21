@@ -15,8 +15,8 @@
     <div class="description-intro"><%= @article.small_description %></div>
 
   </div>
-  <% path = ('demos'  + '/' + @article.path) if @category.id == Constants.CATEGORY_DEMO_ID %>
-  <% path = ('guides' + '/' + @article.path + @category.path) if @category.id != Constants.CATEGORY_DEMO_ID %>
+  <% path = ('demos'  + '/' + @article.path) if @category.id == Constants::CATEGORY_DEMO_ID %>
+  <% path = ('guides' + '/' + @article.path + @category.path) if @category.id != Constants::CATEGORY_DEMO_ID %>
 
   <div class="right-buttons">
     <%= render :partial => 'socialnetworks/facebook_button', :locals => {:url => root_url + path} %>
