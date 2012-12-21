@@ -518,9 +518,11 @@ pre {
 
 .facebook-button {
   float: right;
+  margin-right: 10px;
 }
 
 .twitter-button {
+  margin-right: 10px;
   float: right;
   text-align: right;
 }
