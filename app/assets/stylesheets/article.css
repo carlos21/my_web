@@ -2,11 +2,13 @@
   font-family: Verdana, Helvetica, Arial, sans-serif;
   font-size: 11.2px;
   color: #757575;
+  min-width: 783px;
 }
 
 
 .articles-header {
   height: 68px;
+  min-width: 783px;
   width: 100%;
   background-color: #F1F1F7;
   border: 1px solid #dddddd;
@@ -26,7 +28,7 @@
 .articles-header .description {
   margin-top: 10px;
   float: left;
-  width: 80%;
+  width: 75%;
 }
 
 .articles-header .description .description-title {

@@ -135,6 +135,7 @@ a {
 
 
 .pages-path {
+  min-width: 783px;
   width: 100%;
   height: 30px;
   background-color: #F1F1F7;
@@ -511,9 +512,11 @@ pre {
 }
 
 .right-buttons {
-  
   float: right;
+  position:relative;
+  margin-right: 0px;
   margin-top: 3px;
+  text-align: right;
 }
 
 .facebook-button {

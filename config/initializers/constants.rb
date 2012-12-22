@@ -1,6 +1,6 @@
 module Constants 
 
-  BASE_URL = 'http://localhost:9000/'
+  BASE_URL = 'http://carlos21.com/'
 
   LANG_ENGLISH = 'en'
   LANG_SPANISH = 'es'
