@@ -1,0 +1,110 @@
+Hi! Vamos a hablar un poco de este tipo de relaciones. No es tan complicado como parece. 
+
+Pongamos un ejemplo para entenderlo fácilmente:
+
+* Tenemos 2 tablas: Articles y Photo
+* Nos piden que nuestro sistema pueda registrar comentarios para cada una de estas tablas
+
+Entonces qué haríamos primero?. Algunos optarán por crear una tabla llamada **comments** la cual tendría como campos:
+
+* article_id
+* photo_id
+
+
+Verdad?. Pero no sería una solución muy decente, ya que si ingresamos un comentario para un determinado **article**, tendríamos que setear el campo **photo_id** en null, es decir; siempre habría un id en null. Cómo solucionamos esto?
+
+Lo mejor sería crear una table **comments** pero que tenga un id que no siempre va a ser el id de una tabla determinada, sino que puede tomar valores de diferentes tablas, en este caso, podría tomar los valores de los ids de **articles** o **photos**. Adicionalmente, tendría que tener una columna **type** para poder diferenciar a qué tabla pertece ese comment. Si no entendiste bien el concepto, lo entenderás en unos instantes ;)
+
+Manos a la obra. Creamos nuestro proyecto
+
+    rails new polymorphic-association
+
+Generamos scaffolds para nuestras entidades
+
+    rails g scaffold Article name description
+    rails g scaffold Photo url
+    rails g scaffold Comment commentable_id:integer commentable_type:string content:text
+
+Relacionamos los modelos
+
+* En **article.rb**
+    
+    class Article < ActiveRecord::Base
+      attr_accessible :description, :name
+
+      has_many :comments, :as => :commentable
+    end
+
+* En **photo.rb**
+
+    class Photo < ActiveRecord::Base
+      attr_accessible :url
+
+      has_many :comments, :as => :commentable
+    end
+
+El símbolo **commentable** es como un alias de las tablas **article** y **photo** y se usará a continuación
+
+* En **comment.rb**
+
+    class Comment < ActiveRecord::Base
+      attr_accessible :commentable_id, :commentable_type, :content
+
+      belongs_to :commenable, :polymorphic => true
+    end
+
+Aquí le decimos a Rails "esta es una asociación polimórfica"
+
+Ahora, modificamos el archivo **routes.rb**
+
+    resources :comments
+  
+    resources :photos do
+      resources :comments
+    end
+
+    resources :articles do
+      resources :comments
+    end
+
+Iremos ahora a nuestro controlador de **comments** y modificamos el método **index** para el listado
+
+    def index
+      @commentable = find_commentable
+      @comments = @commentable.comments
+
+      respond_to do |format|
+        format.html # index.html.erb
+        format.json { render json: @comments }
+      end
+    end
+
+Y agregamos el método **find_commentable**
+
+    def find_commentable
+      params.each do |name, value|
+        if name =~ /(.+)_id$/
+          return $1.classify.constantize.find(value)
+        end
+      end
+    end
+
+Hasta el momento, si creas un article y vas a http://localhost:3000/articles/1/comments verás la lista de comentarios para ese **article** pero por el momento no hay nada, así que creamos un formulario para ingresar comentarios
+
+Dentro de index.html.ern agregamos
+
+    <%= form_for [@commentable, Comment.new] do |f| %>
+      <div class="field">
+        <%= f.label :content %><br />
+        <%= f.text_area :content %>
+      </div>
+      <div class="actions">
+        <%= f.submit %>
+      </div>
+    <% end %>
+
+Ahora sí ya estamos listos!. Si abres la consola de Rails y ejecutas
+
+    Comment.all
+
+Verás que el campos **commentable_type** se llena con el nombre de la tabla a la cual pertenece **commentable_id** =D cool!
