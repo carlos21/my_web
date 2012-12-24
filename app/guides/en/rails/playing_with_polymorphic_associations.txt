@@ -29,29 +29,29 @@ Relacionamos los modelos
 
 * En **article.rb**
     
-    class Article < ActiveRecord::Base
-      attr_accessible :description, :name
+        class Article < ActiveRecord::Base
+          attr_accessible :description, :name
 
-      has_many :comments, :as => :commentable
-    end
+          has_many :comments, :as => :commentable
+        end
 
 * En **photo.rb**
 
-    class Photo < ActiveRecord::Base
-      attr_accessible :url
+        class Photo < ActiveRecord::Base
+          attr_accessible :url
 
-      has_many :comments, :as => :commentable
-    end
+          has_many :comments, :as => :commentable
+        end
 
 El símbolo **commentable** es como un alias de las tablas **article** y **photo** y se usará a continuación
 
 * En **comment.rb**
 
-    class Comment < ActiveRecord::Base
-      attr_accessible :commentable_id, :commentable_type, :content
+        class Comment < ActiveRecord::Base
+          attr_accessible :commentable_id, :commentable_type, :content
 
-      belongs_to :commenable, :polymorphic => true
-    end
+          belongs_to :commenable, :polymorphic => true
+        end
 
 Aquí le decimos a Rails "esta es una asociación polimórfica"
 
