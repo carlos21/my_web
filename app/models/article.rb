@@ -17,7 +17,7 @@ class Article < ActiveRecord::Base
   def self.get_articles_by_category_id(category_id, lang_filter)
     articles = Article.select("articles.*")
                       .where("articles.category_id = ? and articles.language = ?", category_id, lang_filter)
-                      .order('articles.name asc')
+                      .order('articles.created_at desc')
 
     #articles = Article.select("articles.*, count(c.id) as messages")
     #                  .joins('left join comments c on c.article_id = articles.id')

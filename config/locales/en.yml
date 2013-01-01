@@ -36,3 +36,7 @@ en:
   news_label: "News"
   all_demos_label: "All demos"
 
+  # Language
+  english_label: "English"
+  spanish_label: "Spanish"
+

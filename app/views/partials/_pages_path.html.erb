@@ -9,7 +9,7 @@
           <% elsif count == @pages_path.size - 1 %>
             <%= page[0] %>
           <% else %>
-            <%= link_to page[0], root_path + "guides/#{page[1]}" %>
+            <%= link_to page[0], guides_path(@locale, page[1]) %>
           <% end %>
         </div>
 

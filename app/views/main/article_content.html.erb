@@ -3,20 +3,20 @@
 
   <!-- IMAGE -->
   <div class="image">
-    <%= image_tag @article.image_url, :size => '50x50' %>
+    <%= image_tag @article_selected.image_url, :size => '50x50' %>
   </div>
 
   <div class="description">
 
     <!-- TITLE -->
-    <div class="description-title"><%= @article.name %></div>
+    <div class="description-title"><%= @article_selected.name %></div>
 
     <!-- INTRO -->
-    <div class="description-intro"><%= @article.small_description %></div>
+    <div class="description-intro"><%= @article_selected.small_description %></div>
 
   </div>
-  <% path = ('demos'  + '/' + @article.path) if @category.id == Constants::CATEGORY_DEMO_ID %>
-  <% path = ('guides' + '/' + @category.path + '/' + @article.path) if @category.id != Constants::CATEGORY_DEMO_ID %>
+  <% path = ('demos'  + '/' + @article_selected.path) if @category_selected.id == Constants::CATEGORY_DEMO_ID %>
+  <% path = ('guides' + '/' + @category_selected.path + '/' + @article_selected.path) if @category_selected.id != Constants::CATEGORY_DEMO_ID %>
 
   <div class="right-buttons">
     <%= render :partial => 'socialnetworks/facebook_button', :locals => {:url => root_url + path} %>
@@ -28,13 +28,13 @@
 
 <!-- CONTENT -->
 <div class="article-content">
-  <%= markdown @article.content %>
+  <%= markdown @article_selected.content %>
 </div>
 
 <div class="comments">
   
   <!-- COMMENTS LIST -->
-  <%= render partial: 'comment/list', locals: {comments: @article.comments} %>
+  <%= render partial: 'comment/list', locals: {comments: @article_selected.comments} %>
   
   <!-- COMMENT FORM -->
   <%= render partial: 'comment/form' %>

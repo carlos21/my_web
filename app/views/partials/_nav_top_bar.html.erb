@@ -26,11 +26,11 @@
 
         <!-- CONTACT ME -->
         <li class="dropdown">
-          <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+          <a id="drop2" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
             <%= t(:contact_me_label) %> 
             <b class="caret"></b>
           </a>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+          <ul class="dropdown-menu" role="menu" aria-labelledby="drop2">
             <li><%= link_to 'Twitter', 'https://twitter.com/DarkZeratul64', :target => '_blank' %></li>
             <li><%= link_to 'LinkedIn', 'http://pe.linkedin.com/pub/carlos-duclos-caballero/20/aa5/5b1', :target => '_blank' %></li>
             <li><%= mail_to "darkzeratul64@gmail.com", 'Gmail' %></li>
@@ -42,14 +42,36 @@
 
         <!-- DEMOS -->
         <li class="dropdown">
-          <a id="drop1" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+          <a id="drop3" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
             Demos
             <b class="caret"></b>
           </a>
-          <ul class="dropdown-menu" role="menu" aria-labelledby="drop1">
+          <ul class="dropdown-menu" role="menu" aria-labelledby="drop3">
             <% @article_demos.each do |d| %>
-            <li><%= link_to d.name, demo_content_path(d.path)  %></li>
+            <li><%= link_to d.name, demo_content_path(@locale, d.path)  %></li>
             <% end %>
+          </ul>
+        </li>
+
+        <!-- LANGUAGE -->
+        <li class="dropdown">
+          <a id="drop4" href="#" role="button" class="dropdown-toggle" data-toggle="dropdown">
+            <% if @locale == Constants::LANG_ENGLISH %>
+              <%= t(:english_label) %>
+            <% else %>
+              <%= t(:spanish_label) %>
+            <% end %>
+            <b class="caret"></b>
+          </a>
+          <ul class="dropdown-menu" role="menu" aria-labelledby="drop4">
+            <li>
+              <% if @locale == Constants::LANG_ENGLISH %>
+                <% lang = t(:spanish_label); locale = Constants::LANG_SPANISH  %>
+              <% else %>
+                <% lang = t(:english_label); locale = Constants::LANG_ENGLISH  %>
+              <% end %>
+              <%= link_to lang, change_language_path(locale) %>
+            </li>
           </ul>
         </li>
 

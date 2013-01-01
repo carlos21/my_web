@@ -35,3 +35,7 @@ es:
   # Rightmenu
   news_label: "Noticias"
   all_demos_label: "Todas las demos"
+
+  # Language
+  english_label: "Inglés"
+  spanish_label: "Español"

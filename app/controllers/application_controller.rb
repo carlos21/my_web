@@ -1,6 +1,6 @@
 class ApplicationController < ActionController::Base
   protect_from_forgery
-  before_filter :validate_lang, :init_variables, :set_locale, :init_chat
+  before_filter :init_variables, :set_locale, :init_chat
 
   def init_chat 
     @chat = Chat.find(1)
@@ -14,18 +14,9 @@ class ApplicationController < ActionController::Base
   def init_variables
 
     @categories = Category.get_active_categories
-    @article_demos = Article.get_articles_by_category_id(10, session[:lang])
-
-    unless params[:category_path].nil?
-      @category = Category.get_category_by_path(params[:category_path])
-      session[:selected_category_id] = @category.id
-    end
-
-    # get the article
-    unless params[:article_path].nil?
-      article = Article.get_article_by_path(params[:article_path], session[:lang])
-      session[:selected_article_id] = article.id
-    end
+    @article_demos = Article.get_articles_by_category_id(Constants::CATEGORY_DEMO_ID, params[:locale] || I18n.locale)
+    @category_selected = Category.find_by_path(params[:category_path]) || Category.new({id: 0, path: ''})
+    @locale = params[:locale] || I18n.locale
 
     if session[:show_rating].nil?
       session[:show_rating] = true
@@ -34,12 +25,8 @@ class ApplicationController < ActionController::Base
   end
 
   private
-    def validate_lang
-      session[:lang] = 'es' if session[:lang].nil?
-    end
-
     def set_locale
-      I18n.locale = session[:lang] || I18n.default_locale
+      I18n.locale = params[:locale] || I18n.default_locale
     end
 
 end

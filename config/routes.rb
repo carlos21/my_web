@@ -1,19 +1,20 @@
 MyWeb::Application.routes.draw do
-  root :to => "Main#index", :as => 'root'
+  root :to => "main#index", :as => 'root'
+  #scope '(:locale)', :locale => /en|es/ do
+    # guides
+  match '/:locale/guides/:category_path' => 'main#article_list', :as => 'guides'
+  match '/:locale/guides/:category_path/:article_path' => 'main#article_content', :as => 'guides_category_and_article'
+  #end
 
   match '/auth/:provider/callback', to: 'authorization#callback'
 
-  # guides
-  match 'guides/:category_path' => 'main#article_list', :as => 'guides'
-  match 'guides/:category_path/:article_path' => 'main#article_content', :as => 'guides_category_and_article'
-
   # demo
-  match 'demos/:article_path' => 'main#article_content', :as => 'demo_content'  
+  match '/:locale/demos/:article_path' => 'main#demo_content', :as => 'demo_content'  
 
   # comments
   match 'comment/create' => 'comment#create', :as => 'create_comment'
   match 'comment/delete/:id' => 'comment#delete', :as => 'delete_comment'
-  match 'change_language/:language' => 'main#change_language', :as => 'change_language'
+  match 'change_language/:locale' => 'main#change_language', :as => 'change_language'
 
   # rating
   match 'rating/change_rating' => 'rating#change_rating', :as => 'change_rating'
@@ -24,13 +25,15 @@ MyWeb::Application.routes.draw do
   match 'chat/change_nickname' => 'chat#change_nickname', :as => 'change_nickname'
 
   # about me
-  match 'about-me' => 'main#about_me', :as => 'about_me'
+  match '/:locale/about-me' => 'main#about_me', :as => 'about_me'
   match 'show/socialnetworks' => 'main#show_socialnetworks_popup', :as => 'socialnetworks'
 
 
   # omniauth
   match "/auth/:provider/callback" => "authorizations#create"
   match "/signout" => "sessions#destroy", :as => :signout
+  match "/:locale" => "main#index"
+
 
   # The priority is based upon order of creation:
   # first created -> highest priority.

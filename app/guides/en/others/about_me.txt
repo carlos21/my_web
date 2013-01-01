@@ -1,5 +1,55 @@
-Un poco de mí
-----------------
+**<h4>A little about me</h4>**
 
-Hola!, mi nombre es Carlos Duclós Caballero. Tengo 21 años y actualmente vivo en Lima, Perú. Me gusta todo lo que es desarrollo web usando las tecnologías del momento. Me gusta salir de lo ordinario, crear cosas nuevas e innovadoras y ponerme a prueba de lo que soy capaz. Hago aplicaciones Open Source en mi tiempo libre a fin de poner en práctica todo lo que voy aprendiendo. Creo que es importante plasmar lo que aprendo, y es una de las razones por las que hago tutoriales continuamente; sé que me ayudarán a mí en un futuro y a las demás personas tengan el mismo deseo de superación. Mi manera de pensar es quizá distinta a los demás, para mí un CV no es lo más importante, sino lo que uno es capaz de crear y demostrar. Ya lo dice el dicho! **Un hecho vale más que mil palabras** ;)
+Hi!, my name is Carlos Duclos Caballero. I'm 21 years old and I'm currently living in Lima, Perú. I like everything related to web development using the technologies of the moment. I like going out of the ordinary, create new and innovative stuff, and also want to test myself in what I can. I make open source applications in my free time so that I can put in practice all new things that I'm learning. That's why I make tutorials continuously, I know that they are going to help me in a future and to the other people that also desire to be better. Maybe my thinking is a little different. To me, a CV is not the most important thing, just what you're able to do. **A fact worth a thousand words**
+
+<br />
+**<h4>What have I worked on?</h4>**
+
+During 3 years aprox, I was part of a development team (desktop and web apps) for big warehouses and importers of the United States. This has allowed me earn experience in the field of analysis and programming. The techlogies we used to use were: Visual Basic .NET and SQL Server. Additionally, I've done some projects using PHP, C# and Ruby on Rails (my favourite language).
+
+<br />
+**<h4>Why did I decide change to Ruby?</h4>**
+
+Since I saw and tested the language, I just liked it. There are many advantages, I like the flexibility and the simplicity which you can do stuff. I can save a lot of lines of code thanks to its syntax, make the code more readable and have an application working in minutes, Isn't it fantastic?
+
+<br />
+**<h4>What do I know?</h4>**
+Here, I will put a list of languages, tools and frameworks which I've worked. I hope not forgetting something!
+<br />
+
+<div class="aboutme-tools"><code>Agile Methodologies</code></div>
+<div class="aboutme-tools"><code>Backbone.js</code></div>
+<div class="aboutme-tools"><code>C#</code></div>
+<div class="aboutme-tools"><code>CSS3</code></div>
+<div class="aboutme-tools"><code>CodeIgniter</code></div>
+<div class="aboutme-tools"><code>Eclipse</code></div>
+<div class="aboutme-tools"><code>Facebook API</code></div>
+<div class="aboutme-tools"><code>Git</code></div>
+<div class="aboutme-tools"><code>Github API</code></div>
+<div class="aboutme-tools"><code>Google Maps API v3</code></div>
+<div class="aboutme-tools"><code>HTML5</code></div>
+<div class="aboutme-tools"><code>Ibatis</code></div>
+<div class="aboutme-tools"><code>JQuery</code></div>
+<div class="aboutme-tools"><code>JSF</code></div>
+<div class="aboutme-tools"><code>Java EE</code></div>
+<div class="aboutme-tools"><code>Javascript</code></div>
+<div class="aboutme-tools"><code>MySql</code></div>
+<div class="aboutme-tools"><code>Oracle</code></div>
+<div class="aboutme-tools"><code>PHP</code></div>
+<div class="aboutme-tools"><code>Pusher</code></div>
+<div class="aboutme-tools"><code>Rails</code></div>
+<div class="aboutme-tools"><code>Redactor.js</code></div>
+<div class="aboutme-tools"><code>Ruby</code></div>
+<div class="aboutme-tools"><code>Scrum</code></div>
+<div class="aboutme-tools"><code>SQL Server 2005 - 2008</code></div>
+<div class="aboutme-tools"><code>Servlets</code></div>
+<div class="aboutme-tools"><code>Struts 2</code></div>
+<div class="aboutme-tools"><code>Subversion</code></div>
+<div class="aboutme-tools"><code>Twitter API</code></div>
+<div class="aboutme-tools"><code>Twitter Bootstrap</code></div>
+<div class="aboutme-tools"><code>Ubuntu</code></div>
+<div class="aboutme-tools"><code>Underscore.js</code></div>
+<div class="aboutme-tools"><code>VB.NET</code></div>
+<div class="aboutme-tools"><code>Visual Studio 2008 - 2010</code></div>
+
 

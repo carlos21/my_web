@@ -60,6 +60,8 @@ module MyWeb
     config.autoload_paths += Dir["#{config.root}/assets/fonts"]
     config.autoload_paths += Dir["#{config.root}/lib/constants"]
 
+    #Internationalizaton
+    config.i18n.default_locale = :es
     
     #require 'tlsmail'    
     #Net::SMTP.enable_tls(OpenSSL::SSL::VERIFY_NONE)

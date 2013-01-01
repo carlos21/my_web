@@ -91,7 +91,7 @@ Y agregamos el método **find_commentable**
 
 Hasta el momento, si creas un article y vas a http://localhost:3000/articles/1/comments verás la lista de comentarios para ese **article** pero por el momento no hay nada, así que creamos un formulario para ingresar comentarios
 
-Dentro de index.html.ern agregamos
+Dentro de index.html.erb agregamos
 
     <%= form_for [@commentable, Comment.new] do |f| %>
       <div class="field">

@@ -2,20 +2,11 @@
   <h1><%= t(:topics_label) %></h1>
   <% class_name = '' %>
   <% @categories.each do |c| %>
-  
-    <% if session[:selected_category_id].nil? or @pages_path.size == 1 %>
-      <%= link_to (root_path + 'guides/' + c.path) do %>
-        <div class="name" data-placement="right" data-original-title="<%= c.tooltip %>">
-          <%= c.name %>
-        </div>
-      <% end %>
-    <% else %>
-      <% if session[:selected_category_id] == c.id then class_name = 'selected-name' else class_name = 'name' end %>
-        <%= link_to root_path + 'guides/' + c.path do %>
-          <div class="<%= class_name %>" data-placement="right" data-original-title="<%= c.tooltip %>">
-            <%= c.name %>
-          </div>
-        <% end %>
+    <% if @category_selected.path == c.path then class_name = 'selected-name' else class_name = 'name' end %>
+    <%= link_to guides_path(@locale, c.path) do %>
+      <div class="<%= class_name %>" data-placement="right" data-original-title="<%= c.tooltip %>">
+        <%= c.name %>
+      </div>
     <% end %>
   <% end %>
 </div>

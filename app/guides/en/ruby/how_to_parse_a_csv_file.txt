@@ -1,0 +1,31 @@
+Vamos a ver algo simple con nuestro querido lenguaje Ruby, pero que estoy seguro que en algún momento te servirá ;)
+
+Vamos a leer un archivo CSV y **dumpear** los datos a una tabla. Nada complicado.
+
+Voy a dar por hecho que estamos usando Rails. Asi que nos vamos a **lib/tasks/** y creamos un archivo llamado **import_csv_data.rake**
+
+Ahora creamos el algoritmo:
+
+    namespace :csvimport do
+      # descripcion de nuestra tarea
+      desc "Import CSV Data"
+
+      # nombre de nuestro task
+      task :import_csv_data => :environment do
+        require 'csv'
+
+        # en mi caso el csv lo tengo em mi escritorio
+        csv_file_Ppath = File.expand_path 'file.csv', "~/Desktop/"
+
+        # iteramos el csv
+        CSV.foreach(csv_file_path) do |row|
+          # creamos un post por cada fila
+          p = Post.create({
+            :title => row[0],
+            :content => row[1]
+          })
+        end
+      end
+    end
+
+
