@@ -17,7 +17,7 @@ class ApplicationController < ActionController::Base
     @article_demos = Article.get_articles_by_category_id(Constants::CATEGORY_DEMO_ID, params[:locale] || I18n.locale)
     @category_selected = Category.find_by_path(params[:category_path]) || Category.new({id: 0, path: ''})
     @locale = params[:locale] || I18n.locale
-
+    @locale = @locale.to_s
     if session[:show_rating].nil?
       session[:show_rating] = true
     end

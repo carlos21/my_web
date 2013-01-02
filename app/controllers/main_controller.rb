@@ -148,6 +148,10 @@ class MainController < ApplicationController
     end
   end
 
+  def download_cv
+    send_file(Rails.root.to_s + '/files/' + @locale + '/CV.pdf', :filename => 'carlos-duclos-cv.pdf', :disposition => 'inline', :type => "application/pdf")
+  end
+
   def change_language
     if request.referer.include? ('/' + Constants::LANG_ENGLISH + '/')
       current_locale = Constants::LANG_ENGLISH
@@ -168,7 +172,7 @@ class MainController < ApplicationController
       redirect_to "#{request.protocol}#{request.host_with_port}" + '/' + params[:locale]
     else
       # replace the new locale
-      redirect_to request.referer.sub! '/' + current_locale + '/', '/' + params[:locale] + '/'
+      redirect_to request.referer.sub!('/' + current_locale + '/', '/' + params[:locale] + '/')
     end
     
   end

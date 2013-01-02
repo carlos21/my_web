@@ -53,3 +53,10 @@ A continuación pondré una lista de lenguajes, herramientas y frameworks que he
 <div class="aboutme-tools"><code>VB.NET</code></div>
 <div class="aboutme-tools"><code>Visual Studio 2008 - 2010</code></div>
 
+<div style="clear:both"></div>  
+<br />
+**<h4>Mi CV</h4>**
+Aquí un resumen de mi experiencia laboral ;)
+
+* **Inglés:** <a href="http://www.carlos21.com/en/cv" target="_blank">http://www.carlos21.com/en/cv</a>
+* **Español:** <a href="http://www.carlos21.com/es/cv" target="_blank">http://www.carlos21.com/es/cv</a>

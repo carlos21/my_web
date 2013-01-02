@@ -52,4 +52,10 @@ Here, I will put a list of languages, tools and frameworks which I've worked. I 
 <div class="aboutme-tools"><code>VB.NET</code></div>
 <div class="aboutme-tools"><code>Visual Studio 2008 - 2010</code></div>
 
+<div style="clear:both"></div>  
+<br />
+**<h4>My CV</h4>**
+Here is a summary of my experience ;)
 
+* **English:** <a href="http://www.carlos21.com/en/cv" target="_blank">http://www.carlos21.com/en/cv</a>
+* **Spanish:** <a href="http://www.carlos21.com/es/cv" target="_blank">http://www.carlos21.com/es/cv</a>

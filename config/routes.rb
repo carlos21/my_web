@@ -1,7 +1,12 @@
 MyWeb::Application.routes.draw do
   root :to => "main#index", :as => 'root'
+  match "/" => "main#index"
+  
+  # about me
+  match '/:locale/about-me' => 'main#about_me', :as => 'about_me'
+  match '/about-me' => 'main#about_me', :as => 'about_me'
+
   #scope '(:locale)', :locale => /en|es/ do
-    # guides
   match '/:locale/guides/:category_path' => 'main#article_list', :as => 'guides'
   match '/:locale/guides/:category_path/:article_path' => 'main#article_content', :as => 'guides_category_and_article'
   #end
@@ -24,15 +29,18 @@ MyWeb::Application.routes.draw do
   match 'chat/typing_status' => 'chat#typing_status', :as => 'typing_status'
   match 'chat/change_nickname' => 'chat#change_nickname', :as => 'change_nickname'
 
-  # about me
-  match '/:locale/about-me' => 'main#about_me', :as => 'about_me'
+  # popup login to socialnetworks
   match 'show/socialnetworks' => 'main#show_socialnetworks_popup', :as => 'socialnetworks'
 
+  # CV
+  match "/:locale/cv" => "main#download_cv"
+  match "/cv" => "main#download_cv"
 
   # omniauth
   match "/auth/:provider/callback" => "authorizations#create"
   match "/signout" => "sessions#destroy", :as => :signout
   match "/:locale" => "main#index"
+  
 
 
   # The priority is based upon order of creation:

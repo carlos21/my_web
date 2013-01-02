@@ -26,7 +26,7 @@
       <span><%= t(:about_me_label) %></span>
       <ul>
         <li>
-          <%= link_to t(:view_profile_label), about_me_path %>
+          <%= link_to t(:view_profile_label), (root_url + @locale.to_s + '/about-me') %>
         </li>
       </ul>
     </div>

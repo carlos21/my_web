@@ -6,7 +6,7 @@
 
       <ul class="nav" role="navigation" style="float:right; margin-right: 80px; ">
         <li class="active"><%= link_to t(:home_label), root_path %> </li>
-        <li><%= link_to t(:about_me_label), about_me_path %></li>
+        <li><%= link_to t(:about_me_label), (root_url + @locale.to_s + '/about-me') %></li>
         
          <!-- INTERESTS -->
         <li class="dropdown">
