@@ -32,4 +32,8 @@ class Article < ActiveRecord::Base
     #                      ).where("articles.category_id = #{category_id} and articles.language = '#{lang_filter}'")
     return articles
   end
+
+  def self.get_articles_by_path(path)
+    where(path: path)
+  end
 end

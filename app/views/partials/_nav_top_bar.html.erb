@@ -4,9 +4,9 @@
 
       <%= link_to t(:welcometo_label) + " carlos21.com - Great tutorials", root_path, :class => 'brand' %> 
 
-      <ul class="nav" role="navigation" style="float:right; margin-right: 80px; ">
+      <ul class="nav" role="navigation" style="float:right">
         <li class="active"><%= link_to t(:home_label), root_path %> </li>
-        <li><%= link_to t(:about_me_label), (root_url + @locale.to_s + '/about-me') %></li>
+        <li><%= link_to t(:about_me_label), (root_url + @locale + '/about-me') %></li>
         
          <!-- INTERESTS -->
         <li class="dropdown">

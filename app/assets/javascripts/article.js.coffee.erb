@@ -8,35 +8,39 @@ $ ->
 		window.location.hash = ''
 		history.pushState('', document.title, window.location.pathname)
 		e.preventDefault()
-   
+	 
 
 	$("#form_comment").submit (e) ->
 		e.preventDefault()
-		if authorization_uid
-			# Post the comment
-			$.ajax
-				type: 'post'
-				url: create_comment_url
-				data: $('#form_comment').serialize()
-				beforeSend: (xhr) ->
-			    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
-				success: (html) ->
-					$(html).css('display', 'none')
-					$(html).appendTo('.comments-list').fadeIn('slow')
-        
-		else
+		#if authorization_uid
+
+		# Post the comment
+		$.ajax
+			type: 'post'
+			url: create_comment_url
+			data: $('#form_comment').serialize()
+			beforeSend: (xhr) ->
+				xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+			complete: (xhr, html) ->
+				if xhr.status == 202
+					$('.comments-form').html(xhr.responseText)
+				else if xhr.status == 200
+					$(xhr.responseText).css('display', 'none')
+					$(xhr.responseText).appendTo('.comments-list').fadeIn('slow')
+					$('#comments').val('')
+		#else
 			# Show the modal to select the provider
-			$.ajax
-				type: 'post'
-				url: create_comment_url
-				beforeSend: (xhr) ->
-			    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
-				complete: (xhr, html) ->
-					if xhr.status == 202
-						$('#modal').find('.modal-body').html(xhr.responseText)
-						$('#modal').modal('show')
-					else if xhr.status == 200
-						console.log('lol')
+			#$.ajax
+			#	type: 'post'
+			#	url: create_comment_url
+			#	beforeSend: (xhr) ->
+			#    xhr.setRequestHeader('X-CSRF-Token', $('meta[name="csrf-token"]').attr('content'))
+			#	complete: (xhr, html) ->
+			#		if xhr.status == 202
+			#			$('#modal').find('.modal-body').html(xhr.responseText)
+			#			$('#modal').modal('show')
+			#		else if xhr.status == 200
+			#			console.log('lol')
 
 					
 

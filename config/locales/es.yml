@@ -1,5 +1,5 @@
 es:
-  welcometo_label: "Welcome to"
+  welcometo_label: "Bienvenido a"
   messages_label: "Mensajes:"
   visits_label: "Visitas:"
   last_update_label: "Última actualización:"
@@ -19,6 +19,7 @@ es:
   website_label: "Web:"
   comments_label: "Comentarios:"
   submit_button: "Enviar"
+  ask_for_login_label: "Por favor, logueate para comentar"
 
   enter_your_name_placeholder: "Ingresa tu nombre"
   enter_your_email_placeholder: "Ingresa tu email"
@@ -39,3 +40,6 @@ es:
   # Language
   english_label: "Inglés"
   spanish_label: "Español"
+
+  # Session
+  your_session_has_expired_label: "Tu sesión ha expirado. Por favor, logueate de nuevo"

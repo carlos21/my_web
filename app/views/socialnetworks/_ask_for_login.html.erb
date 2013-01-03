@@ -1,0 +1,19 @@
+<!-- ASK TO LOGIN -->
+<h3 id="ask_for_login"><%= @form_title || t(:ask_for_login_label) %></h3>
+<div class="socialnetworks-litle">
+  <div>
+    <%= link_to root_url + Constants::FACEBOOK_LOGIN_URL do %>
+      <%= image_tag 'facebook.jpg', :size => '50x50' %>
+    <% end %>
+  </div>
+  <div>
+    <%= link_to root_url + Constants::TWITTER_LOGIN_URL do %>
+      <%= image_tag 'twitter.jpg', :size => '50x50' %>
+    <% end %>
+  </div>
+  <div>
+    <%= link_to root_url + Constants::GITHUB_LOGIN_URL do %>
+      <%= image_tag 'github.jpg', :size => '50x50' %>
+    <% end %>
+  </div>
+</div>

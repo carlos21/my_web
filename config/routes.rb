@@ -17,7 +17,7 @@ MyWeb::Application.routes.draw do
   match '/:locale/demos/:article_path' => 'main#demo_content', :as => 'demo_content'  
 
   # comments
-  match 'comment/create' => 'comment#create', :as => 'create_comment'
+  match 'comment/create' => 'comment#create', :via => 'post', :as => 'create_comment'
   match 'comment/delete/:id' => 'comment#delete', :as => 'delete_comment'
   match 'change_language/:locale' => 'main#change_language', :as => 'change_language'
 
@@ -37,7 +37,6 @@ MyWeb::Application.routes.draw do
   match "/cv" => "main#download_cv"
 
   # omniauth
-  match "/auth/:provider/callback" => "authorizations#create"
   match "/signout" => "sessions#destroy", :as => :signout
   match "/:locale" => "main#index"
   

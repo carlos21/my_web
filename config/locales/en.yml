@@ -19,6 +19,7 @@ en:
   website_label: "Website:"
   comments_label: "Comments:"
   submit_button: "Submit"
+  ask_for_login_label: "Please, login to comment"
 
   enter_your_name_placeholder: "Enter your name"
   enter_your_email_placeholder: "Enter your email"
@@ -39,4 +40,7 @@ en:
   # Language
   english_label: "English"
   spanish_label: "Spanish"
+
+  # Session
+  your_session_has_expired_label: "Your session has expired. Please, log in again."
 
