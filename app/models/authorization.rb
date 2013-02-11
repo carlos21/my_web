@@ -8,8 +8,8 @@ class Authorization < ActiveRecord::Base
     end
   end
 
-  def self.find_by_provider_and_uid(auth)
-    authorizations = where(uid: auth.uid, provider: auth.provider.to_s)
+  def self.find_by_provider_and_uid(uid, provider)
+    authorizations = where(uid: uid, provider: provider)
     authorizations.first
   end
 end
