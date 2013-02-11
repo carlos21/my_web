@@ -7,4 +7,9 @@ class Authorization < ActiveRecord::Base
       authorization.uid = auth.uid
     end
   end
+
+  def self.find_by_provider_and_uid(auth)
+    authorizations = where(uid: auth.uid, provider: auth.provider.to_s)
+    authorizations.first
+  end
 end
