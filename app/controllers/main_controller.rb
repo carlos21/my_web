@@ -177,5 +177,9 @@ class MainController < ApplicationController
     
   end
 
+  def naves
+    render 'main/naves', :layout => false
+  end
+
 end
 

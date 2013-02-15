@@ -1,6 +1,7 @@
 MyWeb::Application.routes.draw do
   root :to => "main#index", :as => 'root'
   match "/" => "main#index"
+  match "/naves" => "main#naves"
   
   # about me
   match '/:locale/about-me' => 'main#about_me', :as => 'about_me'
@@ -39,6 +40,8 @@ MyWeb::Application.routes.draw do
   # omniauth
   match "/signout" => "sessions#destroy", :as => :signout
   match "/:locale" => "main#index"
+
+
   
 
 
