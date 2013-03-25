@@ -38,7 +38,7 @@ var MainLayer = cc.LayerColor.extend({
     //this.gameLogic();
 
     this.scheduleUpdate();
-    //audioEngine.playMusic(s_bgMusic, true);
+    audioEngine.playMusic(s_bgMusic, true);
   },
 
   onKeyDown: function(e) {
