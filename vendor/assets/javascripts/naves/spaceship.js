@@ -1,6 +1,11 @@
 // Constantes
 T_JUEGO = 5;
 
+IMG_ALIEN = 'assets/naves/alien.png';
+IMG_ALIEN_ANCHO = 44;
+IMG_ALIEN_ALTO = 70;
+T_ALIEN = 3500;
+
 IMG_NAVE = 'assets/naves/nave.png';
 IMG_NAVE_ANCHO = 47;
 IMG_NAVE_ALTO = 63;
@@ -21,7 +26,7 @@ PASO_X = 5;
 PASO_PROYECTIL = 10;
 
 window.addEvent('domready', function() {
-  var imgs = [IMG_NAVE];
+  var imgs = [IMG_NAVE, IMG_PROYECTIL, IMG_ALIEN];
   // asset sirve para precargas las imagenes
   var images = Asset.images(imgs, {
     onComplete: function(){
@@ -29,6 +34,8 @@ window.addEvent('domready', function() {
       juego.jugar();
     }
   });
+
+  console.log(images);
 });
 
 var Nave = new Class({
@@ -77,6 +84,33 @@ var Nave = new Class({
 
 });
 
+var Alien = new Class({
+  Implements: [Options],
+
+  options: {
+    posx: null,
+    poxy: null,
+    imagen: IMG_ALIEN
+  },
+
+  initialize: function(options) {
+    this.setOptions(options);
+  },
+
+  avanzar: function() {
+    this.options.posy++;
+  },
+
+  getPosX: function() {
+    return this.options.posx;
+  },
+
+  getPosY: function() {
+    return this.options.posy;
+  }
+
+});
+
 var Universo = new Class({
   nave: null,
   balas: [],
@@ -84,6 +118,7 @@ var Universo = new Class({
 
   initialize: function() {
     this.nave = new Nave();
+    this.aliens = new Array();
   },
 
   getBalas: function() {
@@ -91,7 +126,7 @@ var Universo = new Class({
   },
 
   getAliens: function() {
-    return this.alienes;
+    return this.aliens;
   },
 
   getNave: function() {
@@ -101,6 +136,43 @@ var Universo = new Class({
   crearProyectil: function(bala) {
     bala.id = this.balas.length+1;
     this.balas.push(bala);
+  },
+
+  crearAlien: function() {
+    var rnd = Number.random(0, CANVAS_WIDTH-IMG_ALIEN_ANCHO);
+    var alien = new Alien({
+      'posx': rnd,
+      'posy': -IMG_ALIEN_ALTO
+    });
+    this.aliens.push(alien);
+    return alien;
+  },
+
+  avanzarAliens: function() {
+    Array.each(this.aliens, function(alien, i) {
+      alien.avanzar();
+    });
+  },
+
+  alienAbajo: function() {
+    var numero = null;
+    Array.each(this.aliens, function(alien,i) {
+      if(alien.getPosY >= CANVAS_HEIGHT) {
+        this.erase(alien);
+        this.clean();
+        numero = i;
+      }
+    }, this.aliens);
+
+    return numero;
+  },
+
+  hayAliens: function() {
+    if(this.aliens.length == 0) {
+      return false;
+    } else {
+      return true;
+    }
   },
 
   proyectilOut: function(bala) {
@@ -138,23 +210,22 @@ var Juego = new Class({
       delete this.keys[event.key];
     }.bind(this));
 
+    this.contAlien = 0;
     this.intervaloJuego = this.actualizar.periodical(T_JUEGO, this);
+    this.intervaloAlien = this.generarAlien.periodical(T_ALIEN, this);
   },
 
   ejecutar: function(tecla) {
 
     if(tecla == 'left') {
-      console.log('entro al left');
       this.universo.getNave().movIzq();
     }
 
     if(tecla == 'right') {
-      console.log('entro al right');
       this.universo.getNave().movDer();
     }
 
     if(tecla == 'up') {
-      console.log('entro al up');
       var bala = this.universo.getNave().disparar();
       this.universo.crearProyectil(bala);
       this.dibujante.dibujarBala(bala);
@@ -183,16 +254,38 @@ var Juego = new Class({
   },
 
   actualizar: function() {
+    // actualizacion de las balas
     var balas = this.universo.getBalas();
-    for(var i=0;i<this.universo.getBalas().length;i++) {
+    for(var i=0;i<balas.length;i++) {
       var bala = balas[i];
       bala.avanzar();
       if (this.universo.proyectilOut(bala) == true) {
         this.dibujante.destruirBala(bala);
       }
     }
-    this.dibujante.redibujar(this.universo.getNave(),this.universo.getBalas());
+
+    // actualizacion de los aliens
+    this.contAlien++;
+    if (this.contAlien == 7) {
+      this.contAlien = 0;
+    }
+      if (this.universo.hayAliens()) {
+        this.universo.avanzarAliens();
+      }
+    
+
+    var nro = this.universo.alienAbajo();
+    if(nro != null) {
+      this.dibujante.borrarAlien(nro);
+    }
+    this.dibujante.redibujar(this.universo.getNave(), this.universo.getBalas(), this.universo.getAliens());
+  },
+
+  generarAlien: function() {
+    var alien = this.universo.crearAlien();
+    this.dibujante.dibujarAlien(alien);
   }
+
 });
 
 var Dibujante = new Class({
@@ -200,7 +293,7 @@ var Dibujante = new Class({
   layer: null,
   kinNave: null,
   kinBalas: [],
-  kinAliens: null,
+  kinAliens: [],
 
   initialize: function(nave) {
     // se crea el escenario
@@ -232,7 +325,7 @@ var Dibujante = new Class({
     this.stage.draw();
   },
 
-  redibujar: function(nave, balas) {
+  redibujar: function(nave, balas, aliens) {
     if (balas != null) {
       for(var i=0;i<balas.length;i++) {
         var bala = balas[i];
@@ -240,6 +333,14 @@ var Dibujante = new Class({
         kinBala.setPosition(bala.getPosX(), bala.getPosY());
       }
     }
+
+    if(aliens.length > 0) {
+      Array.each(this.kinAliens, function(kinAlien, i){
+        kinAlien.setPosition(aliens[i].getPosX(), aliens[i].getPosY());
+      });
+    }
+
+    // reubicar la nave
     this.kinNave.setPosition(nave.getPosX() - CENTRO_NAVE_X,nave.getPosY());
     this.stage.draw();
   },
@@ -268,17 +369,38 @@ var Dibujante = new Class({
     kinBala.tempId = bala.id;
 
     this.kinBalas.push(kinBala);
-    console.log(kinBala.tempId);
 
     this.layer.add(kinBala);
     this.stage.draw();
   },
 
+  dibujarAlien: function(alien) {
+    var alienIMG = new Image();
+    alienIMG.src = RUTA_BASE + IMG_ALIEN;
+
+    // se crea la imagen Kinetic
+    kinAlien = new Kinetic.Image({
+      image: alienIMG,
+      x: alien.getPosX(),
+      y: alien.getPosY(),
+      width: IMG_ALIEN_ANCHO,
+      height: IMG_ALIEN_ALTO
+    });
+
+    this.kinAliens.push(kinAlien);
+    this.layer.add(kinAlien);
+  },
+
+  destruirAlien: function(nro) {
+    var alien = this.kinAliens[nro];
+    this.kinAliens.erase(alien);
+    this.kinAliens.clean();
+    this.layer.remove(alien);
+  },
+
   destruirBala: function(bala) {
     var kinBala = this.getKinBalaByTempId(bala.id);
     kinBala.remove();
-    //this.layer.remove(this.kinBala);
-    //this.kinBala.remove();
   }
 
 });
