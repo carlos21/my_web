@@ -2,7 +2,9 @@ MyWeb::Application.routes.draw do
   root :to => "main#index", :as => 'root'
   match "/" => "main#index"
   match "/naves" => "main#naves"
-  
+  match 'brands' => 'brand#get_all', :as => 'json'
+  match 'validate_login' => 'car_user#validate_login', :as => 'json'
+
   # about me
   match '/:locale/about-me' => 'main#about_me', :as => 'about_me'
   match '/about-me' => 'main#about_me', :as => 'about_me'

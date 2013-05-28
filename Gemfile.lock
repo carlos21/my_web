@@ -1,3 +1,9 @@
+GIT
+  remote: https://github.com/eventmachine/eventmachine.git
+  revision: 0b83dbc8d016d6c74ca05a502a586b7bd4c1a383
+  specs:
+    eventmachine (1.0.3)
+
 GEM
   remote: https://rubygems.org/
   specs:
@@ -39,7 +45,6 @@ GEM
     coffee-script-source (1.3.3)
     daemons (1.1.9)
     erubis (2.7.0)
-    eventmachine (0.12.10)
     execjs (1.4.0)
       multi_json (~> 1.0)
     faraday (0.8.4)
@@ -98,6 +103,7 @@ GEM
       multi_json (~> 1.3)
       omniauth-oauth (~> 1.0)
     pg (0.13.2)
+    pg (0.13.2-x86-mingw32)
     polyglot (0.3.3)
     pusher (0.9.4)
       multi_json (~> 1.0)
@@ -159,9 +165,11 @@ GEM
 
 PLATFORMS
   ruby
+  x86-mingw32
 
 DEPENDENCIES
   coffee-rails (~> 3.2.1)
+  eventmachine!
   foreigner
   haml
   haml-rails

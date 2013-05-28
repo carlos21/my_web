@@ -24,6 +24,7 @@ gem 'omniauth-facebook'
 gem 'omniauth-twitter'
 gem 'omniauth-github'
 gem 'js-routes'
+gem "eventmachine", :git => "https://github.com/eventmachine/eventmachine.git"
 
 # Gems used only for assets and not required
 # in production environments by default.

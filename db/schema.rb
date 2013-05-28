@@ -11,7 +11,7 @@
 #
 # It's strongly recommended to check this file into your version control system.
 
-ActiveRecord::Schema.define(:version => 20121217052109) do
+ActiveRecord::Schema.define(:version => 20130528015015) do
 
   create_table "articles", :force => true do |t|
     t.string   "name"
@@ -32,6 +32,28 @@ ActiveRecord::Schema.define(:version => 20121217052109) do
     t.string   "provider"
     t.datetime "created_at", :null => false
     t.datetime "updated_at", :null => false
+  end
+
+  create_table "brands", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "car_users", :force => true do |t|
+    t.string   "username"
+    t.string   "password"
+    t.datetime "created_at", :null => false
+    t.datetime "updated_at", :null => false
+  end
+
+  create_table "cars", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "model_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
   end
 
   create_table "categories", :force => true do |t|
@@ -81,6 +103,14 @@ ActiveRecord::Schema.define(:version => 20121217052109) do
     t.string   "description"
     t.integer  "chat_id"
     t.integer  "user_id"
+    t.datetime "created_at",  :null => false
+    t.datetime "updated_at",  :null => false
+  end
+
+  create_table "models", :force => true do |t|
+    t.string   "name"
+    t.string   "description"
+    t.integer  "brand_id"
     t.datetime "created_at",  :null => false
     t.datetime "updated_at",  :null => false
   end
