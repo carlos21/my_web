@@ -3,12 +3,12 @@ class ApplicationController < ActionController::Base
   before_filter :init_variables, :set_locale, :init_chat
 
   def init_chat 
-    #@chat = Chat.find(1)
-    #@user = User.get_or_set_user(session[:userid])
-    #session[:userid] = @user.id
-    #session[:usernickname] = @user.nickname
+    @chat = Chat.find(1)
+    @user = User.get_or_set_user(session[:userid])
+    session[:userid] = @user.id
+    session[:usernickname] = @user.nickname
 
-    #@messages = Message.includes(:user).where(:chat_id => @chat.id)
+    @messages = Message.includes(:user).where(:chat_id => @chat.id)
   end
 
   def init_variables
