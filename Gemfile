@@ -14,7 +14,7 @@ gem 'redcarpet'
 gem 'haml'
 gem "haml-rails"
 gem 'jquery-rails'
-gem 'rb-readline'
+gem 'rb-readline', '~> 0.4.2'
 gem 'i18n'
 gem 'thin'
 gem 'tlsmail'

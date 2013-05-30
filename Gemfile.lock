@@ -185,7 +185,7 @@ DEPENDENCIES
   pg
   pusher
   rails (= 3.2.3)
-  rb-readline
+  rb-readline (~> 0.4.2)
   redcarpet
   ruby_parser
   sass-rails (~> 3.2.3)
