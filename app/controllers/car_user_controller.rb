@@ -4,7 +4,27 @@ class CarUserController < ApplicationController
 		user = CarUser.where(username: params['username'], password: params['password']).first
 
 		if user.present?
-			render json: user.to_json
+			hash = {}
+	    hash['brands'] = []
+	    
+	    brands = Brand.all
+
+	    brands.each do |b|
+	      brand_hash = b.attributes
+	      brand_hash['models'] = []
+	      models = b.models
+
+	      models.each do |m|
+	        cars = m.cars
+	        model_hash = m.attributes
+	        model_hash['cars'] = cars
+	        brand_hash['models'] << model_hash
+	      end
+	      
+	      hash['brands'] << brand_hash
+	    end
+
+			render json: hash
 		else
 			render json: {}
 		end
