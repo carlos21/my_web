@@ -1,7 +1,6 @@
 class BrandController < ApplicationController
 
   def string
-
     render text: ActiveSupport::Base64.encode64(open(Rails.public_path + "/cars_images/alfaromeo.png") { |io| io.read })
   end
   
