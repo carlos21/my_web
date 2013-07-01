@@ -1,0 +1,356 @@
+Vamos a salir de la rutina de hacer sistemas web a ver algo más divertido. A quién no le gustaría dedicarse a la creación de videojuegos?. Aprenderemos a cómo crear una animación simple usando el framework Easeljs para HTML5. Puedes entrar aquí para más información.
+
+Es recomendable que ya hayas visto un poco de HTML5 puro, pero de todas maneras empezaremos aquí desde 0.
+
+Para empezar a familiarizarnos con el framework vamos a **animar un personaje al movernos con las flechas**, cosa que es característico de los juegos tipo plataforma.
+
+Muy bien, vamos a comenzar por descargar el framework EaselJS desde aquí http://www.createjs.com/#!/EaselJS. Cuando lo descomprimas verás que hay una carpeta **lib** en el cual hay un archivo easeljs-(version).min.js, el cual tendremos que importar.
+
+Creemos una carpeta llamada **easel-animation**, y creemos dentro tres carpetas más:
+
+  * css
+  * img
+  * lib
+
+Dentro de **css** creamos nuestra hoja de estilos
+
+    #container {
+      width: 600px;
+      height: 400px;
+      margin: auto;
+      border: 1px solid black;
+    }
+
+Dentro de **img** pondremos dos imágenes que serán los sprites para conseguir la animación de nuestro personaje. [MonsterAIdle.png](http://carlos21.com/easeljs-animation/MonsterAIdle.png) y [MonsterARun.png](http://carlos21.com/easeljs-animation/MonsterARun.png)
+
+Dentro de **lib** irá la librería **easeljs-(version).min.js**
+
+Creamos ahora nuestro archivo **index.html** 
+
+    <!DOCTYPE html>
+    <html>
+    <head>
+      <title></title>
+      <script src="//ajax.googleapis.com/ajax/libs/jquery/1.10.1/jquery.min.js"></script>
+      <script type="text/javascript" src="lib/easeljs-0.6.1.min.js"></script>
+      <script type="text/javascript" src="keyevent.js"></script>
+      <script type="text/javascript" src="game.js"></script>
+      <link rel="stylesheet" type="text/css" href="css/style.css">
+    </head>
+    <body>
+      <div id="container">
+        <button id="Start" onclick="init();">Start</button>
+        <canvas id="canvas" width="600" height="400"></canvas>
+      </div>
+    </body>
+    </html>
+
+Aquí estamos haciendo lo siguiente:
+
+  * Importar jquery
+  * Importar EasejJS
+  * Importar una lista de constantes para el manejo del teclado
+  * Importar el archivo principal donde se encontrará toda a lógica
+
+
+Ya estamos listos para empezar a codificar nuestro archivo principal. Creamos un archivo llamado **game.js** en la raíz de nuestro proyecto.
+
+Empecemos por setear las variables globales que usaremos a lo largo de la animación.
+
+    var canvas, stage, screen_width, screen_height;
+    var bmpAnimation, numberOfImagesLoaded = 0;
+    var imgMonsterARun = new Image();
+    var imgMonsterAIdle = new Image();
+    var currentMode = null;
+    var gc = {
+      keys: [],
+      modes: {
+        walk: 1,
+        walk_h: 2,
+        idle: 3
+      }
+    };
+
+Vamos a ver cada variable a medida que vayamos codificando así que no te preocupes si no entiendes para qué sirve cada una.
+
+Creemos ahora la función que será llamada al cargar la página:
+
+    function init() {
+      // obtenemos el canvas del html
+      canvas = document.getElementById('canvas');
+
+      imgMonsterARun.onload = handleImageLoad;
+      imgMonsterARun.onerror = handleImageError;
+      imgMonsterARun.src = 'img/MonsterARun.png';
+
+      imgMonsterAIdle.onload = handleImageLoad;
+      imgMonsterAIdle.onerror = handleImageError;
+      imgMonsterAIdle.src = 'img/MonsterAIdle.png';
+    }
+      
+
+Cada vez que importamos imágenes toma tiempo en descargarlas del servidor, por lo tanto debemos **esperar a que primero se descarguen las imágenes para luego empezar el juego**. Es por eso que crearemos dos eventos que manejen tanto el evento de **onload** como el de **onerror**:
+
+    function handleImageLoad(e) {
+      numberOfImagesLoaded++;
+      if (numberOfImagesLoaded == 2) {
+        numberOfImagesLoaded = 0;
+        startGame();
+      }
+    }
+
+    function handleImageError(e) {
+      console.log("Error Loading Image : " + e.target.src);
+    }
+
+Aquí estamos llamando a la función **startgame** solamente cuando ambas imágenes hayan cargado, así nos aseguramos que no hayan errores.
+
+Lo siguiente será crear la función **startgame** y dentro pondremos lo siguinte:
+  
+    // creamos el stage o escene de nuestro juego
+    stage = new createjs.Stage(canvas);
+    currentMode = gc.modes.idle;
+
+    // seteamos el ancho y alto de nuestro canvas
+    screen_width = canvas.width;
+    screen_height = canvas.height;
+
+    // creamos el spritesheet con las imagenes a usar
+    var spriteSheet = new createjs.SpriteSheet({
+      images: [imgMonsterARun, imgMonsterAIdle],
+      frames: { width: 64, height: 64, regX: 32, regY: 32 }, 
+      animations: {
+          walk: [0, 9, "walk", 3],
+          idle: [10, 20, "idle", 5]
+      }
+    });
+
+Hasta aquí nada complicado. Estamos haciendo lo siguiente:
+
+  * Creamos el stage para nuestro juego
+  * Inicializamos el modo 'idle', que es cuando nuestro jugador está parado sin hacer nada
+  * Inicializamos el ancho y alto
+  * Por último, creamos el spritesheet con las imágenes de nuestro personaje
+
+Vamos a detenernos un rato en el éste último paso que hemos dado. Ambas, imágenes contienen los diferentes frames de nuestro personaje para conseguir la animación y cada frame tiene un ancho y un alto de 64px. La imagen **imgMonsterARun** contiene 10 frames de nuestro personaje caminando, es por eso que estamos definiendo en **animations**, una animación llamada **walk**, con frames del 0 al 9. Luego estamos poniendo "walk", es decir, estamos llamando nuevamente a la misma animación para que se repita y se convierta en un loop automático. El número 3 es el nivel de frecuencia con el que se dará la animación. Mientras más alto el número, más lenta será la animación. Lo mismo aplica para "idle".
+
+Habiendo entendido esto continuamos. Vamos a poner este código inmediatamente debajo:
+
+    createjs.SpriteSheetUtils.addFlippedFrames(spriteSheet, true, false, false);
+
+Con esta línea de código, estamos **volteando** el spritesheet actual, ya que tenemos los frames de nuestro personaje miranda hacia la izquierda, pero también necesitamos que mire a la derecha ;)
+
+Vamos a crear ahora la animación:
+
+    bmpAnimation = new createjs.BitmapAnimation(spriteSheet);
+    bmpAnimation.name = "monster1";
+    bmpAnimation.direction = 90;
+    bmpAnimation.vX = 2;
+    bmpAnimation.vY = 0;
+    bmpAnimation.x = 16;
+    bmpAnimation.y = 32;
+    bmpAnimation.gotoAndPlay("idle");
+    stage.addChild(bmpAnimation);
+
+Aquí estamos haciendo lo siguiente:
+
+  * Ponemos un nombre a la animación
+  * Inicializamos la dirección del personaje
+  * vX es la velocidad de x 
+  * vY es la velocidad de y 
+  * x e y las coordenadas
+  * La función gotoAndPlay('idle') inicia la animación
+  * Agregamos la animación al stage
+
+Para darle el toque final a la función **init**, tenemos que configurar a cuántos frames por segundo correrá nuestro juego.
+
+    createjs.Ticker.addListener(window);
+    createjs.Ticker.useRAF = true;
+    createjs.Ticker.setFPS(60);
+
+Por defecto, EaseJS, llamará a un método llamado **tick**, 60 veces por segundo, tal como lo hemos configurado, así que te pediré de favor que lo crees y pongas esto dentro:
+
+    if (gc.keys[KeyEvent.DOM_VK_A]) {
+      bmpAnimation.x -= bmpAnimation.vX;
+      bmpAnimation.y -= bmpAnimation.vY;
+
+      if (currentMode != gc.modes.walk) {
+        bmpAnimation.gotoAndPlay('walk'); 
+        currentMode = gc.modes.walk; 
+      }
+    }
+
+Al principio definimos el hash **KeyEvent**, que contiene las constantes de las teclas del teclado. **gc.keys** es un array que nos indicará si fue presionada una determinada tecla en el teclado, en este caso la letra **A**. Si es así dismuimos la posición de nuestro personaje y luego llamamos a **bmpAnimation.gotoAndPlay('walk')** para que camine hacia la izquierda. Nada complicado verdad?. Wait, pero cómo se llena el array **gc.keys**?. Usaremos algo de jquery para detectar cuando se presione una tecla. Recuerda que esto va fuera de la función **tick**:
+
+    $(document).bind('keydown', function(e) {
+      gc.keys[e.keyCode] = true;
+    });
+
+Tenemos también que detectar cuando una tecla deja de ser presionada, por lo tanto configuramos el evento **keyup**
+
+    $(document).bind('keyup', function(e) {
+      gc.keys[e.keyCode] = false;
+    });
+
+Como ya tendremos nuestro arreglo lleno vamos a configurar cuando apretemos la letra **D** que moverá a nuestro personaje hacia la derecha:
+
+    if (gc.keys[KeyEvent.DOM_VK_D]) {
+      bmpAnimation.x += bmpAnimation.vX;
+      bmpAnimation.y += bmpAnimation.vY;
+
+      if (currentMode != gc.modes.walk_h) {
+        bmpAnimation.gotoAndPlay('walk_h');
+        currentMode = gc.modes.walk_h;
+      }
+    }
+
+Te debes estar preguntando. De dónde rayos salió **walk_h** ?. Lineas atrás, cuando usamos esta linea de código:
+
+    createjs.SpriteSheetUtils.addFlippedFrames(spriteSheet, true, false, false);
+
+EaseJs creó por nosotros esta animación, pero haciendo un **flip** a nuestro sprite. Y gracias a eso, podemos ver a nuestro personaje caminando hacia la derecha.
+
+No nos olvidemos de la animación "idle". Agregamos esto inmediatamente debajo:
+
+    if (!gc.keys[KeyEvent.DOM_VK_D] && !gc.keys[KeyEvent.DOM_VK_A]) {
+      if (currentMode != gc.modes.idle) {
+        bmpAnimation.gotoAndPlay('idle');
+        currentMode = gc.modes.idle;
+      }
+    }
+
+Pero falta lo mas importante!!
+
+    stage.update();
+
+
+Ésta línea va al final de la función **tick**, de lo contrario ninguno de nuestros cambios de animación se verá reflejado ;)
+
+Y por último llamamos al método **init**
+
+    $(function() {
+      init();
+    });
+
+Aquí te dejo todo el código:
+
+    var canvas, stage, screen_width, screen_height;
+    var bmpAnimation, numberOfImagesLoaded = 0;
+    var imgMonsterARun = new Image();
+    var imgMonsterAIdle = new Image();
+    var currentMode = null;
+    var gc = {
+      keys: [],
+      modes: {
+        walk: 1,
+        walk_h: 2,
+        idle: 3
+      }
+    };
+
+    function init() {
+      canvas = document.getElementById('canvas');
+
+      imgMonsterARun.onload = handleImageLoad;
+      imgMonsterARun.onerror = handleImageError;
+      imgMonsterARun.src = 'img/MonsterARun.png';
+
+      imgMonsterAIdle.onload = handleImageLoad;
+      imgMonsterAIdle.onerror = handleImageError;
+      imgMonsterAIdle.src = 'img/MonsterAIdle.png';
+    }
+
+    function startGame() {
+      stage = new createjs.Stage(canvas);
+      currentMode = gc.modes.idle;
+
+      screen_width = canvas.width;
+      screen_height = canvas.height;
+
+      var spriteSheet = new createjs.SpriteSheet({
+        images: [imgMonsterARun, imgMonsterAIdle],
+        frames: { width: 64, height: 64, regX: 32, regY: 32 }, 
+        animations: {
+            walk: [0, 9, "walk", 3],
+            idle: [10, 20, "idle", 5]
+        }
+      });
+
+      createjs.SpriteSheetUtils.addFlippedFrames(spriteSheet, true, false, false);
+
+      bmpAnimation = new createjs.BitmapAnimation(spriteSheet);
+      bmpAnimation.name = "monster1";
+      bmpAnimation.direction = 90;
+      bmpAnimation.vX = 2;
+      bmpAnimation.vY = 0;
+      bmpAnimation.x = 16;
+      bmpAnimation.y = 32;
+      bmpAnimation.gotoAndPlay("idle");
+      stage.addChild(bmpAnimation);
+
+      createjs.Ticker.addListener(window);
+      createjs.Ticker.useRAF = true;
+      createjs.Ticker.setFPS(60);
+    }
+
+    function tick() {
+      if (gc.keys[KeyEvent.DOM_VK_A]) {
+        bmpAnimation.x -= bmpAnimation.vX;
+        bmpAnimation.y -= bmpAnimation.vY;
+
+        if (currentMode != gc.modes.walk) {
+          bmpAnimation.gotoAndPlay('walk'); 
+          currentMode = gc.modes.walk; 
+        }
+      }
+
+      if (gc.keys[KeyEvent.DOM_VK_D]) {
+        bmpAnimation.x += bmpAnimation.vX;
+        bmpAnimation.y += bmpAnimation.vY;
+
+        if (currentMode != gc.modes.walk_h) {
+          bmpAnimation.gotoAndPlay('walk_h');
+          currentMode = gc.modes.walk_h;
+        }
+      }
+
+      if (!gc.keys[KeyEvent.DOM_VK_D] && !gc.keys[KeyEvent.DOM_VK_A]) {
+        if (currentMode != gc.modes.idle) {
+          bmpAnimation.gotoAndPlay('idle');
+          currentMode = gc.modes.idle;
+        }
+      }
+
+      // update the stage:
+      stage.update();
+    }
+
+    function handleImageLoad(e) {
+      console.log(numberOfImagesLoaded);
+      numberOfImagesLoaded++;
+      if (numberOfImagesLoaded == 2) {
+        numberOfImagesLoaded = 0;
+        startGame();
+      }
+    }
+
+    function handleImageError(e) {
+      console.log("Error Loading Image : " + e.target.src);
+    }
+
+    $(function() {
+      init();
+    });
+
+    $(document).bind('keydown', function(e) {
+      gc.keys[e.keyCode] = true;
+    });
+
+    $(document).bind('keyup', function(e) {
+      gc.keys[e.keyCode] = false;
+    });
+
+
+
+Ahora sí ya estamos listos!!. No olvides dejar tus dudas o comentarios ;) Suerte.
+
