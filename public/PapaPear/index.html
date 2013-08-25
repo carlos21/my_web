@@ -6,7 +6,7 @@
             // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
             var swfVersionStr = "${version_major}.${version_minor}.${version_revision}";
             // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
-            var xiSwfUrlStr = "PapaPear/PapaPear.swf";
+            var xiSwfUrlStr = "PapaPear/PapaPear1.swf";
             var flashvars = {};
             var params = {};
             params.quality = "high";
@@ -19,7 +19,7 @@
             attributes.align = "middle";
             attributes.wmode = "direct";
             swfobject.embedSWF(
-                "PapaPear/PapaPear.swf", "flashContent", 
+                "PapaPear/PapaPear1.swf", "flashContent", 
                 "750", "640", 
                 swfVersionStr, xiSwfUrlStr, 
                 flashvars, params, attributes);
