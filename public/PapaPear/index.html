@@ -1,0 +1,38 @@
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="swfobject.js"></script>
+        <script type="text/javascript">
+            // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
+            var swfVersionStr = "${version_major}.${version_minor}.${version_revision}";
+            // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
+            var xiSwfUrlStr = "PapaPear.swf";
+            var flashvars = {};
+            var params = {};
+            params.quality = "high";
+            params.bgcolor = "";
+            params.allowscriptaccess = "sameDomain";
+            params.allowfullscreen = "true";
+            var attributes = {};
+            attributes.id = "${application}";
+            attributes.name = "${application}";
+            attributes.align = "middle";
+            attributes.wmode = "direct";
+            swfobject.embedSWF(
+                "PapaPear.swf", "flashContent", 
+                "750", "640", 
+                swfVersionStr, xiSwfUrlStr, 
+                flashvars, params, attributes);
+            // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
+            swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+        </script>
+
+</head>
+<body>
+    <div style="width: 750px; margin: auto">
+    	<div id="flashContent" >
+          <p>Alternative content</p>
+        </div>
+    </div>
+</body>
+</html>
