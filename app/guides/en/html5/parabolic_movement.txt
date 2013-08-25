@@ -1,0 +1,276 @@
+Hola! Este tutorial tratará de cómo simular un movimiento parabólico que podría ser muy útil si estás creando algún juego 2D. La misma lógica la podrás aplicar en cualquier lenguaje de programación. Así que empecemos:
+
+Creamos una carpeta llamada **battle-tanks**. Dentro de ella creamos dos carpetas:
+
+	* css
+	* src
+
+Dentro de **css**, creamos un archivo llamado **style.css** y copiamos esto:
+
+	#container {
+		width: 800px;
+		height: 500px;
+		margin: auto;
+		box-shadow: 0 0 10px #333
+	}
+
+Dentro de **src**, creamos un archivo llamado **engine.js** que será el encargado de ejecutar la función que le pasemos cada ciertos milisegundos:
+
+	window.requestAnimFrame = (function(){
+		return  window.requestAnimationFrame       ||
+		window.webkitRequestAnimationFrame ||
+		window.mozRequestAnimationFrame    ||
+		function( callback ){
+		window.setTimeout(callback, 1000 / 60);
+		};
+	})();
+	var then = 0;
+
+De igual manera creamos el archivo **game.js**
+
+	var CANVAS_WIDTH = 760;
+	var CANVAS_HEIGHT = 480;
+
+	var canvas = document.getElementById('canvas');
+	var context = canvas.getContext('2d');
+
+	canvas.width = CANVAS_WIDTH;
+	canvas.height = CANVAS_HEIGHT;
+
+	var Game = function() {
+		this.init = function() {
+		}
+
+		this.draw = function() {
+		}
+
+		this.update = function(dt) {
+		}
+
+		this.thread = function() {
+		}
+	}
+
+	var game = new Game();
+	game.init();
+
+De esta manera hemos creado el esqueleto de la función Game que actuarà como una **clase**
+
+Vamos a definir ahora la función **init**:
+
+	this.tank = new Tank(100, 400, 60, 30);
+	this.tank.shoot();
+	this.childs.push(this.tank);
+
+	requestAnimFrame(game.thread);
+
+La función **init** se encargará de inicializar nuestro **tanque** y lo haremos disparar apenas cargue la página. No te preocupes que dentro de un momento crearemos la función **Tank** ;).
+
+Dentro de la función **draw** irá lo siguiente:
+
+	context.clearRect(0, 0, CANVAS_WIDTH, CANVAS_HEIGHT);
+
+	var child = null;
+    for (var i in this.childs) {
+      child = this.childs[i];
+      if (child) { if (typeof child.draw == 'function') { child.draw(context);	} }
+    }
+
+Ésta función va a limpiar el canvas y luego va a recorrer todos los objetos que son child del juego  va a verificar que contenga una función llamada **draw**. Por ejemplo, si tenemos **Tank** y **Bullet**, ambos archivos deberán tener una función **draw** para que sea llamada desde este loop.
+
+La función **update** contendrá:
+
+	var child = null;
+    for (var i in this.childs) {
+      child = this.childs[i];
+      if (child) {
+        if (typeof child.update == 'function') {
+          child.update(dt);
+        }
+      }
+    }
+
+Al igual manera de la función **draw**, recorreremos los childs y verificaremos que contengan uan función llamada **update** para que sea llamada.
+
+Por último definimos la función **thread**:
+
+	var now = new Date().getTime();
+	var diff = now - (then || now);
+	var dt = diff / 1000;
+	then = now;
+
+	game.draw();
+	game.update(dt);
+	requestAnimFrame(game.thread);
+
+Aquí calculamos el **delta**, que es el valor numérico entre frame y frame.
+
+Pasaremos ahora a crear el archivo **Tank**:
+
+	var Tank = function(x, y, width, height) {
+
+		this.x = x;
+		this.y = y;
+		this.width = width;
+		this.height = height;
+		this.speed = 50;
+
+		this.draw = function(context) {
+			context.save();
+			context.beginPath();
+			context.fillStyle = "#CCC";
+			context.fillRect(this.x, this.y, this.width, this.height);
+			context.closePath();
+			context.restore();
+		};
+
+		this.shoot = function() {
+			var bullet = new Bullet(this.x, this.y, 10);
+			bullet.init(80, 50, 0);
+			bullet.move();
+			game.childs.push(bullet);
+		};
+
+		this.update = function(dt) {
+
+		}
+	}
+
+**draw** se encargará de crear un rectángulo para simular nuestro tanque :P. **shoot** creará la bala que será lanzada desde el tanque.
+
+Lo siguiente a hacer es crear el archivo **Bullet**:
+	
+	var Bullet = function(x, y, radius) {
+		this.x = x;
+		this.y = y;
+		this.radius = radius;
+
+		this.initX = x;
+		this.initY = y;
+		this.velocity = 0;
+		this.angle = 0;
+		this.wind = 0;
+
+		this.gravity = 9.8;
+		this.vx = 0;
+		this.vy = 0;
+		
+		this.t = 0;
+		this.scaleTime = 5;
+		this.active = true;
+		this.startMoving = false;
+
+		this.init = function(velocity, angle, wind) {
+
+		};
+
+		this.draw = function(context) {
+
+		};
+
+		this.move = function(dt) {
+
+		};
+
+		this.updatePosition = function(dt) {
+
+		};
+
+		this.destroy = function() {
+			
+		};
+
+		this.update = function(dt) {
+
+		};
+	}
+
+Hemos creado el esqueleto con las variables que usaremos para simular el movimiento.
+
+Ponemos esto dentro la función **init**:
+
+	this.velocity = velocity;
+	this.angle = angle;
+	this.wind = wind;
+	this.t = 0;
+
+	var radians = (angle / 180) * Math.PI;
+	this.vx = velocity * Math.cos(radians);
+	this.vy = -velocity * Math.sin(radians);
+
+Primero estamos calculando el ángulo en radianes, para luego calcular la **velocidad en x** y la **velocidad en y**.
+
+Luego actualizamos la función **draw** con:
+
+	context.save();
+	context.beginPath();
+	context.arc(this.x, this.y, this.radius, 0, 2 * Math.PI, false);
+    context.fillStyle = 'green';
+    context.fill();
+    context.lineWidth = 5;
+    context.strokeStyle = '#003300';
+    context.stroke();
+	context.closePath();
+	context.restore();
+
+Aquí simplemente estamos dibujando un círculo que será la bala del tanque.
+
+En la función **move**:
+
+	this.startMoving = true;
+
+Y ahora la función **updatePosition** que hará la magia para el movimiento:
+
+	this.t += (dt * this.scaleTime);
+	var point_x = this.initX + this.vx * this.t + this.wind/2 * this.t * this.t;
+	var point_y = this.initY + this.vy * this.t + this.gravity/2 * this.t * this.t;
+	
+	this.x = point_x;
+	this.y = point_y;
+
+Lo primero que estamos haciendo es escalar el tiempo e irlo sumando a la variable **t**. Ten en cuenta que **updatePosition** es llamado en cada iteración, es decir, 60 veces por segundo y necesitamos que el tiempo vaya incrementàndose para que la fòrmula funcione debidamente.
+
+Para hallar **point_x** y **point_y** aplicamos la siguiente fórmula:
+
+	point = (Velocidad de X) * Tiempo + 1/2 * Aceleración * (Tiempo * Tiempo)
+
+En el caso de **point_x**, estamos reemplazando **Aceleración** por **wind**
+En el caso de **point_x**, estamos reemplazando **Aceleración** por **gravity**
+
+Y luego actualizamos la prosición de la bala con:
+
+	this.x = point_x;
+	this.y = point_y;
+
+En la función **destroy** colocamos:
+
+	delete game.childs[this];
+	delete game.bullets[this];
+
+Y por último en **update**:
+
+	if (this.startMoving) {
+		this.updatePosition(dt);
+	}
+
+Y ahora sí creamos el HTML para visualizar nuestro ejemplo ;)
+
+	<html>
+	<head>
+		<title></title>
+		<link rel="stylesheet" type="text/css" href="css/style.css">
+		
+	</head>
+	<body>
+		<div id="container">
+			<canvas id="canvas" width="800" height="500"></canvas>
+		</div>
+
+		<script type="text/javascript" src="src/engine.js"></script>
+		<script type="text/javascript" src="src/bullet.js"></script>
+		<script type="text/javascript" src="src/tank.js"></script>
+		<script type="text/javascript" src="src/game.js"></script>
+	</body>
+	</html>
+
+Y eso sería todo!. Como has podido ver, la parte más importante es la fórmula para poder saber las posicion **x** e **y** en distintos tiempos y así actualizar la posición de la bala. 

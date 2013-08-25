@@ -1,13 +1,19 @@
 class BrandController < ApplicationController
+
+  def string
+
+    render text: ActiveSupport::Base64.encode64(open(Rails.public_path + "/cars_images/alfaromeo.png") { |io| io.read })
+  end
   
   def get_all
     hash = {}
     hash['brands'] = []
     
-    brands = Brand.all
+    brands = Brand.where(status: 'A')
 
     brands.each do |b|
       brand_hash = b.attributes
+      brand_hash['encoded_image'] = ActiveSupport::Base64.encode64(open(Rails.public_path + "/cars_images/" + b.image) { |io| io.read })
       brand_hash['models'] = []
       models = b.models
 

@@ -3,6 +3,7 @@ MyWeb::Application.routes.draw do
   match "/" => "main#index"
   match "/naves" => "main#naves"
   match 'brands' => 'brand#get_all', :as => 'json'
+  match 'string' => 'brand#string', :as => 'string'
   match 'validate_login' => 'car_user#validate_login', :as => 'json'
 
   # about me
