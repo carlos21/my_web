@@ -1,0 +1,80 @@
+<html>
+<head>
+	<title></title>
+	<script type="text/javascript" src="tetris/swfobject.js"></script>
+	<script type="text/javascript">
+        // For version detection, set to min. required Flash Player version, or 0 (or 0.0.0), for no version detection. 
+        var swfVersionStr = "${version_major}.${version_minor}.${version_revision}";
+        // To use express install, set to playerProductInstall.swf, otherwise the empty string. 
+        var xiSwfUrlStr = "tetris/Tetris.swf";
+        var flashvars = {};
+        var params = {};
+        params.quality = "high";
+        params.bgcolor = "";
+        params.allowscriptaccess = "sameDomain";
+        params.allowfullscreen = "true";
+        var attributes = {};
+        attributes.id = "${application}";
+        attributes.name = "${application}";
+        attributes.align = "middle";
+        attributes.wmode = "direct";
+        swfobject.embedSWF(
+            "tetris/Tetris.swf", "flashContent", 
+            "210", "490", 
+            swfVersionStr, xiSwfUrlStr, 
+            flashvars, params, attributes);
+        // JavaScript enabled so display the flashContent div in case it is not replaced with a swf object.
+        swfobject.createCSS("#flashContent", "display:block;text-align:left;");
+    </script>
+	<style type="text/css">
+		#container {
+			width: 620px;
+			margin: auto;
+			border: 1px solid black;
+			font-family: arial;
+			overflow: auto;
+		}
+
+		#game {
+			float: left;
+		}
+
+		#instructions {
+			width: 290px;
+			float: right;
+			padding-left: 5px;
+		}
+
+		#instructions h2 {
+			text-align: center;
+		}
+
+		#instructions ul {
+			margin-left: 20px;
+			padding: 0px;
+			margin-bottom: 20px;
+		}
+	</style>
+</head>
+<body>
+	<div id="container">
+		<div id="game">
+			<div id="flashContent" >
+	          <p>Please, update your flash player</p>
+	        </div>
+		</div>
+		<div id="instructions">
+			<h2>Instructions</h2>
+			<ul>
+				<li>Move left: LEFT arrow or <b>A</b></li>
+				<li>Move right: RIGHT arrow or <b>D</b></li>
+				<li>Increase speed: DOWN arrow or <b>S</b></li>
+				<li>Rotate: <b>R</b></li>
+			</ul>
+
+			This is an infinite tetris game. Enjoy ;)
+		</div>
+	</div>
+	
+</body>
+</html>
